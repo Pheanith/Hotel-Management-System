@@ -1,0 +1,106 @@
+/* src/ReservationCard.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+.main{
+    height: auto;
+    width: auto;
+    border-radius: 15px;
+    background-color: rgba(15, 76, 117, 0.04); 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+    margin-top: 20px;
+    padding-bottom: 30px;
+}
+.Header{
+    display: flex;
+}
+.Header img{
+    margin-left: 20px;
+    margin-top:20px;
+}
+.Header a{
+    margin-left: 20px;
+    margin-top:30px;
+    font-size: large;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.Header button svg{
+    margin-top: 5px;
+    width: 20px;
+    height: 20px;
+}
+.Header button{
+    cursor: pointer;
+    display: flex;
+    margin-left: 900px;
+    margin-top: 20px;
+    height: 40px;
+    border-radius: 10px;
+    border-color: #0F4C75;
+    background-color: #0F4C75;
+    color: white;
+}
+.body{
+    display: flex;
+    margin-left: 20px;
+}
+.reservation-id{
+    gap: 10px;
+    margin-left: 80px;
+}
+.reservation-id p {
+    font-size: larger;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.info{
+    margin-left: 10px;
+    margin-top: 20px;
+}
+.line{
+    border-left: 1px solid black;
+    height: 100px;
+    margin-top: 10px;
+    margin-left: 90px;
+}
+.first-row{
+    display: flex;
+    margin-left: 20px;
+    gap: 250px;
+}
+.first-row svg{
+    width: 28px;
+    height: 28px;
+}
+.customer-name {
+    display: flex;
+    gap: 5px;
+}
+.sn{
+    margin-top: 5px;
+    font-size: large;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.second-row{
+    display: flex;
+    margin-left: 23px;
+    margin-top: 20px;
+    gap: 160px;
+}
+.sn1{
+    margin-left: 3px;
+    font-size: large;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.customer-name1{
+    display: flex;
+    margin-left: 35px;
+}

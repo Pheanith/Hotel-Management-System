@@ -1,0 +1,61 @@
+/* src/Sidebar.css */
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+.sidebar {
+  display: flex table-column;
+  row-gap: 20px;
+  width: 200px;
+  background-color: rgba(15, 76, 117, 0.04); 
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.dashboard{
+  display: flex;
+  width: 200px;
+  height: 50px;
+  gap: 10px;
+  cursor: pointer;
+}
+.dashboard:hover{
+  color: white;
+  background-color: #0F4C75;
+}
+.dashboard svg {
+  width: 28px;
+  height: 28px;
+  margin-left: 10px;
+  margin-top: 12px;
+}
+.dashboard-name{
+  margin-top: 15px;
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+.manage-guest{
+  display: flex;
+  width: 200px;
+  height: 50px;
+  gap: 10px;
+  cursor: pointer;
+}
+.manage-guest:hover{
+  color: white;
+  background-color: #0F4C75;
+}
+.reservation{
+  display: flex;
+  width: 200px;
+  height: 50px;
+  gap: 10px;
+  background-color: rgba(15, 76, 117, 0.5);
+  cursor: pointer;
+}
+.reservation svg{
+  width: 28px;
+  height: 28px;
+  margin-left: 10px;
+  margin-top: 12px;
+}
+  
