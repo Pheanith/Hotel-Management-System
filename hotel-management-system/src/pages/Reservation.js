@@ -1,4 +1,3 @@
-// src/MainContent.js
 import React, {useState} from 'react';
 import '../components/styles/Reservation.css';
 import ReservationCard from '../pages/ReservationCard.js';
@@ -15,20 +14,21 @@ const Reservation = () => {
   const handleCloseForm = () => {
     setFormVisible(false);
   };
+
   return (
     <div className="main-content">
       <div className="content-header">
         <a>Reservations</a>
         <div className="search-bar">
-          <Search/>
-          <div>
+          <Search />
+          <div className='search-bar1'>
             <input type="text" placeholder="Search ......" />
             <button onClick={handleButtonClick}>+ New reservation</button>
             {isFormVisible && <Reservationform onClose={handleCloseForm} />}
           </div>
         </div>
       </div>
-      <ReservationCard/>
+      <ReservationCard />
     </div>
   );
 };

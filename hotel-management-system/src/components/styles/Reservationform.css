@@ -1,17 +1,121 @@
-.main{
-    height: auto;
-}
-.reservation-header{
-    display: flex;
-}
-.reservation-header p{
-    margin-left: 20px;
-    font-family: "Inria Sans", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-.reservation-header svg{
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
+/* Reservationform.css */
+@media screen and (min-width: 1024px){
+    .main{
+        position: fixed;
+        margin: 0 0 0 0;
+        padding: 20px;
+        background-color: white;
+        width: 1024px;
+        height: 700px;
+        right:70px;
+        top: 100px;
+        border-radius: 20px;
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+        overflow: auto;
+    }
+    .reservationform-header{
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+    }
+    .reservationform-header h2{
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+    }
+    form{
+        column-gap: 20px;
+    }
+    label{
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+        font-size: large;
+    }
+    .form-row{
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+    }
+    .close-icon{
+        margin-left: 90px;
+    }
+    .form-row input{
+        width: 300px;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
+    }
+    .label1{
+        display: flex;
+        gap: 460px;
+    }
+    .label2{
+        display: flex;
+        gap:410px;
+        padding-top: 20px;
+    }
+    .form-row2{
+        display: flex;
+        gap: 5px;
+        /* justify-content: space-between; */
+    }
+    .form-row2 select{
+        border-radius: 5px;
+        border-color: #0F4C75;
+        border: 2px solid;
+        width: 500px;
+        height: 35px;
+        margin-top: 20px;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
+    }
+    .form-row2 input{
+        width: 500px;
+    }
+    .label3{
+        padding-top: 20px;
+    }
+    .form-row3 input{
+        width: 1000px;
+    }
+    .label4{
+        display: flex;
+        gap: 460px;
+        padding-top: 20px;
+    }
+    .form-row4{
+        display: flex;
+        gap: 5px;
+    }
+    .form-row4 .react-datepicker__input-container input {
+        width: 493px; /* Make the input fields full width */
+    }
+    .label5{
+        padding-top: 20px;
+    }
+    .form-row5{
+        display: flex;
+        align-items: center;
+    }
+    .form-row5 label{
+        margin-right: 20px;
+        font-size: 16px;
+    }
+    .payment-method-checkbox {
+        display: flex;
+        align-items: center;
+        /* margin-right: 1rem; */
+      }
+      
+      .payment-method-checkbox input[type="checkbox"] {
+        /* margin-right: 0.5rem; */
+        accent-color: #0F4C75; /* Customize checkbox color */
+      }
+      
+      .payment-method-checkbox label {
+        font-size: 14px;
+        cursor: pointer;
+      }
+      
+      
 }

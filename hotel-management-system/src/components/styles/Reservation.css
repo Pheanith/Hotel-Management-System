@@ -21,14 +21,14 @@
     height: 30px;
     width: 30px;
 }
-.search-bar input{
+.search-bar1 input{
     margin-top: 20px;
     border-color: #0F4C75;
     border-radius: 5px;
     height: 30px;
     width: 400px;
 }
-.search-bar button{
+.search-bar1 button{
     cursor: pointer;
     height: 35px;
     width: 150px;
