@@ -5,6 +5,7 @@ import ReservationDelete from './ReservationDelete'; // Adjust the path as neede
 
 const reservations = [
   { guestName: 'Nou Sopheanith', phoneNumber: '089 409 406', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '101', roomType: 'Family room', total: '100.0', status: 'Paid' },
+  { guestName: 'Neth Sopanha', phoneNumber: '012 345 678', reserveDate: '11-08-2024', checkInDate: '12-08-2024', checkOutDate: '14-082024', roomNo: '102', roomType: 'Double room', total: '69.00', status:'Unpaid'},
 ];
 
 const ReservationCard = () => {
@@ -22,7 +23,7 @@ const ReservationCard = () => {
   };
 
   const handleDelete = () => {
-    // Add your delete logic here
+    //Delete logic here
     console.log("Deleted reservation:", selectedReservation);
     setShowModal(false);
     setSelectedReservation(null);

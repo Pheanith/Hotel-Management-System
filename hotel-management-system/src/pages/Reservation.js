@@ -18,7 +18,7 @@ const Reservation = () => {
   return (
     <div className="main-content">
       <div className="content-header">
-        <a>Reservations</a>
+        <a>Reservations List</a>
         <div className="search-bar">
           <Search />
           <div className='search-bar1'>
