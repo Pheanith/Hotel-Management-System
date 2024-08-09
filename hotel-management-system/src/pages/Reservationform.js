@@ -16,6 +16,7 @@ const Reservationform = ({ onClose }) => {
     address: '',
     arrival: null,
     departure: null,
+    price: String,
     specialRequest: '',
   });
 
@@ -155,6 +156,18 @@ const Reservationform = ({ onClose }) => {
               placeholderText='DD-MM-YYYY'
             />
           </div>
+          <div className='label6'>
+            <label> Price </label>
+          </div>
+          <div className='form-row6'>
+            <input
+              type='text'
+              name='price'
+              placeholder='$'
+              value={formData.price}
+              onChange={handleChange}
+            />
+          </div>
           <div className='label5'>
             <label>Payment Method</label>
           </div>
@@ -190,6 +203,17 @@ const Reservationform = ({ onClose }) => {
               <label htmlFor="visaMasterCard">Visa/MasterCard</label>
             </div>
           </div>
+          <div className='label7'>
+              <label> Special Request</label>
+            </div>
+            <div className='form-row7'>
+              <input
+                type='text'
+                name='specialRequest'
+                placeholder='Type your request here'
+                onChange={handleChange}
+              />
+            </div>
         </div>
         <div className='submit-reservation'>
           <button type="submit">Submit</button>

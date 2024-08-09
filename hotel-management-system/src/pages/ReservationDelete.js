@@ -16,7 +16,7 @@ const ReservationDelete = ({show, onClose, onDelete}) => {
             <button className="btn-danger" onClick={onDelete}>Delete</button>
         </div>
     </div>
-      );
+    );
     
 }
 export default ReservationDelete;

@@ -97,7 +97,7 @@
     }
     .label4{
         display: flex;
-        gap: 585px;
+        gap: 575px;
         padding-top: 20px;
         margin-bottom: 10px;
     }
@@ -154,6 +154,26 @@
         font-weight: 400;
         font-style: normal;
       }
-      
-      
+    .label6{
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+    .form-row6 input{
+        width: 1245px;
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        height: 35px;
+    }
+    .label7{
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+    .form-row7 input{
+        width: 1245px;
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        height: 35px;
+    }
 }
