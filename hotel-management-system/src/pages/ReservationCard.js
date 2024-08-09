@@ -1,13 +1,33 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../components/styles/ReservationCard.css';
+import ReservationDelete from './ReservationDelete'; // Adjust the path as needed
 
 const reservations = [
   { guestName: 'Nou Sopheanith', phoneNumber: '089 409 406', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '101', roomType: 'Family room', total: '100.0', status: 'Paid' },
 ];
 
 const ReservationCard = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReservation, setSelectedReservation] = useState(null);
+
+  const handleDeleteClick = (reservation) => {
+    setSelectedReservation(reservation);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedReservation(null);
+  };
+
+  const handleDelete = () => {
+    // Add your delete logic here
+    console.log("Deleted reservation:", selectedReservation);
+    setShowModal(false);
+    setSelectedReservation(null);
+  };
+
   return (
     <div className="table-container">
       <table className="reservation-table">
@@ -39,12 +59,15 @@ const ReservationCard = () => {
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>{reservation.status}</td>
               <td>
                 <span className="edit-icon" role="img" aria-label="edit">✏️</span>
-                <span className="delete-icon" role="img" aria-label="delete">🗑️</span>
+                <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(reservation)}>🗑️</span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {showModal && (
+        <ReservationDelete show={showModal} onClose={handleClose} onDelete={handleDelete} />
+      )}
     </div>
   );
 };
