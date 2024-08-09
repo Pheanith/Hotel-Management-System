@@ -24,11 +24,16 @@ const Reservation = () => {
           <div className='search-bar1'>
             <input type="text" placeholder="Search ......" />
             <button onClick={handleButtonClick}>+ New reservation</button>
-            {isFormVisible && <Reservationform onClose={handleCloseForm} />}
+            {/* {isFormVisible && <Reservationform onClose={handleCloseForm} />} */}
           </div>
         </div>
       </div>
-      <ReservationCard />
+      {/* Conditionally render the ReservationForm or ReservationCard */}
+      {isFormVisible ? (
+        <Reservationform onClose={handleCloseForm} />
+      ) : (
+        <ReservationCard />
+      )}
     </div>
   );
 };

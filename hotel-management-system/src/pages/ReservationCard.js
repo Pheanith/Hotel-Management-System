@@ -5,11 +5,6 @@ import '../components/styles/ReservationCard.css';
 
 const reservations = [
   { guestName: 'Nou Sopheanith', phoneNumber: '089 409 406', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '101', roomType: 'Family room', total: '100.0', status: 'Paid' },
-  { guestName: 'Sovann Kallianey', phoneNumber: '012 345 678', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '102', roomType: 'Single room', total: '100.0', status: 'Unpaid' },
-  { guestName: 'Neth Sopanha', phoneNumber: '012 345 678', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '103', roomType: 'Double room', total: '69.0', status: 'Paid' },
-  { guestName: 'Nou Sopheanith', phoneNumber: '089 409 406', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '101', roomType: 'Family room', total: '100.0', status: 'Paid' },
-  { guestName: 'Sovann Kallianey', phoneNumber: '012 345 678', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '102', roomType: 'Single room', total: '100.0', status: 'Unpaid' },
-  { guestName: 'Neth Sopanha', phoneNumber: '012 345 678', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '103', roomType: 'Double room', total: '69.0', status: 'Paid' },
 ];
 
 const ReservationCard = () => {
