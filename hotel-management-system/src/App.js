@@ -23,7 +23,7 @@ function App() {
               <Route path="reservation" element={<Reservation />} />
               {/* <Route path="/" element={<AdminDashbaord />} /> Default route */}
               <Route path="invoice" element={<Invoice/>}/>
-              <Route path="room" element={<Room/>}/>
+              <Route path="manage-room" element={<Room/>}/>
             </Routes>
           </div>
         </div>
