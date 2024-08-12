@@ -39,7 +39,7 @@ const Sidebar = () => {
       <div className="dashboard">
         <Room/>
         <div class="dashboard-name">
-          <a> Manage Room</a>
+        <Link to = 'manage-room' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Manage Rooms </Link>
         </div>
       </div>
       <div className="dashboard">
@@ -57,7 +57,7 @@ const Sidebar = () => {
       <div className="dashboard">
         <Invoices/>
         <div class="dashboard-name">
-          <a> Invoices </a>
+          <Link to = 'invoice' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Invoices </Link>
         </div>
       </div>
       <div className="dashboard">

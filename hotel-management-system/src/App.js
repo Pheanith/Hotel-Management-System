@@ -5,6 +5,8 @@ import Header from './components/header/header';
 import Sidebar from './components/sidebar/sidebar';
 import Reservation from './pages/Reservation';
 import AdminDashbaord from './pages/admin/AdminDashbaord';
+import Invoice from './pages/Invoice';
+import Room from './pages/Room';
 import './App.css';
 
 function App() {
@@ -19,7 +21,9 @@ function App() {
             <Routes>
               <Route path="admin-dashborad" element={<AdminDashbaord />} />
               <Route path="reservation" element={<Reservation />} />
-              <Route path="/" element={<AdminDashbaord />} /> {/* Default route */}
+              {/* <Route path="/" element={<AdminDashbaord />} /> Default route */}
+              <Route path="invoice" element={<Invoice/>}/>
+              <Route path="room" element={<Room/>}/>
             </Routes>
           </div>
         </div>
