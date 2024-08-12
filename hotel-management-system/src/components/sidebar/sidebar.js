@@ -1,10 +1,11 @@
 // src/Sidebar.js
-import React from 'react';
+import React, { useRoute } from 'react';
 import '../sidebar/sidebar.css';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from "@mui/icons-material/HomeOutlined";
 import Guest from "@mui/icons-material/PeopleAltOutlined";
 import Room from "@mui/icons-material/HotelOutlined";
-import Reservation from '@mui/icons-material/BrowserUpdatedOutlined';
+import Reservations from '@mui/icons-material/BrowserUpdatedOutlined';
 import Transaction from '@mui/icons-material/DiamondOutlined';
 import Invoices from '@mui/icons-material/ReceiptOutlined';
 import PeriodicPrice from '@mui/icons-material/PriceChangeOutlined';
@@ -15,13 +16,18 @@ import Helps from '@mui/icons-material/FavoriteBorderOutlined';
 import YourItems from '@mui/icons-material/CategoryOutlined';
 import MonthlyView from '@mui/icons-material/TodayOutlined';
 
+//import component
+import AdminDashboard from '../../pages/admin/AdminDashbaord';
+import Reservation from '../../pages/Reservation';
+
 const Sidebar = () => {
+  // const [activeContent, setActiveContent] = useState ('home');
   return (
     <aside className="sidebar">
       <div className="dashboard">
         <Home/>
         <div className="dashboard-name">
-          <a> Admin Dashboard</a>
+          <Link to = 'admin-dashboard' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Admin Dashboard </Link>
         </div>
       </div>
       <div className="dashboard">
@@ -36,10 +42,10 @@ const Sidebar = () => {
           <a> Manage Room</a>
         </div>
       </div>
-      <div className="reservation">
-        <Reservation/>
+      <div className="dashboard">
+        <Reservations/>
         <div class="dashboard-name">
-          <a> Reservations </a>
+          <Link to = 'reservation' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Reservations </Link>
         </div>
       </div>
       <div className="dashboard">
@@ -96,6 +102,13 @@ const Sidebar = () => {
           <a> Monthly View </a>
         </div>
       </div>
+
+      {/* define route */}
+      {/* <Routes>
+        <Route path='../../pages/admin/AdminDashboard' element={<AdminDashboard/>}/>
+        <Route path='../../pages/Reservation' element={<Reservation/>}/>
+      </Routes> */}
+
     </aside>
   )
 };

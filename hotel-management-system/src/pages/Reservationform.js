@@ -50,7 +50,7 @@ const Reservationform = ({ onClose }) => {
     e.preventDefault();
 
     if (!selectedPaymentMethods.length) {
-      alert('Please select at least one payment method.');
+      alert('Please select payment method.');
       return;
     }
 
