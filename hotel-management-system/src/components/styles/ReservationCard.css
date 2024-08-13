@@ -31,15 +31,26 @@
   .reservation-table tbody tr:hover {
     background-color: #f1f1f1;
   }
+  .checked-in {
+    color: green;
+  }
+  
+  .checked-out{
+    color: red;
+  }
+  .not-yet-checked-in{
+    color: orange;
+  }
   
   .paid {
     color: green;
+    cursor: pointer;
   }
   
   .unpaid {
     color: red;
+    cursor: pointer;
   }
-  
   .edit-icon {
     cursor: pointer;
     margin-right: 10px;

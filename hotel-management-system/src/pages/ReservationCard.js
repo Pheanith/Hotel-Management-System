@@ -4,8 +4,9 @@ import '../components/styles/ReservationCard.css';
 import ReservationDelete from './ReservationDelete'; // Adjust the path as needed
 
 const reservations = [
-  { guestName: 'Nou Sopheanith', phoneNumber: '089 409 406', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '101', roomType: 'Family room', total: '100.0', status: 'Paid' },
-  { guestName: 'Neth Sopanha', phoneNumber: '012 345 678', reserveDate: '11-08-2024', checkInDate: '12-08-2024', checkOutDate: '14-082024', roomNo: '102', roomType: 'Double room', total: '69.00', status:'Unpaid'},
+  { guestName: 'Nou Sopheanith', phoneNumber: '089 409 406', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '101', roomType: 'Family room', checkInStatus: 'Checked-in',total: '100.0', status: 'Paid' },
+  { guestName: 'Neth Sopanha', phoneNumber: '012 345 678', reserveDate: '11-08-2024', checkInDate: '12-08-2024', checkOutDate: '14-082024', roomNo: '102', roomType: 'Double room', checkInStatus: 'Not yet check-in', total: '69.00', status:'Unpaid'},
+  { guestName: 'Un Sengly', phoneNumber: '089 409 406', reserveDate: '10-08-2024', checkInDate: '10-08-2024', checkOutDate: '10-08-2024', roomNo: '101', roomType: 'Family room', checkInStatus: 'Checked-out',total: '100.0', status: 'Paid' },
 ];
 
 const ReservationCard = () => {
@@ -41,6 +42,7 @@ const ReservationCard = () => {
             <th>Check-out date</th>
             <th>Room No.</th>
             <th>Room type</th>
+            <th>Check-in status</th>
             <th>Total</th>
             <th>Status</th>
             <th>Other</th>
@@ -56,6 +58,14 @@ const ReservationCard = () => {
               <td>{reservation.checkOutDate}</td>
               <td>{reservation.roomNo}</td>
               <td>{reservation.roomType}</td>
+              <td className={
+                reservation.checkInStatus === 'Checked-in' 
+                  ? 'checked-in' 
+                  : reservation.checkInStatus === 'Checked-out' 
+                  ? 'checked-out' 
+                  : 'not-yet-checked-in'
+                }> 
+              </td>
               <td>{reservation.total}</td>
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>{reservation.status}</td>
               <td>
