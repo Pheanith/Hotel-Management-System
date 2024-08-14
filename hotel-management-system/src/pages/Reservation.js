@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import '../components/styles/Reservation.css';
 import ReservationCard from '../pages/ReservationCard.js';
 import Search from '@mui/icons-material/SearchOutlined';
-import Reservationform from '../pages/Reservationform.js';
+import { useNavigate } from 'react-router-dom';
+import Reservationform from './Reservationform.js';
 
 const Reservation = () => {
   const [isFormVisible, setFormVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     setFormVisible(true);
@@ -13,6 +15,10 @@ const Reservation = () => {
 
   const handleCloseForm = () => {
     setFormVisible(false);
+  };
+
+  const handleOpenForm = () => {
+    navigate('/reserve', { state: { fromPage: 'reservation' } });
   };
 
   return (
@@ -23,8 +29,7 @@ const Reservation = () => {
           <Search />
           <div className='search-bar1'>
             <input type="text" placeholder="Search ......" />
-            <button onClick={handleButtonClick}>+ New reservation</button>
-            {/* {isFormVisible && <Reservationform onClose={handleCloseForm} />} */}
+            <button onClick={handleOpenForm}>+ New reservation</button>
           </div>
         </div>
       </div>

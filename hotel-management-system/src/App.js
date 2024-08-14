@@ -7,6 +7,8 @@ import Reservation from './pages/Reservation';
 import AdminDashbaord from './pages/admin/AdminDashbaord';
 import Invoice from './pages/Invoice';
 import Room from './pages/Room';
+import Transaction from './pages/Transaction';
+import Reservationform from './pages/Reservationform';
 import './App.css';
 
 function App() {
@@ -19,11 +21,13 @@ function App() {
           <Sidebar />
           <div className="content-area">
             <Routes>
-              <Route path="admin-dashborad" element={<AdminDashbaord />} />
+              <Route path="admin-dashboard" element={<AdminDashbaord />} />
               <Route path="reservation" element={<Reservation />} />
-              {/* <Route path="/" element={<AdminDashbaord />} /> Default route */}
+              <Route path="/" element={<AdminDashbaord />} /> Default route
               <Route path="invoice" element={<Invoice/>}/>
               <Route path="manage-room" element={<Room/>}/>
+              <Route path="transaction" element={<Transaction/>}/>
+              <Route path="reserve" element={<Reservationform />} /> {/* Add this line */}
             </Routes>
           </div>
         </div>

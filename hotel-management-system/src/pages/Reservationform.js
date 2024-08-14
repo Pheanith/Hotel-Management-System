@@ -1,11 +1,17 @@
-// Reservationform.js
 import React, { useState } from 'react';
 import '../components/styles/Reservationform.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useLocation
 
 const Reservationform = ({ onClose }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Extract room detail and fromPage from state
+  const { roomNumber, roomType, fromPage } = location.state || {};
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -14,9 +20,9 @@ const Reservationform = ({ onClose }) => {
     roomType: '',
     numberOfGuests: '',
     address: '',
-    arrival: null,
-    departure: null,
-    price: String,
+    checkIn: null,
+    checkOut: null,
+    price: '',
     specialRequest: '',
   });
 
@@ -46,24 +52,31 @@ const Reservationform = ({ onClose }) => {
     }
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Submit form logic here
 
-    if (!selectedPaymentMethods.length) {
-      alert('Please select payment method.');
-      return;
+    // Navigate to reservation page or show success message
+    navigate('/reservation'); // Or use any other method to close or redirect
+  };
+
+  // Handle form close
+  const handleClose = () => {
+    if (fromPage === 'reservation') {
+      navigate('/reservation'); // Navigate to the Reservation page
+    } else if (fromPage === 'room') {
+      navigate('/manage-room'); // Navigate to the Room page
+    } else {
+      navigate('/'); // Fallback or default route
     }
-
-    // Logic to add reservation to the list
-    // For now, we'll just close the form
-    onClose();
   };
 
   return (
     <div className='main'>
       <div className='reservationform-header'>
         <h2>Reservation Form</h2>
-        <ClearOutlinedIcon onClick={onClose} className='close-icon' />
+        <ClearOutlinedIcon onClick={handleClose} className='close-icon' />
       </div>
       <form onSubmit={handleSubmit}>
         {/* Form fields here */}
@@ -139,19 +152,19 @@ const Reservationform = ({ onClose }) => {
             />
           </div>
           <div className='label4'>
-            <label>Arrival</label>
-            <label>Departure</label>
+            <label>Check-in</label>
+            <label>Check-out</label>
           </div>
           <div className='form-row4'>
             <DatePicker
-              selected={formData.arrival}
-              onChange={(date) => handleDateChange(date, 'arrival')}
+              selected={formData.checkIn}
+              onChange={(date) => handleDateChange(date, 'checkIn')}
               dateFormat='dd-MM-yyyy'
               placeholderText='DD-MM-YYYY'
             />
             <DatePicker
-              selected={formData.departure}
-              onChange={(date) => handleDateChange(date, 'departure')}
+              selected={formData.checkOut}
+              onChange={(date) => handleDateChange(date, 'checkOut')}
               dateFormat='dd-MM-yyyy'
               placeholderText='DD-MM-YYYY'
             />
@@ -211,6 +224,7 @@ const Reservationform = ({ onClose }) => {
                 type='text'
                 name='specialRequest'
                 placeholder='Type your request here'
+                value={formData.specialRequest}
                 onChange={handleChange}
               />
             </div>

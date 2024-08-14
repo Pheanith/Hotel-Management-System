@@ -17,8 +17,8 @@ import YourItems from '@mui/icons-material/CategoryOutlined';
 import MonthlyView from '@mui/icons-material/TodayOutlined';
 
 //import component
-import AdminDashboard from '../../pages/admin/AdminDashbaord';
-import Reservation from '../../pages/Reservation';
+// import AdminDashboard from '../../pages/admin/AdminDashbaord';
+// import Reservation from '../../pages/Reservation';
 
 const Sidebar = () => {
   // const [activeContent, setActiveContent] = useState ('home');
@@ -39,7 +39,7 @@ const Sidebar = () => {
       <div className="dashboard">
         <Room/>
         <div class="dashboard-name">
-        <Link to = 'manage-room' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Manage Rooms </Link>
+          <Link to = 'manage-room' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Manage Rooms </Link>
         </div>
       </div>
       <div className="dashboard">
@@ -51,7 +51,7 @@ const Sidebar = () => {
       <div className="dashboard">
         <Transaction/>
         <div class="dashboard-name">
-          <a> Transactions </a>
+        <Link to = 'transaction' style={{ textDecoration: 'none', color: 'black', '&:hover':{ color: 'white'},}}> Transaction </Link>
         </div>
       </div>
       <div className="dashboard">

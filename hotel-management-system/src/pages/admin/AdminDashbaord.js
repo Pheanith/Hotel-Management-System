@@ -3,8 +3,8 @@ import '../../components/styles/AdminDashboard.css'
 
 const AdminDashboard = () =>{
     return(
-        <div className="main-content"> 
-            <div className="content-header">
+        <div className="admin-main-content"> 
+            <div className="admin-content-header">
                 <a> Overview </a>
             </div>
         </div>
