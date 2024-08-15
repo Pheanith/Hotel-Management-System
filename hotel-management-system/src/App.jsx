@@ -9,6 +9,7 @@ import Invoice from './pages/Invoice';
 import Room from './pages/Room';
 import Transaction from './pages/Transaction';
 import Reservationform from './pages/Reservationform';
+import Login from './pages/Login&Rgister/Login';
 import './App.css';
 
 function App() {
@@ -23,7 +24,6 @@ function App() {
             <Routes>
               <Route path="admin-dashboard" element={<AdminDashbaord />} />
               <Route path="reservation" element={<Reservation />} />
-              <Route path="/" element={<AdminDashbaord />} /> Default route
               <Route path="invoice" element={<Invoice/>}/>
               <Route path="manage-room" element={<Room/>}/>
               <Route path="transaction" element={<Transaction/>}/>

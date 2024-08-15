@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import '../components/styles/Reservation.css';
-import ReservationCard from '../pages/ReservationCard.js';
+import ReservationCard from './ReservationCard.jsx';
 import Search from '@mui/icons-material/SearchOutlined';
 import { useNavigate } from 'react-router-dom';
-import Reservationform from './Reservationform.js';
+import Reservationform from './Reservationform.jsx';
 
 const Reservation = () => {
   const [isFormVisible, setFormVisible] = useState(false);

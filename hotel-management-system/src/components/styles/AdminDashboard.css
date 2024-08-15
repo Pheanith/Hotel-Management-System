@@ -1,13 +1,68 @@
+/* AdminDashbaord.css */
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
-.admin-content-header{
-    display: flex;
+.admin-main-content {
+  padding: 20px;
 }
-.admin-content-header a{
-    margin-top: 20px;
-    margin-left: 20px;
-    font-size: larger;
-    font-family: "Inria Sans", sans-serif;
-    font-weight: 700;
-    font-style: normal;
+
+.admin-content-header {
+  display: flex;
+}
+
+.admin-content-header span {
+  margin-top: 20px;
+  margin-left: 20px;
+  font-size: larger;
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
+}
+
+.dashboard-cards-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 30px;
+}
+
+.dashboard-card {
+  display: flex;
+  align-items: center;
+  width: 30%;
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(15, 76, 117, 0.04);
+}
+
+.dashboard-card-icon {
+  width: 86px;
+  height: 78px;
+}
+
+.dashboard-card-icon img {
+  width: 100%;
+  height: auto;
+}
+
+.dashboard-card-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 20px;
+  flex-grow: 1;
+}
+
+.dashboard-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Inria Sans", sans-serif;
+}
+
+.dashboard-card-count {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: "Inria Sans", sans-serif;
+  color: #0F4C75;
 }
