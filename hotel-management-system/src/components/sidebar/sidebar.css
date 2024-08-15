@@ -2,7 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
 .sidebar {
-  display: flex table-column;
+  display: flex;
+  flex-direction: column;
   row-gap: 20px;
   width: 200px;
   background-color: rgba(15, 76, 117, 0.04); 
@@ -10,53 +11,53 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-.dashboard{
+
+/* Default styles for the dashboard items */
+.dashboard {
   display: flex;
   width: 200px;
   height: 50px;
   gap: 10px;
   cursor: pointer;
+  color: black; /* Default text color */
 }
-.dashboard:hover{
-  color: white;
-  background-color: #0F4C75;
-}
+
+/* Styles for the icon inside the dashboard item */
 .dashboard svg {
   width: 28px;
   height: 28px;
   margin-left: 10px;
   margin-top: 12px;
 }
-.dashboard-name{
+
+/* Styles for the dashboard name */
+.dashboard-name {
   margin-top: 15px;
   font-family: "Inria Sans", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
-.manage-guest{
-  display: flex;
-  width: 200px;
-  height: 50px;
-  gap: 10px;
-  cursor: pointer;
-}
-.manage-guest:hover{
-  color: white;
-  background-color: #0F4C75;
-}
-/* .reservation{
-  display: flex;
-  width: 200px;
-  height: 50px;
-  gap: 10px;
-  /* background-color: rgba(15, 76, 117, 0.5); */
-  /* cursor: pointer;
-} */ 
-.reservation svg{
-  width: 28px;
-  height: 28px;
-  margin-left: 10px;
-  margin-top: 12px;
+.dashboard-name a {
+  color: inherit; /* Inherit color from the parent */
+  text-decoration: none; /* Remove underline */
+  border: none; /* Remove any border */
 }
 
-  
+/* Hover effect */
+.dashboard:hover {
+  background-color: #0F4C75;
+  color: white; /* Text color on hover */
+}
+
+/* Active state styles */
+.dashboard.active {
+  background-color: #0F4C75; /* Background color when active */
+  color: white; /* Text color when active */
+}
+
+/* Override for the link to ensure it inherits the color from the parent */
+.dashboard-name a {
+  color: inherit; /* Inherit color from the parent */
+  text-decoration: none; /* Remove underline */
+  border: none; /* Remove any border */
+}

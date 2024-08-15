@@ -1,7 +1,6 @@
-// src/Sidebar.js
-import React, { useRoute } from 'react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import '../sidebar/sidebar.css';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from "@mui/icons-material/HomeOutlined";
 import Guest from "@mui/icons-material/PeopleAltOutlined";
 import Room from "@mui/icons-material/HotelOutlined";
@@ -16,101 +15,117 @@ import Helps from '@mui/icons-material/FavoriteBorderOutlined';
 import YourItems from '@mui/icons-material/CategoryOutlined';
 import MonthlyView from '@mui/icons-material/TodayOutlined';
 
-//import component
-// import AdminDashboard from '../../pages/admin/AdminDashbaord';
-// import Reservation from '../../pages/Reservation';
-
 const Sidebar = () => {
-  // const [activeContent, setActiveContent] = useState ('home');
+  const location = useLocation();
+
   return (
     <aside className="sidebar">
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/admin-dashboard' ? 'active' : ''}`}>
         <Home/>
         <div className="dashboard-name">
-          <Link to = 'admin-dashboard' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Admin Dashboard </Link>
+          <Link to='/admin-dashboard'>
+            Admin Dashboard
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/manage-guest' ? 'active' : ''}`}>
         <Guest/>
-        <div class="dashboard-name">
-          <a> Manage Guest</a>
+        <div className="dashboard-name">
+          <Link to='/manage-guest'>
+            Manage Guest
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/manage-room' ? 'active' : ''}`}>
         <Room/>
-        <div class="dashboard-name">
-          <Link to = 'manage-room' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Manage Rooms </Link>
+        <div className="dashboard-name">
+          <Link to='/manage-room'>
+            Manage Rooms
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/reservation' ? 'active' : ''}`}>
         <Reservations/>
-        <div class="dashboard-name">
-          <Link to = 'reservation' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Reservations </Link>
+        <div className="dashboard-name">
+          <Link to='/reservation'>
+            Reservations
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/transaction' ? 'active' : ''}`}>
         <Transaction/>
-        <div class="dashboard-name">
-        <Link to = 'transaction' style={{ textDecoration: 'none', color: 'black', '&:hover':{ color: 'white'},}}> Transaction </Link>
+        <div className="dashboard-name">
+          <Link to='/transaction'>
+            Transaction
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/invoice' ? 'active' : ''}`}>
         <Invoices/>
-        <div class="dashboard-name">
-          <Link to = 'invoice' style={{ textDecoration: 'none', border: 'none', color: 'black' }}> Invoices </Link>
+        <div className="dashboard-name">
+          <Link to='/invoice'>
+            Invoices
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/periodic-price' ? 'active' : ''}`}>
         <PeriodicPrice/>
-        <div class="dashboard-name">
-          <a> Periodic Price </a>
+        <div className="dashboard-name">
+          <Link to='/periodic-price'>
+            Periodic Price
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/report' ? 'active' : ''}`}>
         <Report/>
-        <div class="dashboard-name">
-          <a> Report </a>
+        <div className="dashboard-name">
+          <Link to='/report'>
+            Report
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/agency-currency' ? 'active' : ''}`}>
         <AgencyCurrency/>
-        <div class="dashboard-name">
-          <a> Agency Currency </a>
+        <div className="dashboard-name">
+          <Link to='/agency-currency'>
+            Agency Currency
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/tools' ? 'active' : ''}`}>
         <Tools/>
-        <div class="dashboard-name">
-          <a> Agency Currency </a>
+        <div className="dashboard-name">
+          <Link to='/tools'>
+            Tools
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/helps' ? 'active' : ''}`}>
         <Helps/>
-        <div class="dashboard-name">
-          <a> Helps </a>
+        <div className="dashboard-name">
+          <Link to='/helps'>
+            Helps
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/your-items' ? 'active' : ''}`}>
         <YourItems/>
-        <div class="dashboard-name">
-          <a> Your Items </a>
+        <div className="dashboard-name">
+          <Link to='/your-items'>
+            Your Items
+          </Link>
         </div>
       </div>
-      <div className="dashboard">
+      <div className={`dashboard ${location.pathname === '/monthly-view' ? 'active' : ''}`}>
         <MonthlyView/>
-        <div class="dashboard-name">
-          <a> Monthly View </a>
+        <div className="dashboard-name">
+          <Link to='/monthly-view'>
+            Monthly View
+          </Link>
         </div>
       </div>
-
-      {/* define route */}
-      {/* <Routes>
-        <Route path='../../pages/admin/AdminDashboard' element={<AdminDashboard/>}/>
-        <Route path='../../pages/Reservation' element={<Reservation/>}/>
-      </Routes> */}
-
     </aside>
-  )
+  );
 };
 
 export default Sidebar;

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 .room-card {
   width: 300px;
   border: 1px solid #ddd;
@@ -20,10 +22,16 @@
 
 .room-number {
   font-size: 1.2em;
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
   margin-bottom: 10px;
 }
 
 .room-type {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
   font-size: 1em;
   color: #555;
   margin-bottom: 20px;
@@ -38,6 +46,9 @@
   cursor: pointer;
   width: 100%;
   font-size: 1em;
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .reserve-button:hover {
