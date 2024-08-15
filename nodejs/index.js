@@ -1,5 +1,6 @@
 const express = require('express');
 const {Room} = require("../nodejs/route/Room.route");
+const {role} = require("./route/role.route");
 const app = express();
 
 app.get("/",(req,res)=>{
@@ -9,8 +10,9 @@ app.get("/",(req,res)=>{
 
 // call route
 Room(app);
+role(app);
 
-const port = 9999;
+const port = 8081;
 app.listen(port,()=>{
   console.log("http://localhost:"+port);
 })
