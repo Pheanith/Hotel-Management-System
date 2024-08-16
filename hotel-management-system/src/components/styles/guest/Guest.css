@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+.guest-content-header{
+    display: flex;
+}
+.guest-content-header a{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: larger;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.guest-search-bar{
+    display: flex;
+    gap: 10px;
+}
+.guest-search-bar svg{
+    margin-left: 300px;
+    margin-top: 25px;
+    height: 30px;
+    width: 30px;
+}
+.guest-search-bar1 input{
+    margin-top: 20px;
+    border-color: #0F4C75;
+    border-radius: 5px;
+    height: 30px;
+    width: 400px;
+}
+.guest-search-bar1 button{
+    cursor: pointer;
+    height: 35px;
+    width: 150px;
+    margin-left: 250px;
+    color: white;
+    background-color: #0F4C75;
+    border-color: #0F4C75;
+    border-radius: 5px;
+}

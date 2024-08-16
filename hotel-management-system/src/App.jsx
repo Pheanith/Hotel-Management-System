@@ -10,6 +10,7 @@ import Room from './pages/Room';
 import Transaction from './pages/Transaction';
 import Reservationform from './pages/Reservationform';
 import Login from './pages/Login&Rgister/Login';
+import Guest from './pages/guests/Guest';
 import './App.css';
 
 function App() {
@@ -22,12 +23,14 @@ function App() {
           <Sidebar />
           <div className="content-area">
             <Routes>
+              <Route path= '/' element = {<AdminDashbaord/>} /> {/* Defualt path*/}
               <Route path="admin-dashboard" element={<AdminDashbaord />} />
               <Route path="reservation" element={<Reservation />} />
               <Route path="invoice" element={<Invoice/>}/>
               <Route path="manage-room" element={<Room/>}/>
               <Route path="transaction" element={<Transaction/>}/>
               <Route path="reserve" element={<Reservationform />} /> {/* Add this line */}
+              <Route path="manage-guest" element={<Guest/>}/>
             </Routes>
           </div>
         </div>
