@@ -67,7 +67,10 @@ const Reservationform = ({ onClose }) => {
       navigate('/reservation'); // Navigate to the Reservation page
     } else if (fromPage === 'room') {
       navigate('/manage-room'); // Navigate to the Room page
-    } else {
+    } else if (fromPage === 'manage-guest'){
+      navigate ('/manage-guest'); //Navigate to manage guest page
+    }
+    else {
       navigate('/'); // Fallback or default route
     }
   };

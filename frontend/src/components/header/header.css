@@ -1,7 +1,7 @@
 /* src/Header.css */
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 990px) {
   header{
     position: sticky;
     top: 0;

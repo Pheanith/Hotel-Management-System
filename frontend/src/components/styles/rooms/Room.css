@@ -28,3 +28,11 @@
     display: flex;
     padding: 10px;
 }
+.room-content-body a{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: larger;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}

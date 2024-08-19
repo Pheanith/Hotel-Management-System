@@ -6,7 +6,7 @@ import Sidebar from './components/sidebar/sidebar';
 import Reservation from './pages/Reservation';
 import AdminDashbaord from './pages/admin/AdminDashbaord';
 import Invoice from './pages/Invoice';
-import Room from './pages/Room';
+import Room from './pages/rooms/Room';
 import Transaction from './pages/Transaction';
 import Reservationform from './pages/Reservationform';
 import Login from './pages/Login&Rgister/Login';

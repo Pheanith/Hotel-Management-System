@@ -65,6 +65,7 @@ const ReservationCard = () => {
                   ? 'checked-out' 
                   : 'not-yet-checked-in'
                 }> 
+                {reservation.checkInStatus}
               </td>
               <td>{reservation.total}</td>
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>{reservation.status}</td>

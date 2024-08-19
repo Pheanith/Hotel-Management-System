@@ -1,6 +1,7 @@
+//RoomCard.jsx
 import React from "react";
-import '../components/styles/RoomCard.css';
-import Singleroom from "../components/assets/img/singleroom.jfif";
+import '../../components/styles/rooms/RoomCard.css';
+import Singleroom from "../../components/assets/img/singleroom.jfif";
 import { useNavigate } from "react-router-dom";
 
 const RoomCard = ({ roomNumber, roomType }) => {
