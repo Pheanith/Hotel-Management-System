@@ -4,6 +4,7 @@ import '../sidebar/sidebar.css';
 import Home from "@mui/icons-material/HomeOutlined";
 import Guest from "@mui/icons-material/PeopleAltOutlined";
 import Room from "@mui/icons-material/HotelOutlined";
+import RoomList from '@mui/icons-material/BallotOutlined';
 import Reservations from '@mui/icons-material/BrowserUpdatedOutlined';
 import Transaction from '@mui/icons-material/DiamondOutlined';
 import Invoices from '@mui/icons-material/ReceiptOutlined';
@@ -41,6 +42,14 @@ const Sidebar = () => {
         <div className="dashboard-name">
           <Link to='/available-room'>
             Available Rooms
+          </Link>
+        </div>
+      </div>
+      <div className={`dashboard ${location.pathname === '/room-list' ? 'active' : ''}`}>
+        <RoomList/>
+        <div className="dashboard-name">
+          <Link to='/room-list'>
+            Rooms List
           </Link>
         </div>
       </div>

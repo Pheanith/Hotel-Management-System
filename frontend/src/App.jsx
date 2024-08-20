@@ -7,9 +7,11 @@ import Reservation from './pages/Reservation';
 import AdminDashbaord from './pages/admin/AdminDashbaord';
 import Invoice from './pages/Invoice';
 import Room from './pages/rooms/Room';
+import RoomList from './pages/rooms/RoomList';
 import Transaction from './pages/Transaction';
 import Reservationform from './pages/Reservationform';
-import Login from './pages/Login&Rgister/Login';
+import AddRoom from './pages/rooms/AddRoom';
+// import Login from './pages/Login&Rgister/Login';
 import Guest from './pages/guests/Guest';
 import './App.css';
 
@@ -31,6 +33,8 @@ function App() {
               <Route path="transaction" element={<Transaction/>}/>
               <Route path="reserve" element={<Reservationform />} /> {/* Add this line */}
               <Route path="manage-guest" element={<Guest/>}/>
+              <Route path= "room-list" element={<RoomList/>}/>
+              <Route path= "add-room" element={<AddRoom/>}/>
             </Routes>
           </div>
         </div>

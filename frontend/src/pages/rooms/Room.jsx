@@ -77,13 +77,6 @@ const Room = () => {
                     />
                 ))}
             </div>
-            <div className="room-content-body">
-                <a> Room List </a>
-                <button onClick={handleOpenForm}>Add new room </button>
-            </div>
-            <div className="room-table"> 
-                <RoomTable/>
-            </div>
         </div>
     );
 };
