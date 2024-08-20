@@ -36,11 +36,11 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
-      <div className={`dashboard ${location.pathname === '/manage-room' ? 'active' : ''}`}>
+      <div className={`dashboard ${location.pathname === '/available-room' ? 'active' : ''}`}>
         <Room/>
         <div className="dashboard-name">
-          <Link to='/manage-room'>
-            Manage Rooms
+          <Link to='/available-room'>
+            Available Rooms
           </Link>
         </div>
       </div>

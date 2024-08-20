@@ -27,7 +27,7 @@ function App() {
               <Route path="admin-dashboard" element={<AdminDashbaord />} />
               <Route path="reservation" element={<Reservation />} />
               <Route path="invoice" element={<Invoice/>}/>
-              <Route path="manage-room" element={<Room/>}/>
+              <Route path="available-room" element={<Room/>}/>
               <Route path="transaction" element={<Transaction/>}/>
               <Route path="reserve" element={<Reservationform />} /> {/* Add this line */}
               <Route path="manage-guest" element={<Guest/>}/>

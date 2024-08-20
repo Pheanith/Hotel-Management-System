@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import RoomCard from "./RoomCard";
 import axios from 'axios';
 import RoomTable from "./RoomTable";
+import { useNavigate } from "react-router-dom";
 
 const Room = () => {
     const [formData, setFormData] = useState({
@@ -40,6 +41,11 @@ const Room = () => {
         });
     };
 
+    const navigate = useNavigate();
+    const handleOpenForm = () => {
+        navigate(); // Adjust as needed
+    };
+
     return (
         <div className='main-room-content'>
             <div className='room-content-header'>
@@ -73,6 +79,7 @@ const Room = () => {
             </div>
             <div className="room-content-body">
                 <a> Room List </a>
+                <button onClick={handleOpenForm}>Add new room </button>
             </div>
             <div className="room-table"> 
                 <RoomTable/>

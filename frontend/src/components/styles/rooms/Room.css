@@ -36,3 +36,13 @@
     font-weight: 700;
     font-style: normal;
 }
+.room-content-body button {
+    cursor: pointer;
+    height: 35px;
+    width: 150px;
+    margin-left: 1030px;
+    color: white;
+    background-color: #0F4C75;
+    border-color: #0F4C75;
+    border-radius: 5px;
+}

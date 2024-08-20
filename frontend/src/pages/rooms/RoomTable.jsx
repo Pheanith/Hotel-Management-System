@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import RoomDelete from './RoomDelete';
 
 const rooms = [
-    {roomType: 'Single room', floorNumber: '1', roomNumber: '101', status: 'Available', other: ''},
-    {roomType: 'Double room', floorNumber: '2', roomNumber: '201', status: 'Unavailable', other: ''},
-    {roomType: 'Double room', floorNumber: '3', roomNumber: '301', status: 'In maintenent', other: ''}
+    {building: 'A',roomType: 'Single room', floorNumber: '1', roomNumber: '101', price: '100$', status: 'Available', description: '',other: ''},
+    {building: 'A',roomType: 'Double room', floorNumber: '2', roomNumber: '201', price: '100$', status: 'Unavailable', description: '',other: ''},
 ];
 
 const RoomTable = () => {
@@ -35,19 +34,24 @@ const RoomTable = () => {
             <table className='room-table'>
                 <thead>
                     <tr>
+                        <th> Building </th>
                         <th> Room Type </th>
                         <th> Floor Number</th>
                         <th> Room Number</th>
+                        <th> Price </th>
                         <th> Status </th>
+                        <th> Description </th>
                         <th> Other </th>
                     </tr>
                 </thead>
                 <tbody>
                     {rooms.map((room, index) => (
                         <tr key = {index}>
+                            <td> {room.building}</td>
                             <td> {room.roomType}</td>
                             <td> {room.floorNumber}</td>
                             <td> {room.roomNumber}</td>
+                            <td> {room.price}</td>
                             <td className={
                                 room.status === 'In maintenent'? 'in-maintenent'
                                     : room.status === 'Unavailable'? 'unavailable'
@@ -55,6 +59,7 @@ const RoomTable = () => {
                                 }>
                                 {room.status}
                             </td>
+                            <td> {room.description}</td>
                             <td>
                                 <span className="edit-icon" role="img" aria-label="edit">✏️</span>
                                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(room)}>🗑️</span>
