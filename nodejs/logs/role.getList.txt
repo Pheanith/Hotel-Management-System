@@ -1,0 +1,2 @@
+[16/08/2024 12:33:54] Error: Table 'hotel-system.role' doesn't exist in engine
+
