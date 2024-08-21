@@ -65,7 +65,7 @@ const AddRoom = ({onclose}) => {
                             name='roomType'
                             value={formData.roomType}
                             onChange={handleChange}>
-                            <option value="">Please select</option>
+                            <option value="">Please select room type</option>
                             <option value="Single Room">Single Room</option>
                             <option value="Double Room">Double Room</option>
                             <option value="Family Room">Family Room</option>
@@ -74,10 +74,48 @@ const AddRoom = ({onclose}) => {
                         </select>
                     </div>
                     <div className="row2">
+                        <select
+                            name = 'floorNumber'
+                            value = {formData.floorNumber}
+                            onChange = {handleChange}>
+                            <option value = ""> Please select floor No.</option>
+                            <option value = "1st"> 1st floor</option>
+                        </select>
+                        <select>
+                            <option value = ""> Please select room number </option>
+                            <optioon value = "101 "> 101 </optioon>
+                        </select>
+                    </div>
+                    <div className="row3"> 
                         <input
-                            
+                            type = "text"
+                            name = "price"
+                            placeholder="$"
+                            value={formData.price}
+                            onChange={handleChange}
+                        />
+                        <select
+                            name = 'status'
+                            value={formData.status}
+                            onChange={handleChange}>
+                            <option value = ""> Please select room status </option>
+                            <option value = "available"> Available </option>
+                            <option value = "unavailable"> Unavailable </option>
+                            <option value = "in-maintenent"> In maintenent </option>
+                        </select>
+                    </div>
+                    <div className="row4">
+                        <input
+                            type = "text "
+                            name = "description"
+                            placeholder=" Room description"
+                            value={formData.description}
+                            onChange={handleChange}
                         />
                     </div>
+                </div>
+                <div className="submit-room">
+                    <button type = "submit"> Submit </button>
                 </div>
             </form>
         </div>
