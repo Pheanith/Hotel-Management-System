@@ -1,17 +1,26 @@
-import React, {useState} from 'react';
+//RoomTable.jsx
+import React, {useEffect, useState} from 'react';
 import '../../components/styles/rooms/RoomTable.css';
 import { useNavigate } from 'react-router-dom';
 import RoomDelete from './RoomDelete';
+import axios from 'axios';
 
 const rooms = [
-    {building: 'A',accomadationType: 'Hotel Room',roomType: 'Single room', floorNumber: '1', roomNumber: '101', price: '100$', status: 'Available', description: '',other: ''},
-    {building: 'A',accomadationType: 'Home Stay',roomType: 'Double room', floorNumber: '2', roomNumber: '201', price: '100$', status: 'Unavailable', description: '',other: ''},
+    {building: 'A',accomadationType: 'Hotel Room',roomType: 'Single room', floorNumber: '1', roomNumber: '101', price: '100$', status: 'Available', availableFrom: '', availableTo: '', description: '',other: ''},
+    {building: 'A',accomadationType: 'Home Stay',roomType: 'Double room', floorNumber: '2', roomNumber: '201', price: '100$', status: 'Unavailable', availableFrom: '', availableTo: '', description: '',other: ''},
 ];
 
 const RoomTable = () => {
+    const [rooms, setRooms] = useState ([]);
     const [showModal, setShowModal] = useState (false);
     const [selectedRoom, setSelectedRoom] = useState (null);
     // const navigate = useNavigate();
+
+    useEffect (() => {
+        axios.get('/room')
+            .then(response => setRooms (response.data))
+            .catch(error => console.error ('Error fetching rooms:', error));
+    }, []);
 
     const handleDeleteClick = (room) => {
         setSelectedRoom (room);
@@ -24,9 +33,13 @@ const RoomTable = () => {
     };
 
     const handleDelete = () => {
-        console.log("Deleted room: ", selectedRoom);
-        setShowModal(false);
-        setSelectedRoom(null);
+        axios.delete(`/rooms/${selectedRoom.id}`)
+            .then(() => {
+                setRooms(rooms.filter(room => room.id !== selectedRoom.id));
+                setShowModal(false);
+                setSelectedRoom(null);
+            })
+            .catch(error => console.error('Error deleting room:', error));
     };
 
     return (
@@ -41,6 +54,8 @@ const RoomTable = () => {
                         <th> Room Number</th>
                         <th> Price </th>
                         <th> Status </th>
+                        <th> Available From </th>
+                        <th> Available To</th>
                         <th> Description </th>
                         <th> Other </th>
                     </tr>
@@ -55,12 +70,14 @@ const RoomTable = () => {
                             <td> {room.roomNumber}</td>
                             <td> {room.price}</td>
                             <td className={
-                                room.status === 'In maintenent'? 'in-maintenent'
+                                room.status === 'In maintenance'? 'in-maintenent'
                                     : room.status === 'Unavailable'? 'unavailable'
                                     :'available'
                                 }>
                                 {room.status}
                             </td>
+                            <td> {room.availableFrom}</td>
+                            <td> {room.availableTo}</td>
                             <td> {room.description}</td>
                             <td>
                                 <span className="edit-icon" role="img" aria-label="edit">✏️</span>

@@ -63,6 +63,14 @@ form{
     font-family: "Inria Sans", sans-serif;
     font-weight: 400;
 }
+.row2 input {
+    border: 2px solid;
+    border-radius: 5px;
+    border-color: #0F4C75;
+    width: 603px;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 400;
+}
 .row3{
     display: flex;
     margin-top: 10px;
@@ -95,6 +103,20 @@ form{
     border-color: #0F4C75;
     width: 1223px;
     height: 29px;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 400;
+}
+.row5 {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.row5 .react-datepicker__input-container input{
+    border: 2px solid;
+    border-radius: 5px;
+    border-color: #0F4C75;
+    width: 603px;
+    height: 35px;
     font-family: "Inria Sans", sans-serif;
     font-weight: 400;
 }

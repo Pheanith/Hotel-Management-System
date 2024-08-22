@@ -1,3 +1,4 @@
+//RoomDelete.jsx
 import React, {useState} from "react";
 import '../../components/styles/rooms/RoomDelete.css';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
