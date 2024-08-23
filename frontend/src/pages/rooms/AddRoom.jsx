@@ -7,6 +7,27 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import axios from 'axios';
 
+// Utility function to format dates as 'YYYY-MM-DD'
+const formatDate = (date) => {
+    if (!date) return null;
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+};
+
+// Utility function to format dates as 'YYYY-MM-DD HH:MM:SS' for DATETIME
+const formatDateTime = (date) => {
+    if (!date) return null;
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
 const AddRoom = ({ onClose }) => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -14,7 +35,7 @@ const AddRoom = ({ onClose }) => {
 
     const [formData, setFormData] = useState({
         building: '',
-        accommodationType: '',
+        accommodationType: '', // Fix typo
         roomType: '',
         floorNumber: '',
         roomNumber: '',
@@ -36,11 +57,16 @@ const AddRoom = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/rooms', formData);
-            console.log(response.data.message); // Handle success response
+            const formattedData = {
+                ...formData,
+                availableFrom: formatDate(formData.availableFrom),
+                availableTo: formatDate(formData.availableTo),
+            };
+            const response = await axios.post('http://localhost:5000/api/rooms', formattedData);
+            console.log(response.data); // Log full response
             navigate('/room-list'); // Navigate to room list page
         } catch (error) {
-            console.error('Error adding room:', error); // Handle error response
+            console.error('Error adding room:', error.response ? error.response.data : error.message); // Handle error response
         }
     };
 
@@ -72,7 +98,7 @@ const AddRoom = ({ onClose }) => {
                             onChange={handleChange}
                         />
                         <select
-                            name='accommodationType'
+                            name='accommodationType' // Fix typo
                             value={formData.accommodationType}
                             onChange={handleChange}>
                             <option value="">Please select accommodation type</option>
@@ -135,6 +161,7 @@ const AddRoom = ({ onClose }) => {
                         <DatePicker
                             selected={formData.availableTo}
                             onChange={(date) => handleDateChange(date, 'availableTo')}
+                            dateFormat='dd-MM-yyyy'
                             placeholderText="Available to (DD-MM-YYYY)"
                         />
                     </div>

@@ -6,8 +6,8 @@ import RoomDelete from './RoomDelete';
 import axios from 'axios';
 
 const rooms = [
-    {building: 'A',accomadationType: 'Hotel Room',roomType: 'Single room', floorNumber: '1', roomNumber: '101', price: '100$', status: 'Available', availableFrom: '', availableTo: '', description: '',other: ''},
-    {building: 'A',accomadationType: 'Home Stay',roomType: 'Double room', floorNumber: '2', roomNumber: '201', price: '100$', status: 'Unavailable', availableFrom: '', availableTo: '', description: '',other: ''},
+    {building: 'A',accommodationType: 'Hotel Room',roomType: 'Single room', floorNumber: '1', roomNumber: '101', price: '100$', status: 'Available', availableFrom: '', availableTo: '', description: '',other: ''},
+    {building: 'A',accommodationType: 'Home Stay',roomType: 'Double room', floorNumber: '2', roomNumber: '201', price: '100$', status: 'Unavailable', availableFrom: '', availableTo: '', description: '',other: ''},
 ];
 
 const RoomTable = () => {
@@ -48,7 +48,7 @@ const RoomTable = () => {
                 <thead>
                     <tr>
                         <th> Building </th>
-                        <th> Acomadation Type</th>
+                        <th> Acommodation Type</th>
                         <th> Room Type </th>
                         <th> Floor Number</th>
                         <th> Room Number</th>
@@ -64,7 +64,7 @@ const RoomTable = () => {
                     {rooms.map((room, index) => (
                         <tr key = {index}>
                             <td> {room.building}</td>
-                            <td> {room.accomadationType}</td>
+                            <td> {room.accommodationType}</td>
                             <td> {room.roomType}</td>
                             <td> {room.floorNumber}</td>
                             <td> {room.roomNumber}</td>

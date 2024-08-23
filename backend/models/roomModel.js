@@ -23,30 +23,35 @@ export const getRoomById = (id) => {
 
 // Add a new room
 export const addRoom = (room) => {
-    const { building, accomadationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description } = room;
+    const { building, accommodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description } = room;
     return new Promise((resolve, reject) => {
-      db.query('INSERT INTO rooms (building, accomadationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-        [building, accomadationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description], 
+      db.query(
+        'INSERT INTO rooms (building, accomadationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+        [building, accommodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description], 
         (err, result) => {
           if (err) {
+            console.error('Database error:', err); // Log database error
             return reject(err);
           }
-          if (result && result.insertId) {
+          console.log('Insert result:', result); // Log result for debugging
+          if (result && result.insertId !== undefined) {
             resolve(result.insertId);
           } else {
-            reject(new Error('Unexpected result format from database'));
+            reject(new Error('Insert result does not contain insertId'));
           }
-        });
+        }
+      );
     });
-  };
+};
+  
   
 
 // Update a room by ID
 export const updateRoom = (id, updates) => {
-  const { building, accomadationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description } = updates;
+  const { building, accommodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description } = updates;
   return new Promise((resolve, reject) => {
     db.query('UPDATE rooms SET building = ?, accomadationType = ?, roomType = ?, floorNumber = ?, roomNumber = ?, price = ?, status = ?, availableFrom = ?, availableTo = ?, description = ? WHERE id = ?', 
-      [building, accomadationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description, id], 
+      [building, accommodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description, id], 
       (err, result) => {
         if (err) reject(err);
         resolve(result.affectedRows > 0);

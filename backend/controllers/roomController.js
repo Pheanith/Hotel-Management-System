@@ -2,7 +2,7 @@
 import { getAllRooms, getRoomById, addRoom, updateRoom, deleteRoom } from '../models/roomModel.js';
 
 // Get all rooms
-export const getRooms = async (req, res) => {
+export const getRoom = async (req, res) => {
     try {
         const rooms = await getAllRooms();
         res.json(rooms);
@@ -12,7 +12,7 @@ export const getRooms = async (req, res) => {
 };
 
 // Get a room by ID
-export const getRoom = async (req, res) => {
+export const getRoomByid = async (req, res) => {
     try {
         const room = await getRoomById(req.params.id);
         if (room) {
