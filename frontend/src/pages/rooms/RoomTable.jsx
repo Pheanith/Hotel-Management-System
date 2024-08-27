@@ -49,7 +49,7 @@ const RoomTable = () => {
                 <thead>
                     <tr>
                         <th> Building </th>
-                        <th> Accommodation Type </th>
+                        <th> Accomodation Type </th>
                         <th> Room Type </th>
                         <th> Floor Number </th>
                         <th> Room Number </th>
@@ -66,7 +66,7 @@ const RoomTable = () => {
                         rooms.map((room, index) => (
                             <tr key={index}>
                                 <td>{room.building}</td>
-                                <td>{room.accommodationType}</td>
+                                <td>{room.accomodationType}</td>
                                 <td>{room.roomType}</td>
                                 <td>{room.floorNumber}</td>
                                 <td>{room.roomNumber}</td>
