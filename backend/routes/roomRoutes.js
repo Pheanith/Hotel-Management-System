@@ -1,6 +1,12 @@
 //roomRoutes.js
 import express from 'express';
-import { getRoom, getRoomByid, createRoom, updateRoomById, deleteRoomById } from '../controllers/roomController.js';
+import {
+    getRoom,
+    getRoomById,
+    createRoom,
+    updateRoomById,
+    deleteRoomById
+} from '../controllers/roomController.js';
 
 const router = express.Router();
 
@@ -8,7 +14,7 @@ const router = express.Router();
 router.get('/', getRoom);
 
 // Get a room by ID
-router.get('/:id', getRoomByid);
+router.get('/:id', getRoomById);
 
 // Add a new room
 router.post('/', createRoom);

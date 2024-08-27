@@ -1,26 +1,34 @@
 //roomController.js
-import { getAllRooms, getRoomById, addRoom, updateRoom, deleteRoom } from '../models/roomModel.js';
+import {
+    getAllRooms,
+    getRoomById as fetchRoomById,  // Renamed to avoid conflict
+    addRoom,
+    updateRoom,
+    deleteRoom
+} from '../models/roomModel.js';
 
 // Get all rooms
-export const getRoom = async (req, res) => {
+export const getRoom = async (req, res) => {  // Fixed: Added `req` parameter
     try {
         const rooms = await getAllRooms();
         res.json(rooms);
     } catch (error) {
+        console.error('Error fetching rooms:', error);
         res.status(500).json({ error: 'Server Error' });
     }
 };
 
 // Get a room by ID
-export const getRoomByid = async (req, res) => {
+export const getRoomById = async (req, res) => {
     try {
-        const room = await getRoomById(req.params.id);
+        const room = await fetchRoomById(req.params.id);
         if (room) {
             res.json(room);
         } else {
             res.status(404).json({ message: 'Room not found' });
         }
     } catch (error) {
+        console.error('Error fetching room by ID:', error);
         res.status(500).json({ error: 'Server Error' });
     }
 };
@@ -32,6 +40,7 @@ export const createRoom = async (req, res) => {
         const roomId = await addRoom(newRoom);
         res.status(201).json({ message: 'Room added successfully', roomId });
     } catch (error) {
+        console.error('Error adding room:', error);
         res.status(500).json({ error: 'Server Error' });
     }
 };
@@ -46,6 +55,7 @@ export const updateRoomById = async (req, res) => {
             res.status(404).json({ message: 'Room not found' });
         }
     } catch (error) {
+        console.error('Error updating room:', error);
         res.status(500).json({ error: 'Server Error' });
     }
 };
@@ -60,7 +70,7 @@ export const deleteRoomById = async (req, res) => {
             res.status(404).json({ message: 'Room not found' });
         }
     } catch (error) {
+        console.error('Error deleting room:', error);
         res.status(500).json({ error: 'Server Error' });
     }
 };
-
