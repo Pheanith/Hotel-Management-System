@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-.editroom-main {
+.roomedit-main {
     margin: 20px;
     padding: 20px;
     background-color: white;
@@ -12,19 +12,19 @@
     overflow-x: auto;
 }
 
-.editroom-header {
+.roomedit-header {
     position: sticky;
     top: 0;
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
 }
 
-.editroom-header h2 {
+.roomedit-header h2 {
     font-family: "Inria Sans", sans-serif;
     font-weight: 700;
 }
 
-.editroom-header svg {
+.roomedit-header svg {
     cursor: pointer;
 }
 

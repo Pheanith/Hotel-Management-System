@@ -4,7 +4,8 @@ import {
     getRoomById as fetchRoomById,  // Renamed to avoid conflict
     addRoom,
     updateRoom,
-    deleteRoom
+    deleteRoom,
+    getAvailableRooms
 } from '../models/roomModel.js';
 
 // Get all rooms
@@ -71,6 +72,19 @@ export const deleteRoomById = async (req, res) => {
         }
     } catch (error) {
         console.error('Error deleting room:', error);
+        res.status(500).json({ error: 'Server Error' });
+    }
+};
+
+// Get available rooms
+export const getFreeRoom = async (req, res) => {
+    const { checkIn, checkOut } = req.query;
+
+    try {
+        const rooms = await getAvailableRooms(checkIn, checkOut);
+        res.json(rooms);
+    } catch (error) {
+        console.error('Error fetching available rooms:', error);
         res.status(500).json({ error: 'Server Error' });
     }
 };

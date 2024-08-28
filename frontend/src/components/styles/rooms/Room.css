@@ -1,3 +1,4 @@
+/* Room.css */
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
 .room-content-header{
@@ -24,7 +25,9 @@
     height: 30px;
     width: 200px;
 }
-.room-cards-container{
-    display: flex;
-    padding: 10px;
+.room-cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* This will create 3 equal-width columns */
+    /* gap: 20px; Adjust the gap between cards */
+    padding: 20px;
 }

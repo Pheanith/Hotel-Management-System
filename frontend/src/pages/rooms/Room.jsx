@@ -1,11 +1,11 @@
+// Room.jsx
+
 import React, { useState, useEffect } from "react";
 import '../../components/styles/rooms/Room.css';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import RoomCard from "./RoomCard";
 import axios from 'axios';
-import RoomTable from "./RoomTable";
-import { useNavigate } from "react-router-dom";
 
 const Room = () => {
     const [formData, setFormData] = useState({
@@ -20,8 +20,8 @@ const Room = () => {
                 try {
                     const response = await axios.get('http://localhost:5000/api/rooms', {
                         params: {
-                            checkIn: formData.checkIn,
-                            checkOut: formData.checkOut,
+                            checkIn: formData.checkIn.toISOString().split('T')[0],  // Format date as yyyy-mm-dd
+                            checkOut: formData.checkOut.toISOString().split('T')[0],
                         },
                     });
                     setRooms(response.data);
@@ -41,11 +41,6 @@ const Room = () => {
         });
     };
 
-    const navigate = useNavigate();
-    const handleOpenForm = () => {
-        navigate(); // Adjust as needed
-    };
-
     return (
         <div className='main-room-content'>
             <div className='room-content-header'>
@@ -54,14 +49,14 @@ const Room = () => {
                     <DatePicker
                         selected={formData.checkIn}
                         onChange={(date) => handleDateChange(date, 'checkIn')}
-                        dateFormat='dd-MM-yyyy'
+                        dateFormat='yyyy-MM-dd'
                         placeholderText='Please select check-in date'
                         className="dateinput"
                     />
                     <DatePicker
                         selected={formData.checkOut}
                         onChange={(date) => handleDateChange(date, 'checkOut')}
-                        dateFormat='dd-MM-yyyy'
+                        dateFormat='yyyy-MM-dd'
                         placeholderText='Please select check-out date'
                         className="dateinput"
                     />

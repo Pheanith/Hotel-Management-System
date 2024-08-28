@@ -78,3 +78,29 @@ export const deleteRoom = (id) => {
         });
     });
 };
+
+// Get available rooms based on check-in and check-out dates
+export const getAvailableRooms = (checkIn, checkOut) => {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT * FROM rooms
+            WHERE status = 'available'
+            AND availableFrom <= ?
+            AND availableTo >= ?
+            AND id NOT IN (
+                SELECT roomId FROM reservations
+                WHERE (? BETWEEN checkInDate AND checkOutDate)
+                OR (? BETWEEN checkInDate AND checkOutDate)
+            )
+            ORDER BY roomNumber ASC;
+        `;
+
+        db.query(query, [checkIn, checkOut, checkIn, checkOut], (err, results) => {
+            if (err) {
+                console.error('Database error:', err);
+                return reject(err);
+            }
+            resolve(results);
+        });
+    });
+};
