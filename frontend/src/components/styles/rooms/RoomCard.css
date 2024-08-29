@@ -38,6 +38,15 @@
   margin-bottom: 20px;
 }
 
+.accomodation-type {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 20px;
+}
+
 .reserve-button {
   padding: 10px;
   background-color: #0F4C75;

@@ -119,7 +119,7 @@ const AddRoom = () => {
                             <option value="">Please select room status</option>
                             <option value="available">Available</option>
                             <option value="unavailable">Unavailable</option>
-                            <option value="in-maintenance">In maintenance</option>
+                            <option value="In maintenance">In maintenance</option>
                         </select>
                     </div>
                     <div className="row5">

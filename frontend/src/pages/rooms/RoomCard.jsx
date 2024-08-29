@@ -4,7 +4,7 @@ import '../../components/styles/rooms/RoomCard.css';
 import Singleroom from "../../components/assets/img/singleroom.jfif";
 import { useNavigate } from "react-router-dom";
 
-const RoomCard = ({ roomNumber, roomType }) => {
+const RoomCard = ({ roomNumber, roomType, accomodationType }) => {
   const navigate = useNavigate();
 
   const handleReservationClick = () => {
@@ -12,6 +12,7 @@ const RoomCard = ({ roomNumber, roomType }) => {
       state: { 
         roomNumber, 
         roomType,
+        accomodationType,
         fromPage: 'room'  // Add this line to track the origin page
       }
     });
@@ -23,6 +24,7 @@ const RoomCard = ({ roomNumber, roomType }) => {
       <div className="room-details">
         <h3 className="room-number">{roomNumber}</h3>
         <p className="room-type">{roomType}</p>
+        <p className="accomodation-type"> {accomodationType}</p>
         <button className="reserve-button" onClick={handleReservationClick}>
           Make Reservation
         </button>

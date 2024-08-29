@@ -1,7 +1,6 @@
-//roomController.js
 import {
     getAllRooms,
-    getRoomById as fetchRoomById,  // Renamed to avoid conflict
+    getRoomById as fetchRoomById,
     addRoom,
     updateRoom,
     deleteRoom,
@@ -9,7 +8,7 @@ import {
 } from '../models/roomModel.js';
 
 // Get all rooms
-export const getRoom = async (req, res) => {  // Fixed: Added `req` parameter
+export const getRoom = async (req, res) => {
     try {
         const rooms = await getAllRooms();
         res.json(rooms);
@@ -68,7 +67,7 @@ export const deleteRoomById = async (req, res) => {
         if (deleted) {
             res.json({ message: 'Room deleted successfully' });
         } else {
-            res.status(404).json({ message: 'Room not found' });
+            res.status(404).json({ message: 'Room not found 123' });
         }
     } catch (error) {
         console.error('Error deleting room:', error);
@@ -77,12 +76,16 @@ export const deleteRoomById = async (req, res) => {
 };
 
 // Get available rooms
-export const getFreeRoom = async (req, res) => {
+export const getFreeRooms = async (req, res) => {
     const { checkIn, checkOut } = req.query;
 
     try {
         const rooms = await getAvailableRooms(checkIn, checkOut);
-        res.json(rooms);
+        if (rooms.length > 0) {
+            res.json(rooms);
+        } else {
+            res.status(404).json({ message: 'No available rooms found for the given dates' });
+        }
     } catch (error) {
         console.error('Error fetching available rooms:', error);
         res.status(500).json({ error: 'Server Error' });

@@ -1,4 +1,4 @@
-//server.js
+// server.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -18,4 +18,3 @@ app.use('/api/rooms', roomRoutes);
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-

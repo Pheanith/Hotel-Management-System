@@ -1,4 +1,3 @@
-//roomModel.js
 import db from '../utils/db.js';
 
 // Get all rooms
@@ -79,23 +78,32 @@ export const deleteRoom = (id) => {
     });
 };
 
-// Get available rooms based on check-in and check-out dates
+// Get available rooms
 export const getAvailableRooms = (checkIn, checkOut) => {
     return new Promise((resolve, reject) => {
-        const query = `
-            SELECT * FROM rooms
-            WHERE status = 'available'
-            AND availableFrom <= ?
-            AND availableTo >= ?
-            AND id NOT IN (
-                SELECT roomId FROM reservations
-                WHERE (? BETWEEN checkInDate AND checkOutDate)
-                OR (? BETWEEN checkInDate AND checkOutDate)
-            )
-            ORDER BY roomNumber ASC;
-        `;
+        let query;
+        let params = [];
 
-        db.query(query, [checkIn, checkOut, checkIn, checkOut], (err, results) => {
+        if (checkIn && checkOut) {
+            // Query for filtering rooms based on the checkIn and checkOut dates
+            query = `
+                SELECT * FROM rooms
+                WHERE status = 'Available'
+                AND availableFrom <= ?
+                AND availableTo >= ?
+                ORDER BY roomNumber ASC;
+            `;
+            params = [checkOut, checkIn];
+        } else {
+            // Query for showing all available rooms
+            query = `
+                SELECT * FROM rooms
+                WHERE status = 'Available'
+                ORDER BY roomNumber ASC;
+            `;
+        }
+
+        db.query(query, params, (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);

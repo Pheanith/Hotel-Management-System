@@ -18,7 +18,7 @@ const Room = () => {
         if (formData.checkIn && formData.checkOut) {
             const fetchRooms = async () => {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/rooms', {
+                    const response = await axios.get('http://localhost:5000/api/rooms/available', {
                         params: {
                             checkIn: formData.checkIn.toISOString().split('T')[0],  // Format date as yyyy-mm-dd
                             checkOut: formData.checkOut.toISOString().split('T')[0],
@@ -49,14 +49,14 @@ const Room = () => {
                     <DatePicker
                         selected={formData.checkIn}
                         onChange={(date) => handleDateChange(date, 'checkIn')}
-                        dateFormat='yyyy-MM-dd'
+                        dateFormat='dd-MM-yyyy'
                         placeholderText='Please select check-in date'
                         className="dateinput"
                     />
                     <DatePicker
                         selected={formData.checkOut}
                         onChange={(date) => handleDateChange(date, 'checkOut')}
-                        dateFormat='yyyy-MM-dd'
+                        dateFormat='dd-MM-yyyy'
                         placeholderText='Please select check-out date'
                         className="dateinput"
                     />
@@ -68,6 +68,7 @@ const Room = () => {
                         key={index}
                         roomNumber={room.roomNumber}
                         roomType={room.roomType}
+                        accomodationType = {room.accomodationType}
                         imageUrl={room.imageUrl}
                     />
                 ))}
