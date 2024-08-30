@@ -1,77 +1,79 @@
+//Reservationform.jsx
 import React, { useState } from 'react';
 import '../components/styles/Reservationform.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import { useLocation, useNavigate } from 'react-router-dom'; // Import useLocation
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Reservationform = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Extract room detail and fromPage from state
-  const { roomNumber, roomType, fromPage } = location.state || {};
+  const { fromPage } = location.state || {};
 
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    roomType: '',
-    numberOfGuests: '',
-    address: '',
-    checkIn: null,
-    checkOut: null,
-    price: '',
-    specialRequest: '',
-  });
-
+  // Form state management
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [roomNumber, setRoomNumber] = useState('');
+  const [roomType, setRoomType] = useState('');
+  const [numberOfGuests, setNumberOfGuests] = useState('');
+  const [address, setAddress] = useState('');
+  const [checkIn, setCheckIn] = useState(null);
+  const [checkOut, setCheckOut] = useState(null);
+  const [price, setPrice] = useState('');
+  const [specialRequest, setSpecialRequest] = useState('');
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleDateChange = (date, field) => {
-    setFormData({
-      ...formData,
-      [field]: date,
-    });
-  };
-
   const handlePaymentMethodChange = (paymentMethod) => {
-    const isSelected = selectedPaymentMethods.includes(paymentMethod);
-    if (isSelected) {
-      setSelectedPaymentMethods(selectedPaymentMethods.filter((method) => method !== paymentMethod));
+    if (selectedPaymentMethods.includes(paymentMethod)) {
+      setSelectedPaymentMethods(
+        selectedPaymentMethods.filter((method) => method !== paymentMethod)
+      );
     } else {
       setSelectedPaymentMethods([...selectedPaymentMethods, paymentMethod]);
     }
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit form logic here
 
-    // Navigate to reservation page or show success message
-    navigate('/reservation'); // Or use any other method to close or redirect
+    const formattedData = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      roomNumber,
+      roomType,
+      numberOfGuests,
+      address,
+      checkIn: checkIn ? checkIn.toISOString().split('T')[0] : '',
+      checkOut: checkOut ? checkOut.toISOString().split('T')[0] : '',
+      price,
+      specialRequest,
+      paymentMethods: selectedPaymentMethods, // Include payment methods in the request
+    };
+
+    try {
+      await axios.post('http://localhost:5000/api/reservations', formattedData);
+      navigate('/reservation');
+    } catch (error) {
+      console.error('Cannot reserve:', error.response ? error.response.data : error.message);
+    }
   };
 
-  // Handle form close
   const handleClose = () => {
     if (fromPage === 'reservation') {
-      navigate('/reservation'); // Navigate to the Reservation page
+      navigate('/reservation');
     } else if (fromPage === 'room') {
-      navigate('/manage-room'); // Navigate to the Room page
-    } else if (fromPage === 'manage-guest'){
-      navigate ('/manage-guest'); //Navigate to manage guest page
-    }
-    else {
-      navigate('/'); // Fallback or default route
+      navigate('/manage-room');
+    } else if (fromPage === 'manage-guest') {
+      navigate('/manage-guest');
+    } else {
+      navigate('/');
     }
   };
 
@@ -82,8 +84,8 @@ const Reservationform = ({ onClose }) => {
         <ClearOutlinedIcon onClick={handleClose} className='close-icon' />
       </div>
       <form onSubmit={handleSubmit}>
-        {/* Form fields here */}
         <div className="form-group">
+          {/* Name and Contacts */}
           <div className='label1'>
             <label>Name</label>
             <label>Contacts</label>
@@ -93,40 +95,50 @@ const Reservationform = ({ onClose }) => {
               type="text"
               name="firstName"
               placeholder="First name"
-              value={formData.firstName}
-              onChange={handleChange}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             />
             <input
               type="text"
               name="lastName"
               placeholder="Last name"
-              value={formData.lastName}
-              onChange={handleChange}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
             />
             <input
               type="email"
               name="email"
               placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="text"
               name="phoneNumber"
               placeholder="Phone number"
-              value={formData.phoneNumber}
-              onChange={handleChange}
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </div>
+
+          {/* Room Types and Number of Guests */}
           <div className='label2'>
             <label>Room Types</label>
             <label>Number of Guests</label>
           </div>
           <div className='form-row2'>
+            <input
+              type='text'
+              name='roomNumber'
+              placeholder='Room Number'
+              value={roomNumber}
+              onChange={(e) => setRoomNumber(e.target.value)}
+            />
             <select
               name='roomType'
-              value={formData.roomType}
-              onChange={handleChange}>
+              value={roomType}
+              onChange={(e) => setRoomType(e.target.value)}
+            >
               <option value="">Please select</option>
               <option value="Single Room">Single Room</option>
               <option value="Double Room">Double Room</option>
@@ -138,10 +150,12 @@ const Reservationform = ({ onClose }) => {
               type='number'
               name='numberOfGuests'
               placeholder='e.g., 4'
-              value={formData.numberOfGuests}
-              onChange={handleChange}
+              value={numberOfGuests}
+              onChange={(e) => setNumberOfGuests(e.target.value)}
             />
           </div>
+
+          {/* Address */}
           <div className='label3'>
             <label>Address</label>
           </div>
@@ -150,40 +164,46 @@ const Reservationform = ({ onClose }) => {
               type="text"
               name="address"
               placeholder="e.g., st. 206, Veal Vong, 7 Makara, Phnom Penh, Cambodia"
-              value={formData.address}
-              onChange={handleChange}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
+
+          {/* Check-in and Check-out */}
           <div className='label4'>
             <label>Check-in</label>
             <label>Check-out</label>
           </div>
           <div className='form-row4'>
             <DatePicker
-              selected={formData.checkIn}
-              onChange={(date) => handleDateChange(date, 'checkIn')}
+              selected={checkIn}
+              onChange={(date) => setCheckIn(date)}
               dateFormat='dd-MM-yyyy'
               placeholderText='DD-MM-YYYY'
             />
             <DatePicker
-              selected={formData.checkOut}
-              onChange={(date) => handleDateChange(date, 'checkOut')}
+              selected={checkOut}
+              onChange={(date) => setCheckOut(date)}
               dateFormat='dd-MM-yyyy'
               placeholderText='DD-MM-YYYY'
             />
           </div>
+
+          {/* Price */}
           <div className='label6'>
-            <label> Price </label>
+            <label>Price</label>
           </div>
           <div className='form-row6'>
             <input
               type='text'
               name='price'
               placeholder='$'
-              value={formData.price}
-              onChange={handleChange}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
+
+          {/* Payment Method */}
           <div className='label5'>
             <label>Payment Method</label>
           </div>
@@ -219,19 +239,23 @@ const Reservationform = ({ onClose }) => {
               <label htmlFor="visaMasterCard">Visa/MasterCard</label>
             </div>
           </div>
+
+          {/* Special Request */}
           <div className='label7'>
-              <label> Special Request</label>
-            </div>
-            <div className='form-row7'>
-              <input
-                type='text'
-                name='specialRequest'
-                placeholder='Type your request here'
-                value={formData.specialRequest}
-                onChange={handleChange}
-              />
-            </div>
+            <label>Special Request</label>
+          </div>
+          <div className='form-row7'>
+            <input
+              type='text'
+              name='specialRequest'
+              placeholder='Type your request here'
+              value={specialRequest}
+              onChange={(e) => setSpecialRequest(e.target.value)}
+            />
+          </div>
         </div>
+
+        {/* Submit Button */}
         <div className='submit-reservation'>
           <button type="submit">Submit</button>
         </div>
