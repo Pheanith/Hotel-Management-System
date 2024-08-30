@@ -123,6 +123,7 @@ const Reservationform = ({ onClose }) => {
 
           {/* Room Types and Number of Guests */}
           <div className='label2'>
+            <label>Room Number</label>
             <label>Room Types</label>
             <label>Number of Guests</label>
           </div>
