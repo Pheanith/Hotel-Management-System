@@ -7,6 +7,11 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const formatDate = (date) => {
+  if (!date) return '';
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  return new Date(date).toLocaleDateString('en-GB', options).split('/').reverse().join('-'); // Converts to DD-MM-YYYY
+};
 const Reservationform = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,7 +23,7 @@ const Reservationform = ({ onClose }) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [roomNumber, setRoomNumber] = useState('');
+  const [roomNo, setRoomNumber] = useState('');
   const [roomType, setRoomType] = useState('');
   const [numberOfGuests, setNumberOfGuests] = useState('');
   const [address, setAddress] = useState('');
@@ -27,6 +32,10 @@ const Reservationform = ({ onClose }) => {
   const [price, setPrice] = useState('');
   const [specialRequest, setSpecialRequest] = useState('');
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
+  const [status, setStatus] = useState('');
+  const [reserveDate, setReserveDate] = useState('');
+  const [checkInStatus, setCheckInStatus] = useState('');
+
 
   const handlePaymentMethodChange = (paymentMethod) => {
     if (selectedPaymentMethods.includes(paymentMethod)) {
@@ -46,15 +55,18 @@ const Reservationform = ({ onClose }) => {
       lastName,
       email,
       phoneNumber,
-      roomNumber,
+      roomNo,
       roomType,
       numberOfGuests,
       address,
-      checkIn: checkIn ? checkIn.toISOString().split('T')[0] : '',
-      checkOut: checkOut ? checkOut.toISOString().split('T')[0] : '',
+      checkIn: checkIn ? formatDate(checkIn) : '',
+      checkOut: checkOut ? formatDate(checkOut) : '',
       price,
       specialRequest,
-      paymentMethods: selectedPaymentMethods, // Include payment methods in the request
+      paymentMethods: selectedPaymentMethods,
+      status,
+      reserveDate: reserveDate ? formatDate(reserveDate) : '',
+      checkInStatus,
     };
 
     try {
@@ -132,7 +144,7 @@ const Reservationform = ({ onClose }) => {
               type='text'
               name='roomNumber'
               placeholder='Room Number'
-              value={roomNumber}
+              value={roomNo}
               onChange={(e) => setRoomNumber(e.target.value)}
             />
             <select
@@ -172,10 +184,17 @@ const Reservationform = ({ onClose }) => {
 
           {/* Check-in and Check-out */}
           <div className='label4'>
+            <label> Reserve Date </label>
             <label>Check-in</label>
             <label>Check-out</label>
           </div>
           <div className='form-row4'>
+            <DatePicker
+              selected={reserveDate}
+              onChange={(date) => setReserveDate(date)}
+              dateFormat='dd-MM-yyyy'
+              placeholderText='DD-MM-YYYY'
+            />
             <DatePicker
               selected={checkIn}
               onChange={(date) => setCheckIn(date)}
@@ -193,6 +212,8 @@ const Reservationform = ({ onClose }) => {
           {/* Price */}
           <div className='label6'>
             <label>Price</label>
+            <label> Payment Status </label>
+            <label>Check In Status</label> 
           </div>
           <div className='form-row6'>
             <input
@@ -202,6 +223,23 @@ const Reservationform = ({ onClose }) => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
+            <select
+              name= 'status'
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}>
+              <option value=""> Please select the payment status</option>
+              <option value="Paid"> Paid </option>
+              <option value="Unpaid"> Unpaid </option>
+            </select>
+            <select
+              name='checkInStatus'
+              value={checkInStatus}
+              onChange={(e) => setCheckInStatus(e.target.value)}> 
+              <option value=""> Please select the check-in status</option>
+              <option value="Checked-in"> Checked-in </option>
+              <option value="Not yet check-in"> Not yet check-in </option> 
+              <option value="Checked-out"> checked-out</option>
+            </select>
           </div>
 
           {/* Payment Method */}
@@ -209,6 +247,16 @@ const Reservationform = ({ onClose }) => {
             <label>Payment Method</label>
           </div>
           <div className='form-row5'>
+          <div className='payment-method-checkbox'>
+              <input
+                type="checkbox"
+                id="cash"
+                name="cash"
+                checked={selectedPaymentMethods.includes('check')}
+                onChange={() => handlePaymentMethodChange('check')}
+              />
+              <label htmlFor="check">Cash</label>
+            </div>
             <div className='payment-method-checkbox'>
               <input
                 type="checkbox"

@@ -63,7 +63,7 @@ const ReservationCard = () => {
   }
 
   const handleUpdate = (updateReservation) => {
-    setReservations(prevReservations => prevReservations.map(reservation => (reservation.id == updateReservation.id ? updateReservation : reservation)));
+    setReservations(prevReservations => prevReservations.map(reservation => (reservation.id === updateReservation.id ? updateReservation : reservation)));
     handleClose();
   }
   return (
@@ -79,8 +79,10 @@ const ReservationCard = () => {
             <th>Check-out date</th>
             <th>Room No.</th>
             <th>Room type</th>
+            <th>No of guests</th>
             <th>Check-in status</th>
             <th>Total</th>
+            <th> Payment Method</th>
             <th>Status</th>
             <th>Special Request</th>
             <th>Other</th>
@@ -93,10 +95,11 @@ const ReservationCard = () => {
               <td>{reservation.lastName}</td>
               <td>{reservation.phoneNumber}</td>
               <td>{reservation.reserveDate}</td>
-              <td>{reservation.checkInDate}</td>
-              <td>{reservation.checkOutDate}</td>
+              <td>{reservation.checkIn}</td>
+              <td>{reservation.checkOut}</td>
               <td>{reservation.roomNo}</td>
               <td>{reservation.roomType}</td>
+              <td>{reservation.numberOfGuests}</td>
               <td className={
                 reservation.checkInStatus === 'Checked-in' 
                   ? 'checked-in' 
@@ -106,7 +109,14 @@ const ReservationCard = () => {
                 }> 
                 {reservation.checkInStatus}
               </td>
-              <td>{reservation.total}</td>
+              <td>{reservation.price}</td>
+              <td>
+                {reservation.paymentMethods 
+                  ? Array.isArray(reservation.paymentMethods) 
+                    ? reservation.paymentMethods.join(', ') 
+                    : reservation.paymentMethods
+                  : 'N/A'}
+              </td> {/* <-- Display payment methods correctly */}
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>{reservation.status}</td>
               <td> {reservation.specialRequest}</td>
               <td>

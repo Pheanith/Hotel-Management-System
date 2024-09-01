@@ -59,7 +59,7 @@
     }
     .label2{
         display: flex;
-        gap:530px;
+        gap:310px;
         padding-top: 20px;
         margin-bottom: 10px;
     }
@@ -97,7 +97,7 @@
     }
     .label4{
         display: flex;
-        gap: 575px;
+        gap: 320px;
         padding-top: 20px;
         margin-bottom: 10px;
     }
@@ -109,8 +109,10 @@
         border: 2px solid;
         border-radius: 5px;
         border-color: #0F4C75;
+        width: 405px;
         height: 35px;
-        width: 615px; /* Make the input fields full width */
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
     }
     .label5{
         padding-top: 20px;
@@ -155,15 +157,30 @@
         font-style: normal;
       }
     .label6{
+        display: flex;
         padding-top: 20px;
         margin-bottom: 10px;
+        gap: 330px; 
+    }
+    .form-row6{
+        display: flex;
+        gap: 5px;
     }
     .form-row6 input{
-        width: 1245px;
+        width: 500px;
         border: 2px solid;
         border-radius: 5px;
         border-color: #0F4C75;
         height: 35px;
+    }
+    .form-row6 select{
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        width: 625px;
+        height: 40px;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
     }
     .label7{
         padding-top: 20px;
