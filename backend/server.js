@@ -4,7 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import roomRoutes from './routes/roomRoutes.js';
-import reservationRoute from './routes/reservationRoute.js'
+import reservationRoute from './routes/reservationRoute.js';
+import guestRoute from './routes/guestRoute.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use('/api/rooms', roomRoutes);
 app.use('/api/reservations', reservationRoute);
+app.use('/api/guests', guestRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

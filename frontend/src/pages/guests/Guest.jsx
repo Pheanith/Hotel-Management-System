@@ -13,7 +13,7 @@ const Guest = () => {
     };
 
     const handleOpenForm = () => {
-        navigate ('/manage-guest', {state: { fromPage: 'guest' } } );
+        navigate ('/add-new-guest', {state: { fromPage: 'guest' } } );
     };
     return (
         <div className="guest-main-content">
