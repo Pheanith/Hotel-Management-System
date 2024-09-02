@@ -135,9 +135,9 @@ const RoomEdit = ({ show, room, onClose, onUpdate }) => {
                             value={roomData.status}
                             onChange={handleChange}>
                             <option value="">Please select room status</option>
-                            <option value="available">Available</option>
-                            <option value="unavailable">Unavailable</option>
-                            <option value="in-maintenance">In maintenance</option>
+                            <option value="Available">Available</option>
+                            <option value="Unavailable">Unavailable</option>
+                            <option value="In maintenance">In maintenance</option>
                         </select>
                     </div>
                     <div className="row5">

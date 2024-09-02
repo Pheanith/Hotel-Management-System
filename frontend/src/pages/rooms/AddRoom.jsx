@@ -117,8 +117,8 @@ const AddRoom = () => {
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}>
                             <option value="">Please select room status</option>
-                            <option value="available">Available</option>
-                            <option value="unavailable">Unavailable</option>
+                            <option value="Available">Available</option>
+                            <option value="Unavailable">Unavailable</option>
                             <option value="In maintenance">In maintenance</option>
                         </select>
                     </div>
