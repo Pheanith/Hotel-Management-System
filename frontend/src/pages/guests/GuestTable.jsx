@@ -1,11 +1,10 @@
+//GuestTable.jsx
 import React, { useEffect, useState } from "react";
 import '../../components/styles/guest/GuestTable.css';
 import GuestDelete from './GuestDelete';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// const guests = [
-//     { guestName: 'Nou Sopheanith', phoneNumber: '089 409 406', balance: '100$', reservation: 'Make quick reservation', transaction: '' }
-// ];
+import GuestEdit from "./GuestEdit";
 
 const GuestTable = () => {
     const [guests, setGuests] = useState([]);
@@ -14,7 +13,7 @@ const GuestTable = () => {
     const [selectedGuest, setSelectedGuest] = useState(null);
     const navigate = useNavigate();
 
-    useEffect (() => {
+    useEffect(() => {
         const getGuest = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/guests');
@@ -35,18 +34,13 @@ const GuestTable = () => {
     const handleEditClick = (guest) => {
         setSelectedGuest(guest);
         setShowEditModal(true);
-    }
+    };
 
     const handleClose = () => {
         setShowModal(false);
+        setShowEditModal(false);  // Close the edit modal as well
         setSelectedGuest(null);
     };
-
-    // const handleDelete = () => {
-    //     console.log("Deleted guest: ", selectedGuest);
-    //     setShowModal(false);
-    //     setSelectedGuest(null);
-    // };
 
     const handleDelete = async () => {
         try {
@@ -58,10 +52,10 @@ const GuestTable = () => {
         }
     };
 
-    const handleUpdate = (updateGuest) => {
+    const handleUpdate = (updatedGuest) => {
         setGuests(prevGuests => 
             prevGuests.map(guest => 
-                guest.id === updateGuest.id ? updateGuest : guest
+                guest.id === updatedGuest.id ? updatedGuest : guest
             )
         );
         handleClose();
@@ -104,7 +98,7 @@ const GuestTable = () => {
                             </td>
                             <td> </td>
                             <td>
-                                <span className="edit-icon" role="img" aria-label="edit">✏️</span>
+                                <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(guest)}>✏️</span>
                                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(guest)}>🗑️</span>
                             </td>
                         </tr>
@@ -113,6 +107,14 @@ const GuestTable = () => {
             </table>
             {showModal && (
                 <GuestDelete show={showModal} onClose={handleClose} onDelete={handleDelete} />
+            )}
+            {showEditModal && (
+                <GuestEdit 
+                    show={showEditModal} 
+                    guest={selectedGuest} 
+                    onClose={handleClose} 
+                    onUpdate={handleUpdate} 
+                />
             )}
         </div>
     );

@@ -1,3 +1,4 @@
+//GuestDelete.jsx
 import React, { useState } from 'react';
 import '../../components/styles/guest/GuestDelete.css';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';

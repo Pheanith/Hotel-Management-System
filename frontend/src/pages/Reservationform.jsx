@@ -81,7 +81,7 @@ const Reservationform = ({ onClose }) => {
     if (fromPage === 'reservation') {
       navigate('/reservation');
     } else if (fromPage === 'room') {
-      navigate('/manage-room');
+      navigate('/available-room');
     } else if (fromPage === 'manage-guest') {
       navigate('/manage-guest');
     } else {
