@@ -1,5 +1,5 @@
 //Reservationform.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../components/styles/Reservationform.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -12,11 +12,12 @@ const formatDate = (date) => {
   const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
   return new Date(date).toLocaleDateString('en-GB', options).split('/').reverse().join('-'); // Converts to DD-MM-YYYY
 };
+
 const Reservationform = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { fromPage } = location.state || {};
+  const { fromPage, guestInfo } = location.state || {};
 
   // Form state management
   const [firstName, setFirstName] = useState('');
@@ -36,6 +37,16 @@ const Reservationform = ({ onClose }) => {
   const [reserveDate, setReserveDate] = useState('');
   const [checkInStatus, setCheckInStatus] = useState('');
 
+  // Set guest information if available
+  useEffect(() => {
+    if (guestInfo) {
+      setFirstName(guestInfo.firstName || '');
+      setLastName(guestInfo.lastName || '');
+      setEmail(guestInfo.email || '');
+      setPhoneNumber(guestInfo.phoneNumber || '');
+      setAddress(guestInfo.address || '');
+    }
+  }, [guestInfo]);
 
   const handlePaymentMethodChange = (paymentMethod) => {
     if (selectedPaymentMethods.includes(paymentMethod)) {
@@ -252,8 +263,8 @@ const Reservationform = ({ onClose }) => {
                 type="checkbox"
                 id="cash"
                 name="cash"
-                checked={selectedPaymentMethods.includes('check')}
-                onChange={() => handlePaymentMethodChange('check')}
+                checked={selectedPaymentMethods.includes('cash')}
+                onChange={() => handlePaymentMethodChange('cash')}
               />
               <label htmlFor="check">Cash</label>
             </div>
