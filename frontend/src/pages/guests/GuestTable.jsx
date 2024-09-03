@@ -94,7 +94,7 @@ const GuestTable = () => {
                             <td>{guest.email}</td>
                             <td>{guest.balance}</td>
                             <td className="reservation" onClick={() => handleReservationClick(guest)}>
-                                {guest.reservation}
+                                Make quick reservation
                             </td>
                             <td> </td>
                             <td>
