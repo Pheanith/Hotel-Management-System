@@ -10,7 +10,7 @@ const RoomCard = ({ roomNumber, roomType, accomodationType }) => {
   const handleReservationClick = () => {
     navigate('/reserve', {
       state: { 
-        roomNumber, 
+        roomNumber,
         roomType,
         accomodationType,
         fromPage: 'room'  // Add this line to track the origin page

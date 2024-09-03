@@ -1,0 +1,8 @@
+- use node-cron package to schedule automatic update based on checkin and checkout date 
+    + npm install node-cron
+
+- use mysql dump to export data from backend to database 
+    + mysqldump -u root -p hotel_management > exported_database.sql
+
+- run "node server.js" to run backend
+- run "npm start" to run frontend

@@ -70,6 +70,14 @@ const GuestTable = () => {
         });
     };
 
+    const handleTransactionClick = (guest) => {
+        navigate ('/transaction', {
+            state: {
+                fromPage: 'manage-guest',
+            }
+        });
+    }
+
     return (
         <div className="guest-table-container">
             <table className="guest-table">
@@ -96,7 +104,9 @@ const GuestTable = () => {
                             <td className="reservation" onClick={() => handleReservationClick(guest)}>
                                 Make quick reservation
                             </td>
-                            <td> </td>
+                            <td className="transaction" onClick={() => handleTransactionClick(guest)}> 
+                                See all transaction
+                            </td>
                             <td>
                                 <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(guest)}>✏️</span>
                                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(guest)}>🗑️</span>

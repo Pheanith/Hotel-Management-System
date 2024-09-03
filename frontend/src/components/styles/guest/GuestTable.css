@@ -36,6 +36,11 @@
     color: red;
     cursor: pointer;
   }
+
+  .transaction{
+    color: blue;
+    cursor: pointer;
+  }
   .edit-icon {
     cursor: pointer;
     margin-right: 10px;
