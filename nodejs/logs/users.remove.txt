@@ -1,0 +1,56 @@
+[22/08/2024 14:50:59] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:51:01] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:52:00] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:52:14] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:52:16] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:52:16] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:52:16] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:52:36] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:52:38] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:55:31] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:55:33] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:56:27] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:56:28] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:56:29] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 14:56:30] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:05:52] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:05:53] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:06:25] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:06:25] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:08:05] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:10:08] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:12:58] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:26:38] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:32:35] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:32:56] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:32:59] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:43:04] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:44:46] TypeError: Cannot read properties of undefined (reading 'username')
+

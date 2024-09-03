@@ -1,0 +1,9 @@
+const Config = {
+  ACCESS_TOKEN_KEY: "HHJLKJG45UOIKMHYFH4545769990I7YNBGHFTRFDCFGM",
+  REFRESH_TOKEN_KEY: "HHJLKJG45UOIKMHYFH45rjkhrfuikjehnfbujnjknrj34",
+  IMAGE_PATH: "",
+};
+
+module.exports ={
+  Config,
+};

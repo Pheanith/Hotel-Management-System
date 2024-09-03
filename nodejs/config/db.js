@@ -3,7 +3,7 @@ const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'hotel-manage-system', 
+  database: 'hotel-db', 
   port: 3306,
   namedPlaceholders: true
 });

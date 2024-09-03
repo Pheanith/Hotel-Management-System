@@ -1,22 +1,30 @@
-var ListRoom = [
-  {
-    Roomid: 1,
-    Roomtype: "Single",
-    Floor: "1",
-    Roomnumber: "101",
-    Status: "Active",
-    price: "20$",
-    Transaction: "Hand"
+
+const getList = async(req,res) =>{
+  try{
+    var sql = "SELECT * FROM Rooms";
+    const [data] = await db.query(sql);
+    res.json({
+      list: data,
+    });
+
+  }catch(error){
+    logError("room.getList",error,res);
+    
   }
-]
-const getList = (req,res) =>{
-  res.json({
-    list: ListRoom
-  })
- 
 }
-const getOne = (req,res) =>{
-  res.send("List a rooms");
+// list room by id
+const getOne = async(req,res) =>{
+  try{
+    var sql = "SELECT * FROM Rooms WHERE Id:Id";
+    const [data] = await db.query(sql,{Id:req.params.id}); // params.id (id small letter because our route "/api/Room:/id")
+    res.json({
+      list: data,
+    });
+
+  }catch(error){
+    logError("room.getList",error,res);
+    
+  }
 }
 const create = (req,res) =>{
   res.send("Add new rooms");

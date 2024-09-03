@@ -1,0 +1,106 @@
+[22/08/2024 15:59:14] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:59:37] TypeError: Cannot read properties of undefined (reading 'username')
+
+[22/08/2024 15:59:44] TypeError: Cannot read properties of undefined (reading 'username')
+
+[24/08/2024 00:43:06] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:45:03] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:45:16] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:55:30] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:57] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:58] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:58] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:58] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:59] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:59] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:59] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:59] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:59] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 20:56:59] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:01:34] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:01:36] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:01:36] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:01:36] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:01:36] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:01:55] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:57:30] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:59:18] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:59:49] TypeError: isEmptyOrNull is not a function
+
+[26/08/2024 13:36:47] ReferenceError: username is not defined
+
+[26/08/2024 13:51:52] ReferenceError: username is not defined
+
+[26/08/2024 13:52:00] ReferenceError: username is not defined
+
+[26/08/2024 13:52:13] ReferenceError: username is not defined
+
+[26/08/2024 13:52:31] ReferenceError: username is not defined
+
+[26/08/2024 13:53:21] ReferenceError: username is not defined
+
+[26/08/2024 14:02:46] ReferenceError: username is not defined
+
+[26/08/2024 14:03:16] ReferenceError: username is not defined
+
+[26/08/2024 14:03:19] ReferenceError: username is not defined
+
+[26/08/2024 14:03:32] ReferenceError: username is not defined
+
+[26/08/2024 14:05:41] ReferenceError: username is not defined
+
+[26/08/2024 14:06:28] ReferenceError: username is not defined
+
+[26/08/2024 14:19:53] Error: Duplicate entry 'Admin04' for key 'Username'
+
+[26/08/2024 14:20:17] Error: Duplicate entry 'Admin04' for key 'Username'
+
+[26/08/2024 14:20:31] Error: Duplicate entry 'Admin04' for key 'Username'
+
+[27/08/2024 11:59:05] Error: Duplicate entry 'Admin06' for key 'Username'
+
+[27/08/2024 15:48:04] Error: Duplicate entry 'UNSENGLY' for key 'Username'
+
+[27/08/2024 23:13:29] Error: Duplicate entry 'Admin100' for key 'Username'
+
+[27/08/2024 23:13:38] Error: Duplicate entry 'Admin100' for key 'Username'
+
+[27/08/2024 23:13:47] Error: Duplicate entry 'Admin100' for key 'Username'
+
+[27/08/2024 23:14:30] Error: Duplicate entry 'Admin100' for key 'Username'
+
+[29/08/2024 10:42:10] Error: Duplicate entry 'Admin09' for key 'Username'
+
+[29/08/2024 11:14:31] Error: Duplicate entry 'UnSengly' for key 'Username'
+
+[29/08/2024 11:14:55] Error: Duplicate entry 'UnSengly' for key 'Username'
+
+[29/08/2024 11:15:41] Error: Duplicate entry 'UnSengly' for key 'Username'
+
+[29/08/2024 11:25:22] Error: Duplicate entry 'Admin0001' for key 'Username'
+
+[02/09/2024 22:29:02] Error: Duplicate entry 'Admin0001' for key 'Username'
+

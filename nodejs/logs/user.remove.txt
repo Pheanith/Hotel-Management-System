@@ -1,0 +1,12 @@
+[25/08/2024 21:06:28] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:06:39] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:06:40] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:06:40] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:06:40] TypeError: isEmptyOrNull is not a function
+
+[25/08/2024 21:08:43] TypeError: isEmptyOrNull is not a function
+
