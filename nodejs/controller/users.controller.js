@@ -160,7 +160,7 @@ const login = async (req, res) => {
         var refresh_token = await jwt.sign({data:user},Config.REFRESH_TOKEN_KEY);
 
         res.json({
-          message: "Login success",
+          message: "Login Succes",
           user: user,
           access_token: access_token,
           refresh_token: refresh_token,
