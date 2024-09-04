@@ -1,3 +1,4 @@
+//guestModel.js
 import db from '../utils/db.js';
 
 // Get all guests
@@ -67,8 +68,8 @@ export const updateGuest = (id, updates) => {
 
     return new Promise ((resolve, reject) => {
         db.query(
-            'UPDATE guests SET firstName = ?, lastName = ?, phoneNumber = ?, email = ?, address = ?',
-            [firstName, lastName, phoneNumber, email, address, id],
+            'UPDATE guests SET firstName = ?, lastName = ?, phoneNumber = ?, email = ?, address = ? WHERE id = ?',
+            [firstName, lastName, phoneNumber, email, address, id], // Notice the addition of id at the end
             (err, results) => {
                 if (err) {
                     console.error('Database error:', err);
@@ -76,10 +77,10 @@ export const updateGuest = (id, updates) => {
                 }
                 resolve(results.affectedRows > 0);
             }
-
         );
     });
 };
+
 
 // Delete a guest by ID
 export const deleteGuest = (id) => {
