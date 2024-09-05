@@ -1,3 +1,4 @@
+//roomController.js
 import {
     getAllRooms,
     getRoomById as fetchRoomById,

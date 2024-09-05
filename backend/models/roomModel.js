@@ -1,3 +1,4 @@
+//roomModel.js
 import db from '../utils/db.js';
 
 // Get all rooms

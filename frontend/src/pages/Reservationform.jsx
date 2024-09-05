@@ -24,7 +24,7 @@ const Reservationform = ({ onClose }) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [roomNo, setRoomNumber] = useState('');
+  const [roomNo, setRoomNo] = useState('');
   const [roomType, setRoomType] = useState('');
   const [numberOfGuests, setNumberOfGuests] = useState('');
   const [address, setAddress] = useState('');
@@ -37,6 +37,8 @@ const Reservationform = ({ onClose }) => {
   const [reserveDate, setReserveDate] = useState('');
   const [checkInStatus, setCheckInStatus] = useState('');
 
+  const [availableRooms, setAvailableRooms] = useState([]);
+
   // Set guest information if available
   useEffect(() => {
     if (guestInfo) {
@@ -47,6 +49,39 @@ const Reservationform = ({ onClose }) => {
       setAddress(guestInfo.address || '');
     }
   }, [guestInfo]);
+
+  // Fetch available rooms
+  useEffect(() => {
+    const fetchAvailableRooms = async () => {
+      if (checkIn && checkOut) {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/rooms/available`, {
+            params: {
+              checkIn: formatDate(checkIn),
+              checkOut: formatDate(checkOut),
+            },
+          });
+          setAvailableRooms(response.data);
+        } catch (error) {
+          console.error('Cannot get available rooms:', error.response ? error.response.data: error.message);
+        }
+      }
+    };
+
+    fetchAvailableRooms();
+  }, [checkIn, checkOut]);
+
+  // Handle room number selection and auto-fill other room info
+  const handleRoomNumberChange = (e) => {
+    const selectedRoomNo = e.target.value;
+    setRoomNo(selectedRoomNo);
+
+    const selectedRoom = availableRooms.find(room => room.roomNo === selectedRoomNo);
+    if (selectedRoom) {
+      setRoomType (selectedRoom.roomType);
+      setPrice (selectedRoom.price);
+    }
+  };
 
   const handlePaymentMethodChange = (paymentMethod) => {
     if (selectedPaymentMethods.includes(paymentMethod)) {
@@ -151,13 +186,23 @@ const Reservationform = ({ onClose }) => {
             <label>Number of Guests</label>
           </div>
           <div className='form-row2'>
-            <input
-              type='text'
+            <select
               name='roomNumber'
-              placeholder='Room Number'
               value={roomNo}
-              onChange={(e) => setRoomNumber(e.target.value)}
-            />
+              onChange={handleRoomNumberChange}
+            >
+              <option value="">Please select a room</option>
+              {availableRooms.length > 0 ? (
+                availableRooms.map((room) => (
+                  <option key={room.roomNumber} value={room.roomNumber}>
+                    {`Room ${room.roomNumber} - ${room.roomType} - $${room.price}`}
+                  </option>
+                ))
+              ) : (
+                <option value="">No available rooms</option>
+              )}
+            </select>
+
             <select
               name='roomType'
               value={roomType}
