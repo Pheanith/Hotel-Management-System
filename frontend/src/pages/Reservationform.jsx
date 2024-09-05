@@ -96,6 +96,11 @@ const Reservationform = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!firstName || !lastName || !email || !phoneNumber || !roomNo || !checkIn || !checkOut) {
+      alert('Please fill in all required fields.');
+      return;
+    };
+
     const formattedData = {
       firstName,
       lastName,
@@ -117,6 +122,14 @@ const Reservationform = ({ onClose }) => {
 
     try {
       await axios.post('http://localhost:5000/api/reservations', formattedData);
+
+      //update room status automatically
+      setAvailableRooms(availableRooms.map(room => 
+        room.roomNo === formattedData.roomNo 
+        ? {...room, status: 'Unavailable'}
+        : room
+      ));
+      
       navigate('/reservation');
     } catch (error) {
       console.error('Cannot reserve:', error.response ? error.response.data : error.message);

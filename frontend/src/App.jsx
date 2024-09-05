@@ -28,7 +28,7 @@ function App() {
           <Sidebar />
           <div className="content-area">
             <Routes>
-              <Route path= '/' element = {<AdminDashbaord/>} /> {/* Defualt path*/}
+              <Route path= '/' element = {<AdminDashbaord/>} /> {/* Defualt path*/ }
               <Route path="admin-dashboard" element={<AdminDashbaord />} />
               <Route path="reservation" element={<Reservation />} />
               <Route path="invoice" element={<Invoice/>}/>
