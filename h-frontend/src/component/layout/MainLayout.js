@@ -1,42 +1,55 @@
-import { Outlet,Link,useNavigate} from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import styles from "./MainLayout.module.css";
+import { useEffect } from "react";
+import { getIsLogin, logout } from "../../util/sevice";
 
-const MainLayout = () =>{
+const MainLayout = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate(); 
+  useEffect(() => {
+    if (!getIsLogin()) {
+      // Use navigate to avoid full page reload
+      window.location.href ="/login";
+    }
+  }, []);
 
-  const onClickBtn1 = ()=>{
-    navigate("./room");
+  const onClickBtn1 = () => {
+    navigate("/about");  // Corrected the path for "About"
   };
-  return(
+  const onLogout = () => {
+    logout();
+  }
+  return (
     <div>
       <ul className={styles.menu}>
         <li className={styles.item}>
-          <Link to={"/home"} >Dashboard</Link>
+          <Link to="">Dashboard</Link>
         </li>
         <li className={styles.item}>
           <Link to="/room">Room</Link>
         </li>
         <li className={styles.item}>
-          <Link to="/room_type">Room</Link>
+          <Link to="/room_type">Room Type</Link>
         </li>
         <li className={styles.item}>
-          <Link href="/reservation">Reservation</Link>
+          {/* Corrected 'href' to 'to' */}
+          <Link to="/reservation">Reservation</Link>
         </li>
         <li className={styles.item}>
-          <Link href="/about">About Us</Link>
+          {/* Corrected 'href' to 'to' */}
+          <Link to="/about">About Us</Link>
+        </li>
+        <li className={styles.item}>
+          {/* Corrected 'href' to 'to' */}
+          <a href="#" onClick={onLogout}>Logout</a>
         </li>
       </ul>
       <button onClick={onClickBtn1}>Link to About</button>
-      {/* <div style={{ height:60, backgroundColor: "plum"}}>
-        <div>Main Layout</div>
-      </div> */}
       <div>
         <Outlet />
       </div>
     </div>
   );
-
 };
 
 export default MainLayout;

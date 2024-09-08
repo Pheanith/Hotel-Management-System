@@ -59,3 +59,12 @@ export const getRefreshToken = ()=>{
  return localStorage.getItem("refresh_token");
 
 };
+
+export const logout = ()=>{
+  setUser("");
+  setIsLogin("0");
+  setAccessToken("");
+  setRefreshToken("");
+  window.location.href="/login";
+
+};
