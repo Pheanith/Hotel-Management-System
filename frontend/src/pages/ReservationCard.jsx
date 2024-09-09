@@ -50,10 +50,10 @@ const ReservationCard = () => {
     }
   };
 
-  const handleUpdate = (updateReservation) => {
+  const handleUpdate = (updatedReservation) => {
     setReservations(prevReservations =>
       prevReservations.map(reservation =>
-        reservation.reservation_id === updateReservation.reservation_id ? updateReservation : reservation
+        reservation.reservation_id === updatedReservation.reservation_id ? updatedReservation : reservation
       )
     );
     handleClose();
@@ -78,30 +78,30 @@ const ReservationCard = () => {
             <th>Payment Methods</th>
             <th>Status</th>
             <th>Special Request</th>
-            <th>Other</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {reservations.map((reservation, index) => (
             <tr key={index}>
               <td>{reservation.reservation_id}</td>
-              <td>{`${reservation.guest.firstName} ${reservation.guest.lastName}`}</td>
-              <td>{reservation.guest.phoneNumber}</td>
+              <td>{`${reservation.guest?.firstName || ''} ${reservation.guest?.lastName || ''}`}</td>
+              <td>{reservation.guest?.phoneNumber || 'N/A'}</td>
               <td>{reservation.created_at}</td>
               <td>{reservation.checkin_date}</td>
               <td>{reservation.checkout_date}</td>
-              <td>{reservation.room.roomNumber}</td>
-              <td>{reservation.room.roomType}</td>
+              <td>{reservation.room?.roomNumber || 'N/A'}</td>
+              <td>{reservation.room?.roomType || 'N/A'}</td>
               <td>{reservation.numberOfGuests}</td>
               <td className={
                 reservation.checkin_status === 'checked_in' ? 'checked-in' :
-                reservation.checkin_status === 'checked_out' ? 'checked-out' : 'not-yet-checked-in'}>
+                reservation.checkin_status === 'checked_out' ? 'checked-out' : 'not-checked-in'}>
                 {reservation.checkin_status}
               </td>
               <td>{reservation.totalPrice}</td>
               <td>{reservation.paymentMethods ? reservation.paymentMethods.join(', ') : 'N/A'}</td>
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>{reservation.status}</td>
-              <td>{reservation.specialRequest}</td>
+              <td>{reservation.specialRequest || 'None'}</td>
               <td>
                 <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(reservation)}>✏️</span>
                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(reservation)}>🗑️</span>
@@ -110,6 +110,7 @@ const ReservationCard = () => {
           ))}
         </tbody>
       </table>
+
       {showModal && (
         <ReservationDelete show={showModal} onClose={handleClose} onDelete={handleDelete} />
       )}
