@@ -1,17 +1,19 @@
 //GuetEdit.jsx
 import React, { useEffect, useState } from 'react';
 import '../../components/styles/guest/GuestEdit.css';
-// import { useNavigate } from 'react-router-dom';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import axios from 'axios';
 
-const GuestEdit = ({ show, guest, onclose, onUpdate }) => {
+const GuestEdit = ({ show, guest, onClose, onUpdate }) => {
     const [guestData , setGuestData] = useState ({
         firstName: '',
         lastName: '',
+        sex: '',
         phoneNumber: '',
         email: '',
-        address: ''
+        address: '',
+        identity_type: '',
+        identity_no: ''
     });
 
     useEffect(() => {
@@ -19,9 +21,12 @@ const GuestEdit = ({ show, guest, onclose, onUpdate }) => {
             setGuestData({
                 firstName: guest.firstName,
                 lastName: guest.lastName,
+                sex: guest.sex,
                 phoneNumber: guest.phoneNumber,
                 email: guest.email,
-                address: guest.address
+                address: guest.address,
+                identity_type: guest.identity_type,
+                identity_no: guest.identity_no,
             });
         }
     }, [guest]);
@@ -31,24 +36,35 @@ const GuestEdit = ({ show, guest, onclose, onUpdate }) => {
         setGuestData(prevState => ({ ...prevState, [name]: value}));
     };
 
+    const validateEmail = (email) => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateEmail(guestData.email)) {
+            alert('Invalid email address');
+            return;
+        }
+
         try {
-            const formattdData = {
+            const formattedData = {
                 ...guestData
-            }
-            await axios.put(`http://localhost:5000/api/guests/${guest.id}`, formattdData);
-            onUpdate({...guest, ...formattdData});
-            onclose();
+            };
+            await axios.put(`http://localhost:5000/api/guests/${guest.guest_id}`, formattedData);
+            onUpdate({ ...formattedData, guest_id: guest.guest_id });
+            onClose(); // Close the modal after update
         } catch (error) {
-            console.error('Error updating guest:', error.response ? error.response.data : error.messange);
+            console.error('Error updating guest:', error.response ? error.response.data : error.message);
         }
     };
+
     return (
         <div className='guestEdit-main'>
             <div className='guestEdit-header'>
                 <h2> Update guest </h2>
-                <ClearOutlinedIcon onClick={onclose} className='close-icon' />
+                <ClearOutlinedIcon onClick={onClose} className='close-icon' />
             </div>
             <form onSubmit={handleSubmit}>
                 <div className='edit-guest-form'>
@@ -67,6 +83,14 @@ const GuestEdit = ({ show, guest, onclose, onUpdate }) => {
                             value={guestData.lastName}
                             onChange={handleChange}
                         />
+                        <select
+                            name='sex'
+                            value={guestData.sex}
+                            onChange={handleChange}>
+                            <option> Please select (Male or Female) </option>
+                            <option value="Male"> Male </option>
+                            <option value="Female"> Female </option>
+                        </select>
                     </div>
                     <div className='edit-guest-row2'>
                         <input
@@ -75,6 +99,7 @@ const GuestEdit = ({ show, guest, onclose, onUpdate }) => {
                             placeholder='Email'
                             value={guestData.email}
                             onChange={handleChange}
+                            required
                         />
                         <input
                             type='text'
@@ -92,10 +117,26 @@ const GuestEdit = ({ show, guest, onclose, onUpdate }) => {
                             value={guestData.address}
                             onChange={handleChange}
                         />
+                        <select
+                            name='identity_type'
+                            value={guestData.identity_type}
+                            onChange={handleChange}
+                        >
+                            <option value=""> Identity card or Passport </option>
+                            <option value="Identity card"> Identity card </option>
+                            <option value="Passport"> Passport</option>
+                        </select>
+                        <input
+                            type='text'
+                            name='identity_no'
+                            placeholder='Enter your identity card or passport'
+                            value={guestData.identity_no} 
+                            onChange={handleChange}
+                        />
                     </div>
                 </div>
                 <div className='update-guest'>
-                    <button type='sumit'>Update</button>
+                    <button type='submit'>Update</button>
                 </div>
             </form>
         </div>

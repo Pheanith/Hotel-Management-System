@@ -5,6 +5,8 @@ import GuestDelete from './GuestDelete';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import GuestEdit from "./GuestEdit";
+import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 const GuestTable = () => {
     const [guests, setGuests] = useState([]);
@@ -44,14 +46,14 @@ const GuestTable = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/guests/${selectedGuest.id}`);
-            setGuests(guests.filter(guest => guest.id !== selectedGuest.id));
+            await axios.delete(`http://localhost:5000/api/guests/${selectedGuest.guest_id}`);
+            setGuests(guests.filter(guest => guest.guest_id !== selectedGuest.guest_id));
             handleClose();
         } catch (error) {
             console.error('Error deleting guest:', error);
         }
     };
-
+    
     const handleUpdate = (updatedGuest) => {
         setGuests(prevGuests => 
             prevGuests.map(guest => 
@@ -83,24 +85,32 @@ const GuestTable = () => {
             <table className="guest-table">
                 <thead>
                     <tr>
+                        <th> ID </th>
                         <th> First Name </th>
                         <th> Last Name</th>
+                        <th> Sex </th>
                         <th> Phone Number</th>
                         <th> Email </th>
-                        <th> Balance </th>
+                        <th> Address </th>
+                        <th> Identity type </th>
+                        <th> Identity number</th>
                         <th> Reservation </th>
                         <th> Transaction</th>
-                        <th> Other </th>
+                        <th> Action </th>
                     </tr>
                 </thead>
                 <tbody>
                     {guests.map((guest, index) => (
                         <tr key={index}>
+                            <td>{guest.guest_id}</td>
                             <td>{guest.firstName}</td>
                             <td>{guest.lastName}</td>
+                            <td>{guest.sex}</td>
                             <td>{guest.phoneNumber}</td>
                             <td>{guest.email}</td>
-                            <td>{guest.balance}</td>
+                            <td>{guest.address}</td>
+                            <td>{guest.identity_type}</td>
+                            <td>{guest.identity_no}</td>
                             <td className="reservation" onClick={() => handleReservationClick(guest)}>
                                 Make quick reservation
                             </td>
@@ -108,8 +118,12 @@ const GuestTable = () => {
                                 See all transaction
                             </td>
                             <td>
-                                <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(guest)}>✏️</span>
-                                <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(guest)}>🗑️</span>
+                                <span className="guest-edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(guest)} >
+                                    <ModeOutlinedIcon/>
+                                </span>
+                                <span className="guest-delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(guest)}>
+                                    <DeleteOutlineOutlinedIcon/>
+                                </span>
                             </td>
                         </tr>
                     ))}

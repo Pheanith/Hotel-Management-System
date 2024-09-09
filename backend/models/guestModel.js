@@ -17,7 +17,7 @@ export const getAllGuests = () => {
 // Get a guest by ID
 export const getGuestByID = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM guests WHERE id = ?', [id], (err, results) =>{
+        db.query('SELECT * FROM guests WHERE guest_id = ?', [id], (err, results) =>{
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
@@ -27,20 +27,26 @@ export const getGuestByID = (id) => {
     });
 };
 
-//Add a new guest
+// Add a new guest
 export const addGuest = (guest) => {
     const {
         firstName,
         lastName,
+        sex,
         phoneNumber,
         email,
-        address
+        address,
+        identity_type,
+        identity_no
     } = guest;
     
+    // Trim and capitalize 'sex' to match 'Male' or 'Female'
+    const validSex = sex.trim().toLowerCase() === 'female' ? 'Female' : 'Male';
+
     return new Promise((resolve, reject) => {
         db.query(
-            'INSERT INTO guests (firstName, lastName, phoneNumber, email, address) VALUES (?, ?, ?, ?, ?)',
-            [firstName, lastName, phoneNumber, email, address],
+            'INSERT INTO guests (firstName, lastName, sex, phoneNumber, email, address, identity_type, identity_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [firstName, lastName, validSex, phoneNumber, email, address, identity_type, identity_no],
             (err, results) => {
                 if (err) {
                     console.error('Database error:', err);
@@ -49,27 +55,34 @@ export const addGuest = (guest) => {
                 if (results && results.insertId !== undefined) {
                     resolve(results.insertId);
                 } else {
-                    reject(new Error('Insert result dose not contain insertId'));
+                    reject(new Error('Insert result does not contain insertId'));
                 }
             }
         );
     });
 };
 
-//Update a guest by ID 
+
+// Update a guest by ID 
 export const updateGuest = (id, updates) => {
     const {
         firstName,
         lastName,
+        sex,
         phoneNumber,
         email,
-        address
+        address,
+        identity_type,
+        identity_no
     } = updates;
+
+    // Trim and capitalize 'sex' to match 'Male' or 'Female'
+    const validSex = sex.trim().toLowerCase() === 'female' ? 'Female' : 'Male';
 
     return new Promise ((resolve, reject) => {
         db.query(
-            'UPDATE guests SET firstName = ?, lastName = ?, phoneNumber = ?, email = ?, address = ? WHERE id = ?',
-            [firstName, lastName, phoneNumber, email, address, id], // Notice the addition of id at the end
+            'UPDATE guests SET firstName = ?, lastName = ?, sex = ?, phoneNumber = ?, email = ?, address = ?, identity_type = ?, identity_no = ? WHERE guest_id = ?',
+            [firstName, lastName, validSex, phoneNumber, email, address, identity_type, identity_no, id],
             (err, results) => {
                 if (err) {
                     console.error('Database error:', err);
@@ -81,12 +94,11 @@ export const updateGuest = (id, updates) => {
     });
 };
 
-
 // Delete a guest by ID
 export const deleteGuest = (id) => {
     return new Promise((resolve, reject) => {
         db.query(
-            'DELETE FROM guests WHERE id =?', [id], (err, results) => {
+            'DELETE FROM guests WHERE guest_id = ?', [id], (err, results) => {
                 if (err) {
                     console.error('Database error:', err);
                     return reject(err);

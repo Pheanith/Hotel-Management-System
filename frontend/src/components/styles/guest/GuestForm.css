@@ -37,22 +37,32 @@ form {
     display: flex;
     gap: 10px;
 }
-.guest-row1 input,
 .guest-row2 input {
-    border: 2px solid;
+    border: 1px solid;
     border-radius: 5px;
     border-color: #0F4C75;
-    width: 603px;
+    width: 630px;
     height: 35px;
     font-family: "Inria Sans", sans-serif;
     font-weight: 400;
 }
+.guest-row1 input,
 .guest-row3 input {
-    border: 2px solid;
+    border: 1px solid;
     border-radius: 5px;
     border-color: #0F4C75;
     width: 1225px;
     height: 35px;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 400;
+}
+.guest-row1 select,
+.guest-row3 select {
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #0F4C75;
+    width: 603px;
+    height: 40px;
     font-family: "Inria Sans", sans-serif;
     font-weight: 400;
 }
@@ -71,4 +81,7 @@ form {
     font-weight: 400;
     font-style: normal;
 }
-
+.guest-delete-icon{
+    size: 10px;
+    color: red;
+}
