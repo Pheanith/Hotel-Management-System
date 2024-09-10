@@ -1,12 +1,14 @@
 //GuestForm.jsx
 import React, { useState } from 'react';
 import '../../components/styles/guest/GuestForm.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import axios from 'axios';
 
 const GuestForm = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { fromPage } = location.state || {};
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -25,7 +27,7 @@ const GuestForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+    
         if (!validateEmail(email)) {
             setEmailError('Invalid email address');
             return; // Stop the form submission if the email is invalid
@@ -44,14 +46,29 @@ const GuestForm = () => {
     
         try {
             await axios.post('http://localhost:5000/api/guests', formattedData);
-            navigate('/manage-guest');
+            
+            // Navigate based on the fromPage value
+            if (fromPage === 'manage-guest') {
+                navigate('/manage-guest');
+            } else if (fromPage === 'select-guest') {
+                navigate('/select-guest');
+            } else {
+                navigate('/'); // Default navigation if fromPage is not set
+            }
         } catch (error) {
             console.error('Cannot add guest:', error.response ? error.response.data : error.message);
         }
     };
     
+    
 
-    const handleClose = () => navigate('/manage-guest');
+    const handleClose = () => {
+        if (fromPage === 'manage-guest') {
+            navigate('manage-guest');
+        } else {
+            navigate('/select-guest');
+        }
+    }
 
     return (
         <div className='guestform-main'>

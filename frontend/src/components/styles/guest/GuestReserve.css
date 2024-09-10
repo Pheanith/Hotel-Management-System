@@ -9,7 +9,7 @@
 } */
 .rev-guest-header {
     display: flex;
-    gap: 1000px;
+    gap: 300px;
 }
 .rev-guest-header a {
     margin-top: 20px;

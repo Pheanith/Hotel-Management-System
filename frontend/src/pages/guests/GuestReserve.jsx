@@ -26,10 +26,15 @@ const GuestReserve = () => {
         navigate ('/invoice', {state: {fromPage: 'select-guest'}});
     };
 
+    const handleNewGuest = () => {
+        navigate ('/add-new-guest', {state: {fromPage: 'select-guest'}});
+    }
+
     return(
         <div className="main-guest-rev">
             <div className="rev-guest-header">
                 <a> Guests List </a>
+                <button className="next-button" onClick={handleNewGuest}> New guest </button>
                 <button className="next-button" onClick={handleNextButton}> Next </button>
             </div>
             <div className="rev-guest-table-container">
