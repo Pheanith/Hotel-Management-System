@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import '../../components/styles/guest/GuestReserve.css';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const GuestReserve = () => {
     const [guests, setGuests] = useState([]);
@@ -20,11 +21,16 @@ const GuestReserve = () => {
         fetchAllGuests();
     }, []);
 
+    const navigate = useNavigate ();
+    const handleNextButton = () => {
+        navigate ('/invoice', {state: {fromPage: 'select-guest'}});
+    };
+
     return(
         <div className="main-guest-rev">
             <div className="rev-guest-header">
                 <a> Guests List </a>
-                <button className="next-button"> Next </button>
+                <button className="next-button" onClick={handleNextButton}> Next </button>
             </div>
             <div className="rev-guest-table-container">
                 <div className="rev-guest-table"> 
