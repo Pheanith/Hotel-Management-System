@@ -1,10 +1,17 @@
 //roomModel.js
 import db from '../utils/db.js';
 
-// Get all rooms
+// Get all rooms with room_type and accommodation_type
 export const getAllRooms = () => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM rooms', (err, results) => {
+        const query = `
+            SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+            FROM rooms
+            JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+            JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+        `;
+
+        db.query(query, (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
@@ -14,10 +21,18 @@ export const getAllRooms = () => {
     });
 };
 
-// Get a room by ID
+// Get a room by ID with room_type and accommodation_type
 export const getRoomById = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM rooms WHERE id = ?', [id], (err, results) => {
+        const query = `
+            SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+            FROM rooms
+            JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+            JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+            WHERE rooms.room_id = ?
+        `;
+        
+        db.query(query, [id], (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
@@ -27,49 +42,51 @@ export const getRoomById = (id) => {
     });
 };
 
+
 // Add a new room
 export const addRoom = (room) => {
-    const { building, accomodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description } = room;
+    const { accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description } = room;
     return new Promise((resolve, reject) => {
-        db.query(
-            'INSERT INTO rooms (building, accomodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-            [building, accomodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description], 
-            (err, result) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return reject(err);
-                }
-                if (result && result.insertId !== undefined) {
-                    resolve(result.insertId);
-                } else {
-                    reject(new Error('Insert result does not contain insertId'));
-                }
+        const query = `
+            INSERT INTO rooms (accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        db.query(query, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description], (err, result) => {
+            if (err) {
+                console.error('Database error:', err);
+                return reject(err);
             }
-        );
+            resolve(result.insertId);
+        });
     });
 };
 
-// Update a room by ID
+// Update room
 export const updateRoom = (id, updates) => {
-    const { building, accomodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description } = updates;
+    const { accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description } = updates;
     return new Promise((resolve, reject) => {
-        db.query('UPDATE rooms SET building = ?, accomodationType = ?, roomType = ?, floorNumber = ?, roomNumber = ?, price = ?, status = ?, availableFrom = ?, availableTo = ?, description = ? WHERE id = ?', 
-            [building, accomodationType, roomType, floorNumber, roomNumber, price, status, availableFrom, availableTo, description, id], 
-            (err, result) => {
-                if (err) {
-                    console.error('Database error:', err);
-                    return reject(err);
-                }
-                resolve(result.affectedRows > 0);
+        const query = `
+            UPDATE rooms 
+            SET accommodation_type_id = ?, room_type_id = ?, floor_number = ?, room_number = ?, price_per_night = ?, availability_status = ?, description = ?
+            WHERE room_id = ?
+        `;
+        
+        db.query(query, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description, id], (err, result) => {
+            if (err) {
+                console.error('Database error:', err);
+                return reject(err);
             }
-        );
+            resolve(result.affectedRows > 0);
+        });
     });
 };
+
 
 // Delete a room by ID
 export const deleteRoom = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('DELETE FROM rooms WHERE id = ?', [id], (err, result) => {
+        db.query('DELETE FROM rooms WHERE room_id = ?', [id], (err, result) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
@@ -85,26 +102,66 @@ export const getAvailableRooms = (checkIn, checkOut) => {
         let query;
         let params = [];
 
+        // Case 1: When check-in and check-out dates are provided
         if (checkIn && checkOut) {
-            // Query for filtering rooms based on the checkIn and checkOut dates
             query = `
-                SELECT * FROM rooms
-                WHERE status = 'Available'
-                AND availableFrom <= ?
-                AND availableTo >= ?
-                ORDER BY roomNumber ASC;
+                SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+                FROM rooms
+                JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+                JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+                WHERE rooms.availability_status = 'Available'
+                OR rooms.room_id NOT IN (
+                    SELECT room_id 
+                    FROM reservation_details
+                    INNER JOIN reservations ON reservations.reservation_id = reservation_details.reservation_id
+                    WHERE reservations.checkin_date < ? AND reservations.checkout_date > ?
+                )
+                AND rooms.availability_status != 'Maintenance'
+                ORDER BY rooms.room_number ASC;
             `;
             params = [checkOut, checkIn];
+
+        // Case 2: Default case without date filtering (just show available rooms excluding maintenance)
         } else {
-            // Query for showing all available rooms
             query = `
-                SELECT * FROM rooms
-                WHERE status = 'Available'
-                ORDER BY roomNumber ASC;
+                SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+                FROM rooms
+                JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+                JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+                WHERE rooms.availability_status = 'Available'
+                AND rooms.availability_status != 'Maintenance'
+                ORDER BY rooms.room_number ASC;
             `;
         }
 
         db.query(query, params, (err, results) => {
+            if (err) {
+                console.error('Database error:', err);
+                return reject(err);
+            }
+            resolve(results);
+        });
+    });
+};
+
+
+// Get room type 
+export const getAllRoomTypes = () => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM room_types', (err, results) => {
+            if (err) {
+                console.error('Database error:', err);
+                return reject(err);
+            }
+            resolve(results);
+        });
+    });
+};
+
+// Get all accommodation types
+export const getAllAccommodationTypes = () => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM accommodation_types', (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);

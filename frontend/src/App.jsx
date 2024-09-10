@@ -16,6 +16,7 @@ import Guest from './pages/guests/Guest';
 import RoomEdit from './pages/rooms/RoomEdit';
 import ReservationEdit from './pages/ReservationEdit';
 import GuestForm from './pages/guests/GuestForm';
+import GuestReserve from './pages/guests/GuestReserve';
 import './App.css';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
               <Route path = "edit-room/:id" element= {<RoomEdit/>}/> 
               <Route path = "edit-resservation/:id" element={<ReservationEdit/>}/>
               <Route path= "add-new-guest" element = {<GuestForm/>}/>
+              <Route path="select-guest" element={<GuestReserve/>}/>
             </Routes>
           </div>
         </div>

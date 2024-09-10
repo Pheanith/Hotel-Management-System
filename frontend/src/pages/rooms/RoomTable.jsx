@@ -4,7 +4,6 @@ import '../../components/styles/rooms/RoomTable.css';
 import RoomDelete from './RoomDelete';
 import RoomEdit from './RoomEdit'; // Import your RoomEdit component
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const RoomTable = () => {
     const [rooms, setRooms] = useState([]);
@@ -33,7 +32,6 @@ const RoomTable = () => {
     const handleEditClick = (room) => {
         setSelectedRoom(room);
         setShowEditModal(true); // Show edit modal
-        // navigate ('/edit-room', {state: {frompage: 'room-list'}});
     };
 
     const handleClose = () => {
@@ -44,8 +42,8 @@ const RoomTable = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/rooms/${selectedRoom.id}`);
-            setRooms(rooms.filter(room => room.id !== selectedRoom.id));
+            await axios.delete(`http://localhost:5000/api/rooms/${selectedRoom.room_id}`);
+            setRooms(rooms.filter(room => room.room_id !== selectedRoom.room_id));
             handleClose();
         } catch (error) {
             console.error('Error deleting room:', error);
@@ -53,7 +51,7 @@ const RoomTable = () => {
     };
 
     const handleUpdate = (updatedRoom) => {
-        setRooms(prevRooms => prevRooms.map(room => (room.id === updatedRoom.id ? updatedRoom : room)));
+        setRooms(prevRooms => prevRooms.map(room => (room.room_id === updatedRoom.room_id ? updatedRoom : room)));
         handleClose();
     };
     
@@ -63,38 +61,34 @@ const RoomTable = () => {
             <table className='room-table'>
                 <thead>
                     <tr>
-                        <th> Building </th>
-                        <th> Accommodation Type</th>
-                        <th> Room Type </th>
-                        <th> Floor Number</th>
-                        <th> Room Number</th>
-                        <th> Price </th>
-                        <th> Status </th>
-                        <th> Available From </th>
-                        <th> Available To</th>
+                        <th> ID </th>
+                        <th> Room number </th>
+                        <th> Room type </th>
+                        <th> Accommodation type </th>
+                        <th> Availability status </th>
+                        <th> Floor number </th>
+                        <th> Price per night</th>
                         <th> Description </th>
-                        <th> Other </th>
+                        <th> Actions </th>
                     </tr>
                 </thead>
                 <tbody>
                     {rooms.map((room, index) => (
                         <tr key={index}>
-                            <td> {room.building}</td>
-                            <td> {room.accomodationType}</td>
-                            <td> {room.roomType}</td>
-                            <td> {room.floorNumber}</td>
-                            <td> {room.roomNumber}</td>
-                            <td> {room.price}</td>
+                            <td>{room.room_id}</td>
+                            <td>{room.room_number}</td>
+                            <td>{room.room_type_name}</td> {/* Display Room Type Name */}
+                            <td>{room.accommodation_type_name}</td> {/* Display Accommodation Type Name */}
                             <td className={
-                                room.status === 'In maintenance' ? 'in-maintenance'
-                                    : room.status === 'Unavailable' ? 'unavailable'
-                                    : 'available'
+                                room.availability_status === 'Maintenance' ? 'Maintenance'
+                                    : room.availability_status === 'Occupied' ? 'Occupied'
+                                    : 'Available'
                             }>
-                                {room.status}
+                                {room.availability_status}
                             </td>
-                            <td> {room.availableFrom}</td>
-                            <td> {room.availableTo}</td>
-                            <td> {room.description}</td>
+                            <td>{room.floor_number}</td>
+                            <td>{room.price_per_night}</td>
+                            <td>{room.description}</td>
                             <td>
                                 <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(room)}>✏️</span>
                                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(room)}>🗑️</span>

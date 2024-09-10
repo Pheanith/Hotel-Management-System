@@ -5,7 +5,9 @@ import {
     addRoom,
     updateRoom,
     deleteRoom,
-    getAvailableRooms
+    getAvailableRooms,
+    getAllRoomTypes,
+    getAllAccommodationTypes
 } from '../models/roomModel.js';
 
 // Get all rooms
@@ -26,7 +28,7 @@ export const getRoomById = async (req, res) => {
         if (room) {
             res.json(room);
         } else {
-            res.status(404).json({ message: 'Room not found' });
+            res.status(404).json({ message: 'Room not found 1' });
         }
     } catch (error) {
         console.error('Error fetching room by ID:', error);
@@ -53,7 +55,7 @@ export const updateRoomById = async (req, res) => {
         if (updated) {
             res.json({ message: 'Room updated successfully' });
         } else {
-            res.status(404).json({ message: 'Room not found' });
+            res.status(404).json({ message: 'Room not found 2' });
         }
     } catch (error) {
         console.error('Error updating room:', error);
@@ -68,7 +70,7 @@ export const deleteRoomById = async (req, res) => {
         if (deleted) {
             res.json({ message: 'Room deleted successfully' });
         } else {
-            res.status(404).json({ message: 'Room not found 123' });
+            res.status(404).json({ message: 'Room not found 3' });
         }
     } catch (error) {
         console.error('Error deleting room:', error);
@@ -89,6 +91,28 @@ export const getFreeRooms = async (req, res) => {
         }
     } catch (error) {
         console.error('Error fetching available rooms:', error);
+        res.status(500).json({ error: 'Server Error' });
+    }
+};
+
+// Get room types
+export const fetchRoomTypes = async (req, res) => {
+    try {
+        const roomTypes = await getAllRoomTypes();
+        res.json(roomTypes);
+    } catch (error) {
+        console.error('Error fetching room types:', error);
+        res.status(500).json({ error: 'Server Error' });
+    }
+};
+
+// Get accommodation type
+export const fetchAccommodationTypes = async (req, res) => {
+    try {
+        const accommodationTypes = await getAllAccommodationTypes();
+        res.json(accommodationTypes);
+    } catch (error) {
+        console.error('Error fetching accommodation types:', error);
         res.status(500).json({ error: 'Server Error' });
     }
 };

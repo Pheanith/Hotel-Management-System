@@ -6,11 +6,18 @@ import {
     createRoom,
     updateRoomById,
     deleteRoomById,
-    getFreeRooms
+    getFreeRooms,
+    fetchAccommodationTypes,
+    fetchRoomTypes
 } from '../controllers/roomController.js';
 
 const router = express.Router();
 
+// Get room type
+router.get('/room_type', fetchRoomTypes);
+
+// Get accommodation type
+router.get('/accommodation_type', fetchAccommodationTypes);
 // Get all rooms
 router.get('/', getRoom);
 

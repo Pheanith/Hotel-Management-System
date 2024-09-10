@@ -1,46 +1,52 @@
 //AddRoom.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../components/styles/rooms/AddRoom.css';
 import { useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import axios from 'axios';
 
-const formatDate = (date) => {
-    if (!date) return null;
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-    return `${year}-${month}-${day}`;
-};
-
 const AddRoom = () => {
     const navigate = useNavigate();
-    const [building, setBuilding] = useState('');
-    const [accomodationType, setAccomodationType] = useState('');
-    const [roomType, setRoomType] = useState('');
-    const [floorNumber, setFloorNumber] = useState('');
-    const [roomNumber, setRoomNumber] = useState('');
-    const [price, setPrice] = useState('');
-    const [status, setStatus] = useState('');
-    const [availableFrom, setAvailableFrom] = useState('');
-    const [availableTo, setAvailableTo] = useState('');
+    const [room_number, setRoomNumber] = useState('');
+    const [roomTypes, setRoomTypes] = useState([]);
+    const [accommodationTypes, setAccommodationTypes] = useState([]);
+    const [availability_status, setAvailabilityStatus] = useState('');
+    const [floor_number, setFloorNumber] = useState('');
+    const [price_per_night, setPricePerNight] = useState('');
     const [description, setDescription] = useState('');
+    const [selectedRoomType, setSelectedRoomType] = useState('');
+    const [selectedAccommodationType, setSelectedAccommodationType] = useState('');
+
+    useEffect(() => {
+        // Fetch room types
+        axios.get('http://localhost:5000/api/rooms/room_type')
+            .then(response => {
+                setRoomTypes(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching room types:', error);
+            });
+
+        // Fetch accommodation types
+        axios.get('http://localhost:5000/api/rooms/accommodation_type')
+            .then(response => {
+                setAccommodationTypes(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching accommodation types:', error);
+            });
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const formattedData = {
-                building,
-                accomodationType,
-                roomType,
-                floorNumber,
-                roomNumber,
-                price,
-                status,
-                availableFrom: formatDate(availableFrom),
-                availableTo: formatDate(availableTo),
+                room_number,
+                room_type_id: selectedRoomType,
+                accommodation_type_id: selectedAccommodationType,
+                availability_status,
+                floor_number,
+                price_per_night,
                 description,
             };
             await axios.post('http://localhost:5000/api/rooms', formattedData);
@@ -63,77 +69,66 @@ const AddRoom = () => {
                     <div className="row1">
                         <input
                             type="text"
-                            name="building"
-                            placeholder="Building"
-                            value={building}
-                            onChange={(e) => setBuilding(e.target.value)}
+                            name="room_number"
+                            placeholder="Room number"
+                            value={room_number}
+                            onChange={(e) => setRoomNumber(e.target.value)}
                         />
                         <select
-                            name='accomodationType'
-                            value={accomodationType}
-                            onChange={(e) => setAccomodationType(e.target.value)}>
-                            <option value="">Please select accomodation type</option>
-                            <option value="hotel room">Hotel room</option>
-                            <option value="home stay">Home stay</option>
+                            name='room_type'
+                            value={selectedRoomType}
+                            onChange={(e) => setSelectedRoomType(e.target.value)}
+                        >
+                            <option value="">Select Room Type</option>
+                            {roomTypes.map((type) => (
+                                <option key={type.room_type_id} value={type.room_type_id}>
+                                    {type.name}
+                                </option>
+                            ))}
                         </select>
+
                         <select
-                            name='roomType'
-                            value={roomType}
-                            onChange={(e) => setRoomType(e.target.value)}>
-                            <option value="">Please select room type</option>
-                            <option value="Single Room">Single Room</option>
-                            <option value="Double Room">Double Room</option>
-                            <option value="Family Room">Family Room</option>
-                            <option value="King Room">King Room</option>
-                            <option value="Queen Room">Queen Room</option>
+                            name='accommodation_type'
+                            value={selectedAccommodationType}
+                            onChange={(e) => setSelectedAccommodationType(e.target.value)}
+                        >
+                            <option value="">Select Accommodation Type</option>
+                            {accommodationTypes.map((type) => (
+                                <option key={type.accommodation_type_id} value={type.accommodation_type_id}>
+                                    {type.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="row2">
                         <select
-                            name='floorNumber'
-                            value={floorNumber}
-                            onChange={(e) => setFloorNumber(e.target.value)}>
-                            <option value="">Please select floor No.</option>
-                            <option value="1st">1st floor</option>
+                            name='status'
+                            value={availability_status}
+                            onChange={(e) => setAvailabilityStatus(e.target.value)}
+                        >
+                            <option value="">Please select room status</option>
+                            <option value="Available">Available</option>
+                            <option value="Occupied">Occupied</option>
+                            <option value="Maintenance">Maintenance</option>
                         </select>
-                        <input
-                            type="text"
-                            name="roomNumber"
-                            placeholder="Room number"
-                            value={roomNumber}
-                            onChange={(e) => setRoomNumber(e.target.value)}
-                        />
+                        <select
+                            name='floorNumber'
+                            value={floor_number}
+                            onChange={(e) => setFloorNumber(e.target.value)}
+                        >
+                            <option value="">Please select floor No.</option>
+                            <option value="1">1st floor</option>
+                            <option value="2">2nd floor</option>
+                            <option value="3">3rd floor</option>
+                        </select>
                     </div>
                     <div className="row3">
                         <input
                             type="text"
                             name="price"
                             placeholder="$"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                        />
-                        <select
-                            name='status'
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}>
-                            <option value="">Please select room status</option>
-                            <option value="Available">Available</option>
-                            <option value="Unavailable">Unavailable</option>
-                            <option value="In maintenance">In maintenance</option>
-                        </select>
-                    </div>
-                    <div className="row5">
-                        <DatePicker
-                            selected={availableFrom}
-                            onChange={(date) => setAvailableFrom(date)}
-                            dateFormat='dd-MM-yyyy'
-                            placeholderText="Available from (DD-MM-YYYY)"
-                        />
-                        <DatePicker
-                            selected={availableTo}
-                            onChange={(date) => setAvailableTo(date)}
-                            dateFormat='dd-MM-yyyy'
-                            placeholderText="Available to (DD-MM-YYYY)"
+                            value={price_per_night}
+                            onChange={(e) => setPricePerNight(e.target.value)}
                         />
                     </div>
                     <div className="row4">

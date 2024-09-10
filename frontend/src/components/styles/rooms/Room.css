@@ -3,7 +3,7 @@
 
 .room-content-header{
     display: flex;
-    gap: 700px;
+    gap: 310px;
 }
 .room-content-header a{
     margin-top: 20px;
@@ -25,9 +25,16 @@
     height: 30px;
     width: 200px;
 }
-.room-cards-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* This will create 3 equal-width columns */
-    /* gap: 20px; Adjust the gap between cards */
-    padding: 20px;
+.next-button{
+    border-color: #0F4C75;
+    border-radius:5px;
+    background-color: #0F4C75;
+    color: white;
+    border: solid 1px;
+    height: 30px;
+    width: 100px;
+    margin-top: 20px;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
