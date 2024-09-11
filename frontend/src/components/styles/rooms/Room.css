@@ -1,0 +1,40 @@
+/* Room.css */
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+.room-content-header{
+    display: flex;
+    gap: 310px;
+}
+.room-content-header a{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: larger;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.datepicker{
+    display: flex;
+    margin-top: 20px;
+    gap: 20px;
+}
+.dateinput{
+    border-color: #0F4C75;
+    border: solid 1px;
+    border-radius: 5px;
+    height: 30px;
+    width: 200px;
+}
+.next-button{
+    border-color: #0F4C75;
+    border-radius:5px;
+    background-color: #0F4C75;
+    color: white;
+    border: solid 1px;
+    height: 30px;
+    width: 100px;
+    margin-top: 20px;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}

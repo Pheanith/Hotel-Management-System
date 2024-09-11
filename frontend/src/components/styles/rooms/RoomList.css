@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+.main-room-list-content {
+    margin-top: 20px;
+}
+.room-content-body a{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: larger;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.room-content-body button {
+    cursor: pointer;
+    height: 35px;
+    width: 150px;
+    margin-left: 1030px;
+    color: white;
+    background-color: #0F4C75;
+    border-color: #0F4C75;
+    border-radius: 5px;
+}

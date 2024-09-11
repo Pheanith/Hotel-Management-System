@@ -1,0 +1,196 @@
+/* Reservationform.css */
+@media screen and (min-width: 1024px){
+    .edit-main{
+        margin: 20px;
+        padding: 20px;
+        background-color: white;
+        width: 1250px;
+        right:130px;
+        top: 80px;
+        border-radius: 20px;
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+        overflow-x: auto;
+    }
+    .reservationEdit-header{
+        position: sticky;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+    }
+    .reservationEdit-header h2{
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+    }
+    .reservationEdit-header svg{
+        cursor: pointer;
+    }
+    form{
+        column-gap: 20px;
+    }
+    label{
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+        font-size: large;
+    }
+    .edit-form-row{
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+    }
+    .close-icon{
+        margin-left: 90px;
+    }
+    .edit-form-row input{
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        width: 300px;
+        height: 35px;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
+    }
+    .edit-label1{
+        display: flex;
+        gap: 580px;
+        margin-bottom: 10px;
+    }
+    .edit-label2{
+        display: flex;
+        gap:310px;
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+    .edit-form-row2{
+        display: flex;
+        gap: 5px;
+        /* justify-content: space-between; */
+    }
+    .edit-form-row2 select{
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        width: 625px;
+        height: 40px;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
+    }
+    .edit-form-row2 input{
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        width: 625px;
+        height: 35px;
+    }
+    .edit-label3{
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+    .edit-form-row3 input{
+        width: 1245px;
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        height: 35px;
+    }
+    .edit-label4{
+        display: flex;
+        gap: 320px;
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+    .edit-form-row4{
+        display: flex;
+        gap: 5px;
+    }
+    .edit-form-row4 .react-datepicker__input-container input {
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        width: 405px;
+        height: 35px;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
+    }
+    .edit-label5{
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+    .edit-form-row5{
+        display: flex;
+        align-items: center;
+    }
+    .edit-form-row5 label{
+        margin-right: 20px;
+        font-size: 16px;
+    }
+    .payment-method-checkbox {
+        display: flex;
+        align-items: center;
+        /* margin-right: 1rem; */
+      }
+      
+      .payment-method-checkbox input[type="checkbox"] {
+        /* margin-right: 0.5rem; */
+        accent-color: #0F4C75; /* Customize checkbox color */
+      }
+      
+      .payment-method-checkbox label {
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .update-reservation button{
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        width: 100px;
+        height: 30px;
+        background-color: #0F4C75;
+        color: white;
+        margin-top: 20px;
+        margin-left: 45%;
+        cursor: pointer;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+    .edit-label6{
+        display: flex;
+        padding-top: 20px;
+        margin-bottom: 10px;
+        gap: 330px; 
+    }
+    .edit-form-row6{
+        display: flex;
+        gap: 5px;
+    }
+    .edit-form-row6 input{
+        width: 500px;
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        height: 35px;
+    }
+    .edit-form-row6 select{
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        width: 625px;
+        height: 40px;
+        font-family: "Inria Sans", sans-serif;
+        font-weight: 400px;
+    }
+    .edit-label7{
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+    .edit-form-row7 input{
+        width: 1245px;
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #0F4C75;
+        height: 35px;
+    }
+}
