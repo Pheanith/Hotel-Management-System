@@ -6,3 +6,9 @@
 
 - run "node server.js" to run backend
 - run "npm start" to run frontend
+
+11/09 TODO: 
+- add reservation
+- checkin and checkout 
+- payment detail bsed on reservation number: by cash, KHQR
+- paste to customers (reservation details)

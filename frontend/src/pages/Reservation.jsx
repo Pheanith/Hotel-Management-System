@@ -30,16 +30,17 @@ const Reservation = () => {
           <Search />
           <div className='search-bar1'>
             <input type="text" placeholder="Search ......" />
-            <button onClick={handleOpenForm}>+ New reservation</button>
+            {/* <button onClick={handleOpenForm}>+ New reservation</button> */}
           </div>
         </div>
       </div>
       {/* Conditionally render the ReservationForm or ReservationCard */}
-      {isFormVisible ? (
+      {/* {isFormVisible ? (
         <Reservationform onClose={handleCloseForm} />
       ) : (
         <ReservationCard />
-      )}
+      )} */}
+      <ReservationCard/>
     </div>
   );
 };

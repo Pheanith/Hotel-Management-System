@@ -8,7 +8,10 @@ import axios from 'axios';
 const GuestForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { fromPage } = location.state || {};
+    const { fromPage, selectedRooms,
+        selectedGuest,
+        checkIn,
+        checkOut} = location.state || {};
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -51,7 +54,14 @@ const GuestForm = () => {
             if (fromPage === 'manage-guest') {
                 navigate('/manage-guest');
             } else if (fromPage === 'select-guest') {
-                navigate('/select-guest');
+                navigate('/select-guest'
+                    , { 
+                    state: {
+                        selectedRooms,
+                        checkIn: checkIn,
+                        checkOut: checkOut,
+                    }}
+                );
             } else {
                 navigate('/'); // Default navigation if fromPage is not set
             }

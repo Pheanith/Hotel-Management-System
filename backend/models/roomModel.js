@@ -170,3 +170,16 @@ export const getAllAccommodationTypes = () => {
         });
     });
 };
+
+export const updateRoomAvailability = (rooms) => {
+    return Promise.all(rooms.map(room => {
+        return new Promise((resolve, reject) => {
+            const query = 'UPDATE rooms SET status = ? WHERE room_id = ?';
+            db.query(query, ['Occupied', room.room_id], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        });
+    }));
+};
+

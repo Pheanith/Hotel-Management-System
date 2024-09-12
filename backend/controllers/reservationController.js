@@ -13,7 +13,7 @@ export const fetchReservationById = (req, res) => {
 export const addNewReservation = (req, res) => {
     const reservation = req.body;
     createReservation(reservation)
-        .then(id => res.status(201).json({ id }))
+        .then(id => res.status(201).json({id }))
         .catch(err => res.status(500).json({ error: err.message }));
 };
 

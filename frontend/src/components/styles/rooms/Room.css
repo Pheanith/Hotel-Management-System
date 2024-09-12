@@ -25,6 +25,38 @@
     height: 30px;
     width: 200px;
 }
+.room-cards-container {
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+.room-card-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+.room-card-table th,
+.room-card-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;font-family: "Inria Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.room-card-table th {
+    background-color: #e0e0e0;
+    background-color: #e0e0e0;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.room-card-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.room-card-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
 .next-button{
     border-color: #0F4C75;
     border-radius:5px;

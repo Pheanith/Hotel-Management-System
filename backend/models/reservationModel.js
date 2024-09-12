@@ -1,11 +1,10 @@
-//reservationModel.js
 import db from '../utils/db.js'; // Adjust path to your database connection module
 
 // Helper function to update room status
-const updateRoomStatus = (roomNo, status) => {
+const updateRoomStatus = (roomNumber, status="") => {
     return new Promise((resolve, reject) => {
-        const query = 'UPDATE rooms SET status = ? WHERE roomNumber = ?';
-        db.query(query, [status, roomNo], (err, results) => {
+        const query = 'UPDATE rooms SET availability_status = ? WHERE room_number = ?';
+        db.query(query, [status, roomNumber], (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
@@ -18,7 +17,7 @@ const updateRoomStatus = (roomNo, status) => {
 // Get a reservation by ID
 export const getReservationById = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM reservations WHERE id = ?', [id], (err, results) => {
+        db.query('SELECT * FROM reservations WHERE reservation_id = ?', [id], (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
@@ -28,44 +27,66 @@ export const getReservationById = (id) => {
     });
 };
 
-// Create a new reservation
 export const createReservation = async (reservation) => {
-    const { firstName, lastName, email, phoneNumber, roomType, numberOfGuests, address, checkIn, checkOut, price, paymentMethods, specialRequest, status, reserveDate, checkInStatus, roomNo } = reservation;
-    return new Promise(async (resolve, reject) => {
-        const query = `
-            INSERT INTO reservations (firstName, lastName, email, phoneNumber, roomType, numberOfGuests, address, checkIn, checkOut, price, paymentMethods, specialRequest, status, reserveDate, checkInStatus, roomNo)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-        const values = [firstName, lastName, email, phoneNumber, roomType, numberOfGuests, address, checkIn, checkOut, price, JSON.stringify(paymentMethods), specialRequest, status, reserveDate, checkInStatus, roomNo];
-        
-        db.query(query, values, async (err, results) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
-            }
+    const { guest_id, checkin_date, checkout_date} = reservation;
 
-            // Update room status to Unavailable
-            try {
-                await updateRoomStatus(roomNo, 'Unavailable');
-                resolve(results.insertId);
-            } catch (updateError) {
-                console.error('Failed to update room status:', updateError);
-                reject(updateError);
+    const q = "INSERT INTO reservations (guest_id, checkin_date, checkout_date) VALUES (?,?,?)";
+    db.query(q, [reservation.guest_id, reservation.checkin_date, reservation.checkout_date], 
+        (err, results)=>{
+            if(!error){
+                return err;
             }
-        });
-    });
+            return results;
+        })
+
+    //return reservation.guest_id;
+    //  return new Promise(async (resolve, reject) => {
+    // //     // if (!guest_id || !checkin_date || !checkout_date) {
+    //     //     return reject(new Error('Required fields are missing.'));
+    //     // }
+
+    //     const query = `
+    //         INSERT INTO reservations (guest_id, checkin_date, checkout_date)
+    //         VALUES (?,? , ? );
+    //     `;
+    //    // db.query(query, reservation,)
+    //     const values = [guest_id, checkin_date, checkout_date];//, checkin_status || 'not_checked_in', checkout_status || 'not_checked_out', discount || 0];
+        
+    //     db.query(query, values, (err, results) => {
+    //         if (err) {
+    //             console.error('Database error:', err);
+    //             return reject(new Error('Database error occurred.'));
+    //         }
+            
+
+    //         // const reservationId = results.insertId;
+
+    //         // try {
+    //         //     for (const roomNumber of roomNumbers) {
+    //         //         await updateRoomStatus(roomNumber, 'Unavailable');
+    //         //     }
+    //         //     resolve(reservationId);
+    //         // } catch (updateError) {
+    //         //     console.error('Failed to update room status:', updateError);
+    //         //     reject(new Error('Failed to update room status.'));
+    //         // }
+
+
+    //     });
+    // });
 };
+
 
 // Update a reservation by ID
 export const updateReservationById = (id, updatedReservation) => {
-    const { firstName, lastName, email, phoneNumber, roomType, numberOfGuests, address, checkIn, checkOut, price, paymentMethods, specialRequest, status, reserveDate, checkInStatus, roomNo } = updatedReservation;
+    const { guest_id, checkin_date, checkout_date, checkin_status, checkout_status, discount } = updatedReservation;
     return new Promise((resolve, reject) => {
         const query = `
             UPDATE reservations
-            SET firstName = ?, lastName = ?, email = ?, phoneNumber = ?, roomType = ?, numberOfGuests = ?, address = ?, checkIn = ?, checkOut = ?, price = ?, paymentMethods = ?, specialRequest = ?, status = ?, reserveDate = ?, checkInStatus = ?, roomNo = ?
-            WHERE id = ?
+            SET guest_id = ?, checkin_date = ?, checkout_date = ?, checkin_status = ?, checkout_status = ?, discount = ?
+            WHERE reservation_id = ?
         `;
-        const values = [firstName, lastName, email, phoneNumber, roomType, numberOfGuests, address, checkIn, checkOut, price, JSON.stringify(paymentMethods), specialRequest, status, reserveDate, checkInStatus, roomNo, id];
+        const values = [guest_id, checkin_date, checkout_date, checkin_status, checkout_status, discount, id];
         
         db.query(query, values, (err, results) => {
             if (err) {
@@ -81,14 +102,17 @@ export const updateReservationById = (id, updatedReservation) => {
 export const deleteReservationById = async (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Get reservation to find room number
+            // Get reservation to find associated room numbers
             const reservation = await getReservationById(id);
             if (!reservation) {
                 return reject(new Error('Reservation not found'));
             }
 
+            // Example: fetch associated rooms from reservation_details
+            const rooms = []; // Fetch room numbers associated with this reservation
+
             // Delete reservation
-            db.query('DELETE FROM reservations WHERE id = ?', [id], async (err, results) => {
+            db.query('DELETE FROM reservations WHERE reservation_id = ?', [id], async (err, results) => {
                 if (err) {
                     console.error('Database error:', err);
                     return reject(err);
@@ -96,7 +120,9 @@ export const deleteReservationById = async (id) => {
 
                 // Update room status to Available
                 try {
-                    await updateRoomStatus(reservation.roomNo, 'Available');
+                    for (const room of rooms) {
+                        await updateRoomStatus(room, 'Available');
+                    }
                     resolve(results.affectedRows);
                 } catch (updateError) {
                     console.error('Failed to update room status:', updateError);

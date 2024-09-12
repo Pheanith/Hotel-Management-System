@@ -5,7 +5,7 @@ import Header from './components/header/header';
 import Sidebar from './components/sidebar/sidebar';
 import Reservation from './pages/Reservation';
 import AdminDashbaord from './pages/admin/AdminDashbaord';
-import Invoice from './pages/Invoice';
+import Invoice from './pages/invoice/Invoice';
 import Room from './pages/rooms/Room';
 import RoomList from './pages/rooms/RoomList';
 import Transaction from './pages/Transaction';

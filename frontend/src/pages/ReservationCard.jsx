@@ -1,21 +1,24 @@
-//ReservationCard.jsx
 import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../components/styles/ReservationCard.css';
 import ReservationDelete from './ReservationDelete';
 import ReservationEdit from './ReservationEdit';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const ReservationCard = () => {
   const [reservations, setReservations] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
-
+  const location = useLocation();
+  const {state} = location;
+  const {createReservation = [], selectedRoom, selectedGuest, chekIn, checkOut} = state || {};
   useEffect(() => {
     const fetchReservations = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/reservations');
+        console.log(response.data); // Log the data to verify its structure
         setReservations(response.data);
       } catch (error) {
         console.error('Error fetching reservations:', error);
@@ -23,6 +26,7 @@ const ReservationCard = () => {
     };
     fetchReservations();
   }, []);
+  
 
   const handleDeleteClick = (reservation) => {
     setSelectedReservation(reservation);
@@ -72,12 +76,10 @@ const ReservationCard = () => {
             <th>Check-out Date</th>
             <th>Room Number</th>
             <th>Room Type</th>
-            <th>Number of Guests</th>
+            <th> Accommodation Type</th>
             <th>Check-in Status</th>
             <th>Total</th>
-            <th>Payment Methods</th>
             <th>Status</th>
-            <th>Special Request</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -85,23 +87,21 @@ const ReservationCard = () => {
           {reservations.map((reservation, index) => (
             <tr key={index}>
               <td>{reservation.reservation_id}</td>
-              <td>{`${reservation.guest?.firstName || ''} ${reservation.guest?.lastName || ''}`}</td>
-              <td>{reservation.guest?.phoneNumber || 'N/A'}</td>
-              <td>{reservation.created_at}</td>
-              <td>{reservation.checkin_date}</td>
-              <td>{reservation.checkout_date}</td>
-              <td>{reservation.room?.roomNumber || 'N/A'}</td>
-              <td>{reservation.room?.roomType || 'N/A'}</td>
-              <td>{reservation.numberOfGuests}</td>
+              <td>{`${reservation.selectedGuest.firstName || ''} ${reservation.selectedGuest.lastName || ''}`}</td>
+              <td>{reservation.selectedGuest.phoneNumber || 'N/A'}</td>
+              <td>{reservation.reserveDate}</td>
+              <td>{reservation.checkIn}</td>
+              <td>{reservation.checkOut}</td>
+              <td>{reservation.selectedRooms.map(room => room.room_number).join(", ") || 'N/A'}</td>
+              <td>{reservation.selectedRooms.map(room => room.room_type_name).join(", ") || 'N/A'}</td>
+              <td>{reservation.selectedRooms.map(room => room.accommodation_type_name).join(", ") || 'N/A'}</td>
               <td className={
                 reservation.checkin_status === 'checked_in' ? 'checked-in' :
                 reservation.checkin_status === 'checked_out' ? 'checked-out' : 'not-checked-in'}>
                 {reservation.checkin_status}
               </td>
-              <td>{reservation.totalPrice}</td>
-              <td>{reservation.paymentMethods ? reservation.paymentMethods.join(', ') : 'N/A'}</td>
+              <td>{reservation.totalAmount}</td>
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>{reservation.status}</td>
-              <td>{reservation.specialRequest || 'None'}</td>
               <td>
                 <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(reservation)}>✏️</span>
                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(reservation)}>🗑️</span>
@@ -109,14 +109,10 @@ const ReservationCard = () => {
             </tr>
           ))}
         </tbody>
-      </table>
 
-      {showModal && (
-        <ReservationDelete show={showModal} onClose={handleClose} onDelete={handleDelete} />
-      )}
-      {showEditModal && (
-        <ReservationEdit show={showEditModal} reservation={selectedReservation} onClose={handleClose} onUpdate={handleUpdate} />
-      )}
+      </table>
+      {showModal && <ReservationDelete reservation={selectedReservation} onClose={handleClose} onDelete={handleDelete} />}
+      {showEditModal && <ReservationEdit reservation={selectedReservation} onClose={handleClose} onUpdate={handleUpdate} />}
     </div>
   );
 };
