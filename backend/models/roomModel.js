@@ -47,20 +47,37 @@ export const getRoomById = (id) => {
 export const addRoom = (room) => {
     const { accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description } = room;
     return new Promise((resolve, reject) => {
-        const query = `
-            INSERT INTO rooms (accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        `;
+        // First, check if the room_number already exists
+        const checkQuery = 'SELECT room_number FROM rooms WHERE room_number = ?';
 
-        db.query(query, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description], (err, result) => {
+        db.query(checkQuery, [room_number], (err, result) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
             }
-            resolve(result.insertId);
+
+            if (result.length > 0) {
+                // If room_number already exists, reject with an error
+                return reject(new Error(`Room number ${room_number} already exists`));
+            }
+
+            // If room_number does not exist, proceed to insert the room
+            const insertQuery = `
+                INSERT INTO rooms (accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
+
+            db.query(insertQuery, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description], (err, result) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return reject(err);
+                }
+                resolve(result.insertId);
+            });
         });
     });
 };
+
 
 // Update room
 export const updateRoom = (id, updates) => {
