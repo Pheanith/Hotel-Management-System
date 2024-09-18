@@ -1,23 +1,69 @@
 import db from '../utils/db.js'; // Adjust path to your database connection module
 
-// Helper function to update room status
-const updateRoomStatus = (roomNumber, status="") => {
+function formatDate(date) {
+    if (!date) return null;
+    const dt = new Date(date);
+    const day = String(dt.getDate()).padStart(2, '0');
+    const month = String(dt.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = dt.getFullYear();
+    return `${year}-${month}-${day}`;
+}
+
+// // Helper function to update room status
+// const updateRoomStatus = (roomNumber, status="") => {
+//     return new Promise((resolve, reject) => {
+//         const query = 'UPDATE rooms SET availability_status = ? WHERE room_number = ?';
+//         db.query(query, [status, roomNumber], (err, results) => {
+//             if (err) {
+//                 console.error('Database error:', err);
+//                 return reject(err);
+//             }
+//             resolve(results.affectedRows);
+//         });
+//     });
+// };
+
+// Function to query the reservation in the database based on ID, phone number, or guest name
+export const getReservationById = (params) => {
+    const { reservation_id, phoneNumber, guestName } = params;
+
+    let query = `
+      SELECT r.*, g.phoneNumber, g.firstName, g.lastName
+      FROM reservations r
+      JOIN guests g ON r.guest_id = g.guest_id
+      WHERE
+    `;
+    const values = [];
+  
+    // Add conditions based on available parameters
+    if (id) {
+      query += 'r.reservation_id = ?';
+      values.push(reservation_id);
+    } else if (phoneNumber) {
+      query += 'g.phoneNumber = ?';
+      values.push(phoneNumber);
+    } else if (guestName) {
+      query += 'CONCAT(g.firstName, " ", g.lastName) = ?';
+      values.push(guestName);
+    } else {
+      throw new Error('Invalid search parameters');
+    }
+
+    // Execute query and return the first result
     return new Promise((resolve, reject) => {
-        const query = 'UPDATE rooms SET availability_status = ? WHERE room_number = ?';
-        db.query(query, [status, roomNumber], (err, results) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
-            }
-            resolve(results.affectedRows);
-        });
+      db.query(query, values, (err, results) => {
+        if (err) {
+          console.error('Database error:', err);
+          return reject(err);
+        }
+        resolve(results[0]);
+      });
     });
 };
-
-// Get a reservation by ID
-export const getReservationById = (id) => {
+export const getReservationDetail = () => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM reservations WHERE reservation_id = ?', [id], (err, results) => {
+        const dataQuery = `SELECT * FROM reservation_details `
+        db.query(dataQuery, (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
@@ -27,54 +73,76 @@ export const getReservationById = (id) => {
     });
 };
 
-export const createReservation = async (reservation) => {
-    const { guest_id, checkin_date, checkout_date} = reservation;
+export const createReservation = (reservation) => {
+    const { room_id, guest_id, checkin_date, checkout_date, checkin_time, checkout_time, checkin_status, checkout_status, discount } = reservation;
+     // Format dates to YYYY-MM-DD
+     const formattedCheckinDate = formatDate(checkin_date);
+     const formattedCheckoutDate = formatDate(checkout_date);
+    const query = `
+        INSERT INTO reservations (guest_id, checkin_date, checkout_date, checkin_time, checkout_time, checkin_status, checkout_status, discount) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
 
-    const q = "INSERT INTO reservations (guest_id, checkin_date, checkout_date) VALUES (?,?,?)";
-    db.query(q, [reservation.guest_id, reservation.checkin_date, reservation.checkout_date], 
-        (err, results)=>{
-            if(!error){
-                return err;
-            }
-            return results;
-        })
+    return new Promise((resolve, reject) => {
+        db.query(query, [guest_id, formattedCheckinDate, formattedCheckoutDate, checkin_time, checkout_time, checkin_status, checkout_status, discount], (err, results) => {
+        if (err) {
+            console.log("Database error:", err);  // Log error details
+            return reject(err);
+        }
 
-    //return reservation.guest_id;
-    //  return new Promise(async (resolve, reject) => {
-    // //     // if (!guest_id || !checkin_date || !checkout_date) {
-    //     //     return reject(new Error('Required fields are missing.'));
-    //     // }
+            // Retrieve the last inserted ID
+            const insertedId = results.insertId;
 
-    //     const query = `
-    //         INSERT INTO reservations (guest_id, checkin_date, checkout_date)
-    //         VALUES (?,? , ? );
-    //     `;
-    //    // db.query(query, reservation,)
-    //     const values = [guest_id, checkin_date, checkout_date];//, checkin_status || 'not_checked_in', checkout_status || 'not_checked_out', discount || 0];
-        
-    //     db.query(query, values, (err, results) => {
-    //         if (err) {
-    //             console.error('Database error:', err);
-    //             return reject(new Error('Database error occurred.'));
-    //         }
-            
+            // Optionally, you can fetch the inserted data here if needed
+            // For example, you might want to select the inserted reservation
+            const selectQuery = `
+                SELECT * FROM reservations WHERE reservation_id = ?
+            `;
+            const reserviation = db.query(selectQuery, [insertedId], (err, rows) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(rows[0]); // Assuming you want to return the first row
+            });
 
-    //         // const reservationId = results.insertId;
-
-    //         // try {
-    //         //     for (const roomNumber of roomNumbers) {
-    //         //         await updateRoomStatus(roomNumber, 'Unavailable');
-    //         //     }
-    //         //     resolve(reservationId);
-    //         // } catch (updateError) {
-    //         //     console.error('Failed to update room status:', updateError);
-    //         //     reject(new Error('Failed to update room status.'));
-    //         // }
-
-
-    //     });
-    // });
+            return reservation;
+        });
+    });
 };
+
+export const CreateReservationDetail = (reservation_id, room_id) => {
+    // const { room_id, guest_id, checkin_date, checkout_date, checkin_time, checkout_time, checkin_status, checkout_status, discount } = reservation;
+    const query = `
+        INSERT INTO reservation_details (reservation_id, room_id) 
+        VALUES (?, ?);
+    `;
+
+    return new Promise((resolve, reject) => {
+        db.query(query, [reservation_id, room_id], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+
+            // Retrieve the last inserted ID
+            const insertedId = results.insertId;
+
+            // Optionally, you can fetch the inserted data here if needed
+            // For example, you might want to select the inserted reservation
+            const selectQuery = `
+                SELECT * FROM reservation_details WHERE detail_id = ?
+            `;
+            db.query(selectQuery, [insertedId], (err, rows) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(rows[0]); // Assuming you want to return the first row
+            });
+        });
+    });
+};
+
+
+
 
 
 // Update a reservation by ID
@@ -135,13 +203,26 @@ export const deleteReservationById = async (id) => {
     });
 };
 
-// Get all reservations
 export const getAllReservations = () => {
+    const query = `
+        SELECT r.reservation_id, r.created_at AS reserve_date, r.checkin_date, r.checkout_date, 
+               r.checkout_status, r.checkin_status, r.discount,
+               g.firstName, g.lastName, g.phoneNumber,
+               rm.room_number, rt.name AS room_type_name, at.name AS accommodation_type_name,
+               rm.price_per_night * DATEDIFF(r.checkout_date, r.checkin_date) AS totalAmount
+        FROM reservations r
+        JOIN guests g ON r.guest_id = g.guest_id
+        JOIN reservation_details rd ON r.reservation_id = rd.reservation_id
+        JOIN rooms rm ON rd.room_id = rm.room_id
+        JOIN room_types rt ON rm.room_type_id = rt.room_type_id
+        JOIN accommodation_types at ON rm.accommodation_type_id = at.accommodation_type_id
+        ORDER BY r.reservation_id ASC;
+    `;
+
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM reservations', (err, results) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
+        db.query(query, (error, results) => {
+            if (error) {
+                return reject(error);
             }
             resolve(results);
         });

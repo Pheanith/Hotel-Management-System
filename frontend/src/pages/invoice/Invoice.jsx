@@ -10,45 +10,96 @@ const Invoice = () => {
     const { selectedRooms = [], selectedGuest, checkIn, checkOut } = state || {};
 
     // Calculate total amount
-    const calculateTotalAmount = (rooms) => {
+    const calculateTotalAmount = (rooms, checkIn, checkOut) => {
+        const nights = (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24);
         return rooms.reduce((total, room) => {
-            const nights = (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24);
-            return total + (room.price_per_night * nights );
+            return total + (room.price_per_night * nights);
         }, 0);
     };
 
-    const totalAmount = calculateTotalAmount(selectedRooms);
+    const totalAmount = calculateTotalAmount(selectedRooms, checkIn, checkOut);
 
     // Handle reservation
+    // const handleReserve = async () => {
+    //     try {
+    //         // const reservationData = {
+    //         //     firstName: selectedGuest.firstName,
+    //         //     lastName: selectedGuest.lastName,
+    //         //     email: selectedGuest.email,
+    //         //     phoneNumber: selectedGuest.phoneNumber,
+    //         //     roomType: selectedRooms.map(room => room.room_type_name).join(", "), // Join room types into a single string
+    //         //     roomNo: selectedRooms.map(room => room.room_number).join(", "), // Join room numbers into a single string
+    //         //     address: selectedGuest.address,
+    //         //     checkIn: checkIn,
+    //         //     checkOut: checkOut,
+    //         //     price: totalAmount,
+    //         //     status: "Paid",
+    //         //     reserveDate: new Date().toISOString(),
+    //         //     checkInStatus: "Pending",
+    //         // };
+    //         const reservationData = {
+    //             guest_id: selectedGuest.guest_id,  // The backend expects guest_id
+    //             room_id: selectedRooms.map(room => room.room_id),  // Assuming room_id is required
+    //             checkin_date: checkIn,
+    //             checkout_date: checkOut,
+    //             checkin_time: null, // Add if needed
+    //             checkout_time: null, // Add if needed
+    //             checkin_status: "Pending",
+    //             checkout_status: "Pending",
+    //             discount: null // Add if necessary
+    //         };
+    
+    //         const response = await axios.post('http://localhost:5000/api/reservations', reservationData, {
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         });
+    
+    //         if (response.status === 200) {
+    //             alert('Reservation created successfully!');
+    //             navigate('/reservation'); // Redirect to reservations page
+    //         } else {
+    //             alert('Failed to create reservation.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error creating reservation:', error);
+    //         alert('Failed to create reservation.');
+    //     }
+    // };
+
     const handleReserve = async () => {
         try {
-            const reservationData = {
-                firstName: selectedGuest.firstName,
-                lastName: selectedGuest.lastName,
-                email: selectedGuest.email,
-                phoneNumber: selectedGuest.phoneNumber,
-                roomType: selectedRooms.map(room => room.room_type_name).join(", "), // Example
-                address: selectedGuest.address,
-                checkIn: checkIn,
-                checkOut: checkOut,
-                price: totalAmount,
-                status: "Paid",
-                reserveDate: new Date().toISOString(),
-                checkInStatus: "Pending",
-                roomNo: selectedRooms.map(room => room.room_number).join(", ") // Example
-            };
-
-            const response = await axios.post('http://localhost:5000/api/reservations', reservationData);
-
-            if (response.status === 200) {
-                alert('Reservation created successfully!');
-                navigate('/reservation'); // Redirect to reservations list or any other page
+            const promises = selectedRooms.map((room) => {
+                const reservationData = {
+                    guest_id: selectedGuest.guest_id,
+                    room_id: room.room_id,
+                    checkin_date: checkIn,
+                    checkout_date: checkOut,
+                    checkin_time: null,
+                    checkout_time: null,
+                    checkin_status: "Pending",
+                    checkout_status: "Pending",
+                    discount: null
+                };
+    
+                return axios.post('http://localhost:5000/api/reservations', reservationData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            });
+    
+            const responses = await Promise.all(promises);
+    
+            if (responses.every((response) => response.status === 200)) {
+                alert('Reservations created successfully!');
+                navigate('/reservation');
             } else {
-                alert('Failed to create reservation.');
+                alert('Failed to create reservations.');
             }
         } catch (error) {
-            console.error('Error creating reservation:', error);
-            alert('Failed to create reservation.');
+            console.error('Error creating reservations:', error);
+            alert('Failed to create reservations.');
         }
     };
 

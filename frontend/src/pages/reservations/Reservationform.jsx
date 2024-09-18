@@ -1,6 +1,6 @@
 //Reservationform.jsx
 import React, { useState, useEffect } from 'react';
-import '../components/styles/Reservationform.css';
+import '../../components/styles/Reservationform.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';

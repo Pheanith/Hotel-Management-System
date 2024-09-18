@@ -3,20 +3,22 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/header/header';
 import Sidebar from './components/sidebar/sidebar';
-import Reservation from './pages/Reservation';
+import Reservation from './pages/reservations/Reservation';
 import AdminDashbaord from './pages/admin/AdminDashbaord';
 import Invoice from './pages/invoice/Invoice';
 import Room from './pages/rooms/Room';
 import RoomList from './pages/rooms/RoomList';
 import Transaction from './pages/Transaction';
-import Reservationform from './pages/Reservationform';
+import Reservationform from './pages/reservations/Reservationform';
 import AddRoom from './pages/rooms/AddRoom';
 // import Login from './pages/Login&Rgister/Login';
 import Guest from './pages/guests/Guest';
 import RoomEdit from './pages/rooms/RoomEdit';
-import ReservationEdit from './pages/ReservationEdit';
+import ReservationEdit from './pages/reservations/ReservationEdit';
 import GuestForm from './pages/guests/GuestForm';
 import GuestReserve from './pages/guests/GuestReserve';
+import ReservationDetail from './pages/reservations/ReservationDetail';
+import Verification from './pages/reservations/Verification';
 import './App.css';
 
 function App() {
@@ -43,6 +45,8 @@ function App() {
               <Route path = "edit-resservation/:id" element={<ReservationEdit/>}/>
               <Route path= "add-new-guest" element = {<GuestForm/>}/>
               <Route path="select-guest" element={<GuestReserve/>}/>
+              <Route path="/reservation-detail/:id" element={<ReservationDetail />} />
+              <Route path="/verification" element={<Verification />} />
             </Routes>
           </div>
         </div>

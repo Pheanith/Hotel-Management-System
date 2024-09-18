@@ -1,6 +1,6 @@
 //ReservationDelete.jsx
 import React, { useState } from 'react';
-import '../components/styles/ReservationDelete.css';
+import '../../components/styles/ReservationDelete.css';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const ReservationDelete = ({show, onClose, onDelete}) => {

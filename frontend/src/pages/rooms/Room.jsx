@@ -5,6 +5,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
+function formatDate(date) {
+    if (!date) return null;
+    const dt = new Date(date);
+    const day = String(dt.getDate()).padStart(2, '0');
+    const month = String(dt.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = dt.getFullYear();
+    return `${year}-${month}-${day}`;
+}
+
 const Room = () => {
     const [formData, setFormData] = useState({
         checkIn: null,
@@ -32,8 +41,8 @@ const Room = () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/rooms/available', {
                     params: {
-                        checkIn: formData.checkIn?.toISOString().split('T')[0],
-                        checkOut: formData.checkOut?.toISOString().split('T')[0],
+                        checkIn: formatDate(formData.checkIn),
+                        checkOut: formatDate(formData.checkOut),
                     },
                 });
                 setRooms(response.data);

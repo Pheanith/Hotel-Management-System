@@ -1,7 +1,7 @@
 //ReservationEdit.jsx
 
 import React, { useEffect, useState } from 'react';
-import '../components/styles/ReservationEdit.css';
+import '../../components/styles/ReservationEdit.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';

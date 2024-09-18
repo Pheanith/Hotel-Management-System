@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../components/styles/ReservationCard.css';
+import '../../components/styles/ReservationCard.css';
 import ReservationDelete from './ReservationDelete';
 import ReservationEdit from './ReservationEdit';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const ReservationCard = () => {
   const [reservations, setReservations] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
-  const location = useLocation();
-  const {state} = location;
-  const {createReservation = [], selectedRoom, selectedGuest, chekIn, checkOut} = state || {};
+
   useEffect(() => {
     const fetchReservations = async () => {
       try {
@@ -26,7 +24,6 @@ const ReservationCard = () => {
     };
     fetchReservations();
   }, []);
-  
 
   const handleDeleteClick = (reservation) => {
     setSelectedReservation(reservation);
@@ -76,10 +73,11 @@ const ReservationCard = () => {
             <th>Check-out Date</th>
             <th>Room Number</th>
             <th>Room Type</th>
-            <th> Accommodation Type</th>
-            <th>Check-in Status</th>
-            <th>Total</th>
+            <th>Accommodation Type</th>
+            <th>Total Amount</th>
             <th>Status</th>
+            <th>Check-in Status</th>
+            <th>Detail</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -87,31 +85,35 @@ const ReservationCard = () => {
           {reservations.map((reservation, index) => (
             <tr key={index}>
               <td>{reservation.reservation_id}</td>
-              <td>{`${reservation.selectedGuest.firstName || ''} ${reservation.selectedGuest.lastName || ''}`}</td>
-              <td>{reservation.selectedGuest.phoneNumber || 'N/A'}</td>
-              <td>{reservation.reserveDate}</td>
-              <td>{reservation.checkIn}</td>
-              <td>{reservation.checkOut}</td>
-              <td>{reservation.selectedRooms.map(room => room.room_number).join(", ") || 'N/A'}</td>
-              <td>{reservation.selectedRooms.map(room => room.room_type_name).join(", ") || 'N/A'}</td>
-              <td>{reservation.selectedRooms.map(room => room.accommodation_type_name).join(", ") || 'N/A'}</td>
-              <td className={
-                reservation.checkin_status === 'checked_in' ? 'checked-in' :
-                reservation.checkin_status === 'checked_out' ? 'checked-out' : 'not-checked-in'}>
+              <td>{`${reservation.firstName} ${reservation.lastName}`}</td>
+              <td>{reservation.phoneNumber}</td>
+              <td>{new Date(reservation.reserve_date).toLocaleDateString()}</td>
+              <td>{new Date(reservation.checkin_date).toLocaleDateString()}</td>
+              <td>{new Date(reservation.checkout_date).toLocaleDateString()}</td>
+              <td>{reservation.room_number}</td>
+              <td>{reservation.room_type_name}</td>
+              <td>{reservation.accommodation_type_name || 'N/A'}</td>
+              <td>${reservation.totalAmount}</td>
+              <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>
+                {reservation.status}
+              </td>
+              <td className={reservation.checkin_status === 'checked_in' ? 'checked-in' : reservation.checkin_status === 'checked_out' ? 'checked-out' : 'not-checked-in'}>
                 {reservation.checkin_status}
               </td>
-              <td>{reservation.totalAmount}</td>
-              <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>{reservation.status}</td>
+              <td className='reservation-detail'>
+                <Link to={`/reservation-detail/${reservation.reservation_id}`} state={reservation}>
+                  Reservation detail
+                </Link>
+              </td>
               <td>
-                <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(reservation)}>✏️</span>
+                {/* <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(reservation)}>✏️</span> */}
                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(reservation)}>🗑️</span>
               </td>
             </tr>
           ))}
         </tbody>
-
       </table>
-      {showModal && <ReservationDelete reservation={selectedReservation} onClose={handleClose} onDelete={handleDelete} />}
+      <ReservationDelete show={showModal} onClose={handleClose} onDelete={handleDelete} />
       {showEditModal && <ReservationEdit reservation={selectedReservation} onClose={handleClose} onUpdate={handleUpdate} />}
     </div>
   );
