@@ -1,11 +1,37 @@
-/* src/App.css */
+/* Layout for the main app */
 .App {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
+/* Container for main layout content */
 .main-container {
   display: flex;
   flex-grow: 1;
+}
+
+/* Content area where the main app content is displayed */
+.content-area {
+  flex: 1;
+  padding: 20px; /* Add some padding if needed */
+}
+
+/* Layout for authentication pages */
+.auth-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4; /* Background color for auth pages */
+}
+
+/* Additional styling for auth content */
+.auth-content {
+  width: 100%;
+  max-width: 400px; /* Adjust width as needed */
+  padding: 20px;
+  background: white; /* Background color for auth content */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Light shadow */
 }
