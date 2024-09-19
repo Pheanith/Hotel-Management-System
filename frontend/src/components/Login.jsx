@@ -1,5 +1,7 @@
+// src/pages/Login&Rgister/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import './Login.css'; // Import the CSS file
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -14,17 +16,17 @@ const Login = () => {
         username,
         password
       });
-      setMessage(response.data);
+      setMessage('Login successful!'); // Update message on success
     } catch (error) {
       setMessage(error.response?.data || 'An error occurred');
     }
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
+      <form onSubmit={handleLogin} className="login-form">
+        <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input
             type="text"
@@ -34,7 +36,7 @@ const Login = () => {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -44,9 +46,9 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className="login-btn">Login</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };

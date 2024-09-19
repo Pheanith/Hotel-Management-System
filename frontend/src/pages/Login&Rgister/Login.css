@@ -1,0 +1,49 @@
+/* src/pages/Login&Rgister/Login.css */
+.login-container {
+  background-color: #003366; /* Dark Blue background */
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 5px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button.login-btn {
+  background-color: #0056b3; /* Slightly lighter blue for the button */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button.login-btn:hover {
+  background-color: #004494; /* Darker blue on hover */
+}
+
+.message {
+  margin-top: 10px;
+}

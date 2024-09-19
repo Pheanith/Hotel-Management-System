@@ -1,0 +1,16 @@
+/* src/layouts/AuthLayout.css */
+.auth-layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #003366; /* Dark Blue background */
+  color: white;
+}
+
+.auth-layout-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
