@@ -7,6 +7,7 @@ import {
     deleteGuest
 } from '../models/guestModel.js';
 
+
 // Get all guests
 export const getGuest = async (req, res) => {
     try {
