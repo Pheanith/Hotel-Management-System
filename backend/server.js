@@ -6,6 +6,7 @@ import roomRoutes from './routes/roomRoutes.js';
 import reservationRoute from './routes/reservationRoute.js';
 import guestRoute from './routes/guestRoute.js';
 import roomTypeRoutes from './routes/roomTypeRoutes.js';
+import accommodationRoutes from './routes/accommodationRoutes.js';
 
 
 
@@ -20,6 +21,7 @@ app.use('/api/rooms', roomRoutes);
 app.use('/api/reservations', reservationRoute);
 app.use('/api/guests', guestRoute);
 app.use('/api/room_types', roomTypeRoutes);
+app.use('/api/accommodation_types', accommodationRoutes);
 
 
 app.listen(PORT, () => {
