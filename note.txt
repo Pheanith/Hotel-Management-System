@@ -10,5 +10,25 @@
 11/09 TODO: 
 - add reservation
 - checkin and checkout 
-- payment detail bsed on reservation number: by cash, KHQR
+- payment detail based on reservation number: by cash, KHQR
 - paste to customers (reservation details)
+
+19/09/2024 TODO:
+Sengly
+    - protect route
+    - protect login and logout
+    - Add button room type or dropdown room type etc.
+    - Dashbord (count reservations, count available room for today, count total rooms, total occupied room (today)) ex: count unique id, total use sum, 
+    - 
+
+Pheanith:
+    - Complete on discount and calculate
+    - Invoices (when invoice create?), can print
+    - payment (payment method, create table payment, payment status)
+    - Make the reservation only one row if it booked at the same time
+    - Search reservation by ID, phone number, checkin checkout date
+    - guest can check in only with passport or id number instead of phone number (if old guest dont need to reinput)
+    - reservation detail 
+    - Status booked, checkin, checkout, cancel
+    - invoice can print and download (count room and room type), invoice item (reservation detail, )
+    - create invoice backend 

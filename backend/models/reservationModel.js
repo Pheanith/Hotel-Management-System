@@ -36,30 +36,31 @@ export const getReservationById = (params) => {
     const values = [];
   
     // Add conditions based on available parameters
-    if (id) {
-      query += 'r.reservation_id = ?';
-      values.push(reservation_id);
+    if (reservation_id) {
+        query += 'r.reservation_id = ?';
+        values.push(reservation_id);
     } else if (phoneNumber) {
-      query += 'g.phoneNumber = ?';
-      values.push(phoneNumber);
+        query += 'g.phoneNumber = ?';
+        values.push(phoneNumber);
     } else if (guestName) {
-      query += 'CONCAT(g.firstName, " ", g.lastName) = ?';
-      values.push(guestName);
+        query += 'CONCAT(g.firstName, " ", g.lastName) = ?';
+        values.push(guestName);
     } else {
-      throw new Error('Invalid search parameters');
+        throw new Error('Invalid search parameters');
     }
 
     // Execute query and return the first result
     return new Promise((resolve, reject) => {
-      db.query(query, values, (err, results) => {
-        if (err) {
-          console.error('Database error:', err);
-          return reject(err);
-        }
-        resolve(results[0]);
-      });
+        db.query(query, values, (err, results) => {
+            if (err) {
+                console.error('Database error:', err);
+                return reject(err);
+            }
+            resolve(results[0]);
+        });
     });
 };
+
 export const getReservationDetail = () => {
     return new Promise((resolve, reject) => {
         const dataQuery = `SELECT * FROM reservation_details `
@@ -141,10 +142,6 @@ export const CreateReservationDetail = (reservation_id, room_id) => {
     });
 };
 
-
-
-
-
 // Update a reservation by ID
 export const updateReservationById = (id, updatedReservation) => {
     const { guest_id, checkin_date, checkout_date, checkin_status, checkout_status, discount } = updatedReservation;
@@ -168,40 +165,66 @@ export const updateReservationById = (id, updatedReservation) => {
 
 // Delete a reservation by ID
 export const deleteReservationById = async (id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            // Get reservation to find associated room numbers
-            const reservation = await getReservationById(id);
-            if (!reservation) {
-                return reject(new Error('Reservation not found'));
-            }
+    try {
+        // Get reservation to find associated room numbers
+        const reservation = await getReservationById({ reservation_id: id });
+        if (!reservation) {
+            throw new Error('Reservation not found');
+        }
 
-            // Example: fetch associated rooms from reservation_details
-            const rooms = []; // Fetch room numbers associated with this reservation
-
-            // Delete reservation
-            db.query('DELETE FROM reservations WHERE reservation_id = ?', [id], async (err, results) => {
+        // Fetch associated room numbers from reservation_details by joining with rooms table
+        const rooms = await new Promise((resolve, reject) => {
+            const query = `
+                SELECT rm.room_number
+                FROM reservation_details rd
+                JOIN rooms rm ON rd.room_id = rm.room_id
+                WHERE rd.reservation_id = ?
+            `;
+            db.query(query, [id], (err, results) => {
                 if (err) {
-                    console.error('Database error:', err);
+                    console.error('Database error fetching rooms:', err);
                     return reject(err);
                 }
-
-                // Update room status to Available
-                try {
-                    for (const room of rooms) {
-                        await updateRoomStatus(room, 'Available');
-                    }
-                    resolve(results.affectedRows);
-                } catch (updateError) {
-                    console.error('Failed to update room status:', updateError);
-                    reject(updateError);
-                }
+                resolve(results.map(row => row.room_number));
             });
-        } catch (error) {
-            reject(error);
-        }
-    });
+        });
+
+        // Delete reservation
+        await new Promise((resolve, reject) => {
+            db.query('DELETE FROM reservations WHERE reservation_id = ?', [id], (err, results) => {
+                if (err) {
+                    console.error('Database error deleting reservation:', err);
+                    return reject(err);
+                }
+                resolve(results.affectedRows);
+            });
+        });
+
+        // Update room status to Available
+        // for (const room of rooms) {
+        //     try {
+        //         await new Promise((resolve, reject) => {
+        //             db.query('UPDATE rooms SET status = ? WHERE room_number = ?', ['Available', room], (err, results) => {
+        //                 if (err) {
+        //                     console.error('Failed to update room status:', err);
+        //                     return reject(err);
+        //                 }
+        //                 resolve(results.affectedRows);
+        //             });
+        //         });
+        //     } catch (updateError) {
+        //         console.error('Failed to update room status:', updateError);
+        //         // Optionally, handle rollback or continue with the next room
+        //     }
+        // }
+
+        // return rooms.length; // Return number of rooms updated or affected rows as needed
+    } catch (error) {
+        console.error('Error in deleteReservationById:', error);
+        throw error;
+    }
 };
+
 
 export const getAllReservations = () => {
     const query = `
@@ -216,7 +239,7 @@ export const getAllReservations = () => {
         JOIN rooms rm ON rd.room_id = rm.room_id
         JOIN room_types rt ON rm.room_type_id = rt.room_type_id
         JOIN accommodation_types at ON rm.accommodation_type_id = at.accommodation_type_id
-        ORDER BY r.reservation_id ASC;
+        ORDER BY r.created_at DESC;
     `;
 
     return new Promise((resolve, reject) => {
@@ -228,3 +251,24 @@ export const getAllReservations = () => {
         });
     });
 };
+
+// Update the check-in status in the database
+export const updateCheckIn = (reservation_id) => {
+    const query = `
+        UPDATE reservations
+        SET checkin_status = 'Checked In'
+        WHERE reservation_id = ?
+    `;
+
+    return new Promise((resolve, reject) => {
+        db.query(query, [reservation_id], (error, results) => {
+            if (error) {
+                console.error('Database error:', error);
+                return reject(error);
+            }
+            // Resolve with the number of affected rows
+            resolve(results.affectedRows);
+        });
+    });
+};
+

@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.4",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
     "hotel-management-system": "file:",
     "react": "^18.3.1",
     "react-datepicker": "^7.3.0",

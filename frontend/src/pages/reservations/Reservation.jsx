@@ -26,25 +26,25 @@ const Reservation = () => {
   };
 
   const handleSearch = async () => {
-    // if (searchInput.trim()) {
-    //   try {
-    //     const response = await fetch(`/api/reservations?query=${encodeURIComponent(searchInput)}`);
+    if (searchInput.trim()) {
+      try {
+        const response = await fetch(`/api/reservations?query=${encodeURIComponent(searchInput)}`);
         
-    //     // Check if the response is JSON before parsing
-    //     if (response.headers.get('content-type')?.includes('application/json')) {
-    //       const data = await response.json();
-    //       setReservation(data);
-    //     } else {
-    //       console.error('Invalid response type:', response);
-    //       setReservation(null);
-    //     }
-    //   } catch (error) {
-    //     console.error('Search error:', error);
-    //     setReservation(null);
-    //   }
-    // } else {
-    //   setReservation(null);
-    // }
+        // Check if the response is JSON before parsing
+        if (response.headers.get('content-type')?.includes('application/json')) {
+          const data = await response.json();
+          setReservation(data);
+        } else {
+          console.error('Invalid response type:', response);
+          setReservation(null);
+        }
+      } catch (error) {
+        console.error('Search error:', error);
+        setReservation(null);
+      }
+    } else {
+      setReservation(null);
+    }
   };  
 
   useEffect(() => {

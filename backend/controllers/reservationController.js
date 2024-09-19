@@ -1,5 +1,6 @@
 // controllers/reservationController.js
 import { getReservationById, createReservation, updateReservationById, deleteReservationById, getAllReservations, CreateReservationDetail } from '../models/reservationModel.js';
+import { updateCheckIn } from '../models/reservationModel.js';
 
 // Get a reservation by ID
 export const fetchReservationById = (req, res) => {
@@ -51,8 +52,8 @@ export const modifyReservationById = (req, res) => {
 
 // Delete a reservation by ID
 export const removeReservationById = (req, res) => {
-    const { id } = req.params;
-    deleteReservationById(id)
+    const { reservation_id } = req.params;
+    deleteReservationById(reservation_id)
         .then(result => {
             if (result > 0) {
                 res.json({ message: 'Reservation deleted successfully' });
@@ -69,3 +70,16 @@ export const fetchAllReservations = (req, res) => {
         .then(reservations => res.json(reservations))
         .catch(err => res.status(500).json({ error: err.message }));
 };
+
+export const updateCheckInStatus = (req, res) => {
+    const { reservation_id } = req.params;
+    updateCheckIn(reservation_id)
+      .then(result => {
+        if (result) {
+          res.status(200).json({ message: 'Check-in status updated successfully' });
+        } else {
+          res.status(404).json({ message: `Reservation with ID ${reservation_id} not found` });
+        }
+      })
+      .catch(err => res.status(500).json({ error: err.message }));
+  }

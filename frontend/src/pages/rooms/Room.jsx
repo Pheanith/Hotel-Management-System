@@ -15,6 +15,7 @@ function formatDate(date) {
 }
 
 const Room = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         checkIn: null,
         checkOut: null,
@@ -23,20 +24,21 @@ const Room = () => {
     const [selectedRooms, setSelectedRooms] = useState([]);
 
     // Fetch all rooms excluding maintenance on initial render
-    useEffect(() => {
-        const fetchAllRooms = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/rooms/available');
-            setRooms(response.data);
-        } catch (error) {
-            console.error('Error fetching all rooms:', error);
-        }
-        };
+    // useEffect(() => {
+    //     const fetchAllRooms = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:5000/api/rooms/available');
+    //         setRooms(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching all rooms:', error);
+    //     }
+    //     };
 
-        fetchAllRooms();
-    }, []);
+    //     fetchAllRooms();
+    // }, []);
 
-    useEffect(() => {
+     // Fetch available rooms when check-in or check-out dates change
+     useEffect(() => {
         const fetchAvailableRooms = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/rooms/available', {
@@ -57,13 +59,22 @@ const Room = () => {
     }, [formData.checkIn, formData.checkOut]);
 
     const handleDateChange = (date, field) => {
+        let newCheckIn = field === 'checkIn' ? date : formData.checkIn;
+        let newCheckOut = field === 'checkOut' ? date : formData.checkOut;
+
+        // Update the checkout date if check-in date changes
+        if (field === 'checkIn') {
+            const nextDay = new Date(date);
+            nextDay.setDate(date.getDate() + 1);
+            newCheckOut = nextDay;
+        }
+
         setFormData({
             ...formData,
-            [field]: date,
+            checkIn: newCheckIn,
+            checkOut: newCheckOut,
         });
     };
-
-    const navigate = useNavigate();
 
     const handleRoomSelection = (room) => {
         setSelectedRooms(prevRooms => {
@@ -77,7 +88,6 @@ const Room = () => {
 
     const handleNextButton = () => {
         if (selectedRooms.length > 0) {
-            console.log("rooms:", selectedRooms);
             navigate('/select-guest', {
                 state: {
                     selectedRooms,
@@ -85,7 +95,6 @@ const Room = () => {
                     checkOut: formData.checkOut
                 },
             });
-            
         } else {
             alert('Please select at least one room.');
         }
@@ -127,23 +136,29 @@ const Room = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {rooms.map((room, index) => (
-                            <tr key={index}>
-                                <td>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedRooms.some(r => r.room_number === room.room_number)}
-                                        onChange={() => handleRoomSelection(room)}
-                                    />
-                                </td>
-                                <td>{room.room_number}</td>
-                                <td>{room.room_type_name}</td>
-                                <td>{room.accommodation_type_name}</td>
-                                <td>{room.floor_number}</td>
-                                <td>{room.price_per_night}</td>
-                                <td>{room.description}</td>
+                        {rooms.length > 0 ? (
+                            rooms.map((room, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRooms.some(r => r.room_number === room.room_number)}
+                                            onChange={() => handleRoomSelection(room)}
+                                        />
+                                    </td>
+                                    <td>{room.room_number}</td>
+                                    <td>{room.room_type_name}</td>
+                                    <td>{room.accommodation_type_name}</td>
+                                    <td>{room.floor_number}</td>
+                                    <td>{room.price_per_night}</td>
+                                    <td>{room.description}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="7">No rooms available for the selected dates.</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>

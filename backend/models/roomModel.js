@@ -1,6 +1,8 @@
 //roomModel.js
 import db from '../utils/db.js';
 
+
+
 // Get all rooms with room_type and accommodation_type
 export const getAllRooms = () => {
     return new Promise((resolve, reject) => {
@@ -105,19 +107,24 @@ export const getAvailableRooms = (checkIn, checkOut) => {
         // Case 1: When check-in and check-out dates are provided
         if (checkIn && checkOut) {
             query = `
-                SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+                SELECT rooms.*, 
+                    room_types.name AS room_type_name, 
+                    accommodation_types.name AS accommodation_type_name
                 FROM rooms
                 JOIN room_types ON rooms.room_type_id = room_types.room_type_id
                 JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
                 WHERE rooms.availability_status = 'Available'
-                OR rooms.room_id NOT IN (
-                    SELECT room_id 
-                    FROM reservation_details
-                    INNER JOIN reservations ON reservations.reservation_id = reservation_details.reservation_id
-                    WHERE reservations.checkin_date < ? AND reservations.checkout_date > ?
-                )
                 AND rooms.availability_status != 'Maintenance'
-                ORDER BY rooms.room_number ASC;
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM reservation_details rd
+                    JOIN reservations r ON rd.reservation_id = r.reservation_id
+                    WHERE rd.room_id = rooms.room_id
+                    AND r.checkin_date < ? 
+                    AND r.checkout_date > ?
+                )
+                ORDER BY rooms.room_id ASC;
+
             `;
             params = [checkOut, checkIn];
 
