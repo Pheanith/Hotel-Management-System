@@ -23,7 +23,8 @@ label {
   display: block;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -46,4 +47,13 @@ button.register-btn:hover {
 
 .message {
   margin-top: 10px;
+}
+
+.login-link {
+  color: #66ccff; /* Light blue for the link */
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
 }

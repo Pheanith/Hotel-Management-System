@@ -1,6 +1,7 @@
 // src/pages/Login&Rgister/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import './Register.css'; // Import the CSS file for styling
 
 const Register = () => {
@@ -60,12 +61,12 @@ const Register = () => {
             <option value="">Select Role</option>
             <option value="Admin">Admin</option>
             <option value="Simple Admin">Simple Admin</option>
-            {/* Add more roles here if needed */}
           </select>
         </div>
         <button type="submit" className="register-btn">Register</button>
       </form>
       {message && <p className="message">{message}</p>}
+      <p>Already have an account? <Link to="/login" className="login-link">Login here</Link></p> {/* Link to Login */}
     </div>
   );
 };

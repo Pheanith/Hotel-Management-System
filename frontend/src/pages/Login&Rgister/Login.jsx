@@ -1,12 +1,13 @@
-// src/pages/Login&Rgister/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate
 import './Login.css'; // Import the CSS file
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,7 +17,10 @@ const Login = () => {
         username,
         password
       });
-      setMessage('Login successful!'); // Update message on success
+      setMessage('Login successful!');
+      
+      // Redirect to dashboard or any other route after successful login
+      navigate('/admin-dashboard'); // Change the path as needed
     } catch (error) {
       setMessage(error.response?.data || 'An error occurred');
     }
@@ -49,6 +53,9 @@ const Login = () => {
         <button type="submit" className="login-btn">Login</button>
       </form>
       {message && <p className="message">{message}</p>}
+      <p className="register-link">
+        Don't have an account? <Link to="/register">Register here</Link>
+      </p>
     </div>
   );
 };

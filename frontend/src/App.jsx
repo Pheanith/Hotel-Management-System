@@ -41,6 +41,7 @@ function App() {
     <Router>
       <Routes>
         {/* Routes with main layout */}
+        {/* <Route path="/" element={<MainLayout><AdminDashbaord /></MainLayout>} /> */}
         <Route path="/" element={<MainLayout><AdminDashbaord /></MainLayout>} />
         <Route path="admin-dashboard" element={<MainLayout><AdminDashbaord /></MainLayout>} />
         <Route path="reservation" element={<MainLayout><Reservation /></MainLayout>} />
