@@ -1,6 +1,6 @@
 // routes/reservationRoutes.js
 import express from 'express';
-import { fetchReservationById, addNewReservation, modifyReservationById, removeReservationById, fetchAllReservations, updateCheckInStatus } from '../controllers/reservationController.js';
+import { fetchReservationById, addNewReservation, modifyReservationById, removeReservationById, fetchAllReservations, updateCheckInStatus, updateCheckOutStatus} from '../controllers/reservationController.js';
 
 
 const router = express.Router();
@@ -19,6 +19,9 @@ router.put('/:reservation_id', modifyReservationById);
 
 // Update reservation status
 router.put('/:reservation_id/checkin', updateCheckInStatus);
+
+//Update reservation status
+router.put('/:reservation_id/checkout', updateCheckOutStatus);
 
 // Delete reservation by ID
 router.delete('/:reservation_id', removeReservationById);

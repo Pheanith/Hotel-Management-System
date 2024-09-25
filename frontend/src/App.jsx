@@ -5,13 +5,13 @@ import Header from './components/header/header';
 import Sidebar from './components/sidebar/sidebar';
 import Reservation from './pages/reservations/Reservation';
 import AdminDashbaord from './pages/admin/AdminDashbaord';
-import Invoice from './pages/invoice/Invoice';
+import ReservationSum from './pages/reservations/ReserveSum';
 import Room from './pages/rooms/Room';
 import RoomList from './pages/rooms/RoomList';
 import Transaction from './pages/Transaction';
 import Reservationform from './pages/reservations/Reservationform';
 import AddRoom from './pages/rooms/AddRoom';
-// import Login from './pages/Login&Rgister/Login';
+import Invoice from './pages/invoice/Invoice';
 import Guest from './pages/guests/Guest';
 import RoomEdit from './pages/rooms/RoomEdit';
 import ReservationEdit from './pages/reservations/ReservationEdit';
@@ -34,7 +34,7 @@ function App() {
               <Route path= '/' element = {<AdminDashbaord/>} /> {/* Defualt path*/ }
               <Route path="admin-dashboard" element={<AdminDashbaord />} />
               <Route path="reservation" element={<Reservation />} />
-              <Route path="invoice" element={<Invoice/>}/>
+              {/* <Route path="invoice" element={<Invoice/>}/> */}
               <Route path="available-room" element={<Room/>}/>
               <Route path="transaction" element={<Transaction/>}/>
               <Route path="reserve" element={<Reservationform />} /> {/* Add this line */}
@@ -47,6 +47,10 @@ function App() {
               <Route path="select-guest" element={<GuestReserve/>}/>
               <Route path="/reservation-detail/:id" element={<ReservationDetail />} />
               <Route path="/verification" element={<Verification />} />
+              <Route path="/reserve-sum" element={<ReservationSum />} />
+              <Route path="/invoice/:reservation_id" element={<Invoice />} />
+              {/* <Route path="/invoice" element={<Invoice />} /> */}
+              
             </Routes>
           </div>
         </div>

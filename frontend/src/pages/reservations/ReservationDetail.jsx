@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../../components/styles/ReservationDetail.css';
 import { useState } from 'react';
+import axios from 'axios';
 
 const ReservationDetail = () => {
   const location = useLocation();
@@ -13,12 +14,10 @@ const ReservationDetail = () => {
     return <p>No reservation details available.</p>;
   }
 
-  // Function to mask the card number except for the last four digits
   const maskCardNumber = (cardNumber) => {
     return cardNumber ? `**** **** **** ${cardNumber.slice(-4)}` : 'N/A';
   };
 
-  // Function to copy summary info to clipboard
   const copyToClipboard = () => {
     const summaryText = `
       Guest name: ${reservation.firstName} ${reservation.lastName}
@@ -33,18 +32,30 @@ const ReservationDetail = () => {
       console.error('Failed to copy text: ', err);
     });
   };
-  // Handle dropdown toggle
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Handle check-in or check-out action
   const handleAction = (action) => {
     if (action === 'checkin') {
-      navigate('/verification', { state: reservation });
+      navigate('/verification', {
+        state: {
+            ...reservation, // include other reservation details
+            identity_no: reservation.identity_no // make sure to include the identity number
+        }
+    });
+    
     } else if (action === 'checkout') {
-      // Handle check-out logic
-      alert('Check-out action triggered');
+      axios.put(`http://localhost:5000/api/reservations/${reservation.reservation_id}/checkout`)
+      .then(response => {
+        alert('Check-out successful!');
+        navigate('/reservation');
+      })
+      .catch(error => {
+        console.error('Error updating check-in status:', error);
+        alert('Failed to update check-in status. Please try again.');
+      });
     }
     setIsDropdownOpen(false); // Close dropdown after action
   };
@@ -52,19 +63,17 @@ const ReservationDetail = () => {
   return (
     <div className="detail-main-content">
         <div className="detail-header">
-            <div>
-                <h2><strong>Reservation Details</strong></h2>
-            </div>
+            <h2><strong>Reservation Details</strong></h2>
             <div className="dropdown">
-            <button onClick={toggleDropdown} className="dropdown-button">
-                Actions
-            </button>
-            {isDropdownOpen && (
-                <div className="dropdown-menu">
-                    <button onClick={() => handleAction('checkin')}>Check-in</button>
-                    <button onClick={() => handleAction('checkout')}>Check-out</button>
-                </div>
-            )}
+              <button onClick={toggleDropdown} className="dropdown-button">
+                  Actions
+              </button>
+              {isDropdownOpen && (
+                  <div className="dropdown-menu">
+                      <button onClick={() => handleAction('checkin')}>Check-in</button>
+                      <button onClick={() => handleAction('checkout')}>Check-out</button>
+                  </div>
+              )}
             </div>
         </div>
 

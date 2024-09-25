@@ -1,16 +1,14 @@
-//Reservation.jsx
 import React, { useState, useEffect } from 'react';
 import '../../components/styles/Reservation.css';
 import ReservationCard from './ReservationCard';
-import ReservationDetail from './ReservationDetail';
-// import Reservationform from './Reservationform';
 import Search from '@mui/icons-material/SearchOutlined';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Reservation = () => {
   const [isFormVisible, setFormVisible] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  const [reservation, setReservation] = useState(null);
+  const [reservations, setReservations] = useState([]);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -25,31 +23,17 @@ const Reservation = () => {
     navigate('/reserve', { state: { fromPage: 'reservation' } });
   };
 
-  const handleSearch = async () => {
-    if (searchInput.trim()) {
-      try {
-        const response = await fetch(`/api/reservations?query=${encodeURIComponent(searchInput)}`);
-        
-        // Check if the response is JSON before parsing
-        if (response.headers.get('content-type')?.includes('application/json')) {
-          const data = await response.json();
-          setReservation(data);
-        } else {
-          console.error('Invalid response type:', response);
-          setReservation(null);
-        }
-      } catch (error) {
-        console.error('Search error:', error);
-        setReservation(null);
-      }
-    } else {
-      setReservation(null);
-    }
-  };  
-
   useEffect(() => {
-    handleSearch();
-  }, [searchInput]);
+    const fetchReservations = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/reservations');
+        setReservations(response.data);
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+      }
+    };
+    fetchReservations();
+  }, []);
 
   return (
     <div className="main-content">
@@ -67,15 +51,7 @@ const Reservation = () => {
           </div>
         </div>
       </div>
-      {reservation && (
-        <div>
-          <h2>Reservation Found:</h2>
-          <p>Reservation ID: {reservation.reservation_id}</p>
-          <p>Guest Name: {reservation.firstName} {reservation.lastName}</p>
-          <p>Guest Phone Number: {reservation.phoneNumber}</p>
-        </div>
-      )}
-      <ReservationCard />
+      <ReservationCard reservations={reservations} searchInput={searchInput} />
     </div>
   );
 };

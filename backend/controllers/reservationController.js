@@ -1,6 +1,6 @@
 // controllers/reservationController.js
 import { getReservationById, createReservation, updateReservationById, deleteReservationById, getAllReservations, CreateReservationDetail } from '../models/reservationModel.js';
-import { updateCheckIn } from '../models/reservationModel.js';
+import { updateCheckIn, updateCheckOut } from '../models/reservationModel.js';
 
 // Get a reservation by ID
 export const fetchReservationById = (req, res) => {
@@ -83,3 +83,16 @@ export const updateCheckInStatus = (req, res) => {
       })
       .catch(err => res.status(500).json({ error: err.message }));
   }
+
+export const updateCheckOutStatus = (req, res) => {
+    const { reservation_id } = req.params;
+    updateCheckOut(reservation_id)
+      .then(result => {
+        if (result) {
+          res.status(200).json({ message: 'Check-out status updated successfully' });
+        } else {
+          res.status(404).json({ message: `Reservation with ID ${reservation_id} not found` });
+        }
+      })
+      .catch(err => res.status(500).json({ error: err.message }));
+}

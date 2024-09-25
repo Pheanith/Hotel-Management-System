@@ -1,65 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
-.invoice {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Inria Sans', sans-serif;
-    text-align: center;
-  }
-  
-  .invoice h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .invoice p {
-    font-size: 18px;
-    margin: 10px 0;
-    color: #555;
-  }
-  
-  .invoice p span {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .invoice button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #0F4C75;
-    color: #fff;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .invoice button:hover {
-    background-color: #3282B8;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .invoice {
-      padding: 15px;
-      font-size: 16px;
-    }
-  
-    .invoice h2 {
-      font-size: 24px;
-    }
-  
-    .invoice p {
-      font-size: 16px;
-    }
-  
-    .invoice button {
-      font-size: 16px;
-    }
-  }
-  
+.invoice-container {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 1200px;
+  height: auto;
+  border-color: #0F4C75;
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 20px;
+}
+.invoice-header {
+  font-family: "Inria Sans", system-ui;
+  font-weight: 700;
+  font-style: normal;
+}
+.invoice-infos{
+  display: flex;
+  gap: 600px;
+}
+.invoice-detail{
+  display: flex;
+  gap: 600px;
+}
+.invoice-items table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.invoice-items th{
+  padding: 10px;
+  text-align: left ;
+  border: 1px solid #0F4C75;
+  background-color: #0F4C75;
+  color: white;
+}
+.invoice-items td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.invoice-items tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.invoice-items tbody tr:hover {
+  background-color: #f5f5f5;
+}
+.invoice-total {
+  margin-left: 80%;
+}
+.invoice-footer {
+  margin-top: 100px;
+  text-align: left;
+  color: rgb(145, 145, 145);
+  font-family: "Inria Sans", system-ui;
+  font-style: normal;
+}

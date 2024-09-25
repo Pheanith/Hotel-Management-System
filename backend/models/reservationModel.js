@@ -228,17 +228,33 @@ export const deleteReservationById = async (id) => {
 
 export const getAllReservations = () => {
     const query = `
-        SELECT r.reservation_id, r.created_at AS reserve_date, r.checkin_date, r.checkout_date, 
-               r.checkout_status, r.checkin_status, r.discount,
-               g.firstName, g.lastName, g.phoneNumber,
-               rm.room_number, rt.name AS room_type_name, at.name AS accommodation_type_name,
-               rm.price_per_night * DATEDIFF(r.checkout_date, r.checkin_date) AS totalAmount
+        SELECT 
+            r.reservation_id, 
+            r.created_at AS reserve_date, 
+            r.checkin_date, 
+            r.checkout_date, 
+            r.checkout_status, 
+            r.checkin_status, 
+            r.discount,
+            g.firstName, 
+            g.lastName, 
+            g.email,
+            g.identity_no,
+            g.address,
+            g.phoneNumber,
+            GROUP_CONCAT(DISTINCT rm.room_number ORDER BY rm.room_number SEPARATOR ', ') AS room_numbers, 
+            GROUP_CONCAT(DISTINCT rt.name ORDER BY rt.name SEPARATOR ', ') AS room_type_names,
+            GROUP_CONCAT(DISTINCT at.name ORDER BY at.name SEPARATOR ', ') AS accommodation_type_names,
+            SUM(rm.price_per_night * DATEDIFF(r.checkout_date, r.checkin_date)) AS totalAmount 
         FROM reservations r
         JOIN guests g ON r.guest_id = g.guest_id
         JOIN reservation_details rd ON r.reservation_id = rd.reservation_id
         JOIN rooms rm ON rd.room_id = rm.room_id
         JOIN room_types rt ON rm.room_type_id = rt.room_type_id
         JOIN accommodation_types at ON rm.accommodation_type_id = at.accommodation_type_id
+        GROUP BY r.reservation_id, r.created_at, r.checkin_date, r.checkout_date, 
+                r.checkout_status, r.checkin_status, r.discount, 
+                g.firstName, g.lastName, g.phoneNumber
         ORDER BY r.created_at DESC;
     `;
 
@@ -251,6 +267,7 @@ export const getAllReservations = () => {
         });
     });
 };
+
 
 // Update the check-in status in the database
 export const updateCheckIn = (reservation_id) => {
@@ -271,4 +288,26 @@ export const updateCheckIn = (reservation_id) => {
         });
     });
 };
+
+// Update the check-out status in the database
+export const updateCheckOut = (reservation_id) => {
+    const query = `
+        UPDATE reservations
+        SET checkout_status = 'Checked Out'
+        WHERE reservation_id = ?
+    `;
+
+    return new Promise((resolve, reject) => {
+        db.query(query, [reservation_id], (error, results) => {
+            if (error) {
+                console.error('Database error:', error);
+                return reject(error);
+            }
+            // Resolve with the number of affected rows
+            resolve(results.affectedRows);
+        });
+    });
+};
+
+
 

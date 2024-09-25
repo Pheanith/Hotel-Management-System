@@ -10,17 +10,14 @@ const Verification = () => {
 
     const [verificationCode, setVerificationCode] = useState('');
     const [error, setError] = useState('');
-    // const api_url = process.env.API_URL;
-    const handleVerify = () => {
-        // Check if the entered verification code matches the reservation phone number
 
-        // console.log(verificationCode, "==", reservation.phoneNumber);
-        if (verificationCode == reservation.phoneNumber) {
-            // Phone number matches; proceed with check-in
+    const handleVerify = () => {
+        // Check if the entered verification code matches the reservation identity number
+        if (verificationCode === reservation.identity_no) {
+            // Identity number matches; proceed with check-in
             axios.put(`http://localhost:5000/api/reservations/${reservation.reservation_id}/checkin`)
                 .then(response => {
-                    alert('Phone number verified! Check-in successful.');
-                    // Redirect to confirmation or another page after verification
+                    alert('Identity number verified! Check-in successful.');
                     navigate('/reservation');
                 })
                 .catch(error => {
@@ -28,8 +25,8 @@ const Verification = () => {
                     setError('Failed to update check-in status. Please try again.');
                 });
         } else {
-            // Phone number does not match
-            setError('The phone number does not match. Please try again.');
+            // Identity number does not match
+            setError('The identity number does not match. Please try again.');
         }
     };
 
@@ -39,11 +36,11 @@ const Verification = () => {
 
     return (
         <div className="verification-container">
-            <h2>Phone Number Verification</h2>
-            <p>Phone: {reservation.phoneNumber}</p>
+            <h2>Identity Number Verification</h2>
+            <p><strong>Your Identity Number:</strong> {reservation.identity_no}</p> {/* Display the identity number */}
             <input
                 type="text"
-                placeholder="Enter your phone number"
+                placeholder="Enter your identity number"
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
             />
@@ -54,20 +51,3 @@ const Verification = () => {
 };
 
 export default Verification;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

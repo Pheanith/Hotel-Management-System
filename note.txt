@@ -6,6 +6,7 @@
 
 - run "node server.js" to run backend
 - run "npm start" to run frontend
+- use npm install jspdf html2canvas to make pdf downloader function
 
 11/09 TODO: 
 - add reservation
@@ -22,13 +23,13 @@ Sengly
     - 
 
 Pheanith:
-    - Complete on discount and calculate
-    - Invoices (when invoice create?), can print
+    - Complete on discount and calculate (done)
+    - Invoices (when invoice create?), can print (done)
     - payment (payment method, create table payment, payment status)
     - Make the reservation only one row if it booked at the same time
-    - Search reservation by ID, phone number, checkin checkout date
-    - guest can check in only with passport or id number instead of phone number (if old guest dont need to reinput)
+    - Search reservation by ID, phone number, checkin checkout date (done)
+    - guest can check in only with passport or id number instead of phone number (if old guest dont need to reinput) (done)
     - reservation detail 
     - Status booked, checkin, checkout, cancel
-    - invoice can print and download (count room and room type), invoice item (reservation detail, )
+    - invoice can print and download (count room and room type), invoice item (reservation detail, ) (not yet since the reservation still seperate by booking many room tgt)
     - create invoice backend 

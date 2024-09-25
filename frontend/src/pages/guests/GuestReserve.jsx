@@ -31,7 +31,7 @@ const GuestReserve = () => {
 
     const handleNextButton = () => {
         if (selectedGuest) {
-            navigate('/invoice', {
+            navigate('/reserve-sum', {
                 state: {
                     selectedRooms,
                     selectedGuest,
