@@ -2,6 +2,14 @@
 import { getReservationById, createReservation, updateReservationById, deleteReservationById, getAllReservations, CreateReservationDetail } from '../models/reservationModel.js';
 import { updateCheckIn, updateCheckOut } from '../models/reservationModel.js';
 
+function formatDate(date) {
+  if (!date) return null;
+  const dt = new Date(date);
+  const day = String(dt.getDate()).padStart(2, '0');
+  const month = String(dt.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const year = dt.getFullYear();
+  return `${year}-${month}-${day}`;
+}
 // Get a reservation by ID
 export const fetchReservationById = (req, res) => {
     const { reservation_id, phoneNumber, guestName } = req.query;
@@ -65,10 +73,33 @@ export const removeReservationById = (req, res) => {
 };
 
 // Get all reservations
-export const fetchAllReservations = (req, res) => {
-    getAllReservations()
-        .then(reservations => res.json(reservations))
-        .catch(err => res.status(500).json({ error: err.message }));
+export const fetchAllReservations = async (req, res) => {
+    // getAllReservations()
+    //     .then(reservations => res.json(reservations))
+    //     .catch(err => res.status(500).json({ error: err.message }));
+
+    try {
+      const reservations = await getAllReservations();
+      const formattedReservations = reservations.map(reservation => {
+        const totalAmount = reservation.totalAmount || 0;
+        const discountAmount = (totalAmount * (reservation.discount || 0)) / 100;
+        const totalAfterDiscount = totalAmount - discountAmount;
+  
+        return {
+          ...reservation,
+          room_numbers: reservation.room_numbers.split(','),  // Convert room numbers to an array
+          room_type_names: reservation.room_type_names.split(','),  // Convert room types to an array
+          totalAfterDiscount: totalAfterDiscount.toFixed(2),
+          reserve_date: formatDate(new Date(reservation.reserve_date)),
+          checkin_date: formatDate(new Date(reservation.checkin_date)),
+          checkout_date: formatDate(new Date(reservation.checkout_date))
+        };
+      });
+      res.json(formattedReservations);
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+      res.status(500).json({ error: 'Failed to fetch reservations' });
+    }
 };
 
 export const updateCheckInStatus = (req, res) => {

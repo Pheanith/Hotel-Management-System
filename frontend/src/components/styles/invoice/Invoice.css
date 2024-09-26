@@ -57,3 +57,6 @@
   font-family: "Inria Sans", system-ui;
   font-style: normal;
 }
+strong {
+  font-size: large;
+}

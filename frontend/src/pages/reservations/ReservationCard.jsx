@@ -3,22 +3,32 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../../components/styles/ReservationCard.css';
 import ReservationDelete from './ReservationDelete';
 import ReservationEdit from './ReservationEdit';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const ReservationCard = ({ reservations, searchInput }) => {
+const ReservationCard = () => {
+  const [reservations, setReservations] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
 
-  const filteredReservations = reservations.filter(reservation => {
-    const guestName = `${reservation.firstName} ${reservation.lastName}`.toLowerCase();
-    return (
-      reservation.reservation_id.toString().includes(searchInput) ||
-      reservation.phoneNumber.includes(searchInput) ||
-      (reservation.identity_no && reservation.identity_no.includes(searchInput)) || // Ensure identity_no is checked safely
-      guestName.includes(searchInput.toLowerCase())
-    );
-  });
+  useEffect(() => {
+      const fetchReservations = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/reservations');
+          // Assuming the response contains discount and totalAmount
+          const updatedReservations = response.data.map(reservation => {
+            const discountAmount = (reservation.totalAmount * reservation.discount) / 100;
+            const totalAfterDiscount = reservation.totalAmount - discountAmount;
+            return { ...reservation, totalAfterDiscount }; // Add the discounted total
+          });
+          setReservations(updatedReservations);
+        } catch (error) {
+          console.error('Error fetching reservations:', error);
+        }
+      };
+      fetchReservations();
+  }, []);
 
   const handleDeleteClick = (reservation) => {
     setSelectedReservation(reservation);
@@ -37,12 +47,21 @@ const ReservationCard = ({ reservations, searchInput }) => {
   };
 
   const handleDelete = async () => {
-    // Handle deletion logic
-    handleClose();
+    try {
+      await axios.delete(`http://localhost:5000/api/reservations/${selectedReservation.reservation_id}`);
+      setReservations(reservations.filter(reservation => reservation.reservation_id !== selectedReservation.reservation_id));
+      handleClose();
+    } catch (error) {
+      console.error('Error deleting reservation:', error);
+    }
   };
 
   const handleUpdate = (updatedReservation) => {
-    // Handle update logic
+    setReservations(prevReservations =>
+      prevReservations.map(reservation =>
+        reservation.reservation_id === updatedReservation.reservation_id ? updatedReservation : reservation
+      )
+    );
     handleClose();
   };
 
@@ -70,7 +89,7 @@ const ReservationCard = ({ reservations, searchInput }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredReservations.map((reservation, index) => (
+          {reservations.map((reservation, index) => (
             <tr key={index}>
               <td>{reservation.reservation_id}</td>
               <td>{`${reservation.firstName} ${reservation.lastName}`}</td>
@@ -78,13 +97,31 @@ const ReservationCard = ({ reservations, searchInput }) => {
               <td>{new Date(reservation.reserve_date).toLocaleDateString()}</td>
               <td>{new Date(reservation.checkin_date).toLocaleDateString()}</td>
               <td>{new Date(reservation.checkout_date).toLocaleDateString()}</td>
-              <td>{reservation.room_numbers}</td>
-              <td>{reservation.room_type_names}</td>
-              <td>{reservation.accommodation_type_names}</td>
-              <td>${Number(reservation.totalAmount || 0).toFixed(2)}</td>
-              <td>{reservation.status}</td>
-              <td>{reservation.checkin_status}</td>
-              <td>{reservation.checkout_status}</td>
+              <td>
+                {typeof reservation.room_numbers === 'string'
+                  ? reservation.room_numbers.split(',')
+                  : reservation.room_numbers || []}
+              </td>
+              <td>
+                {typeof reservation.room_type_names === 'string'
+                  ? reservation.room_type_names.split(',')
+                  : reservation.room_type_names || []}
+              </td>
+              <td>
+                {typeof reservation.accommodation_type_names === 'string'
+                  ? reservation.accommodation_type_names.split(',')
+                  : reservation.accommodation_type_names || []}
+              </td>
+              <td>${reservation.totalAfterDiscount.toFixed(2)}</td> 
+              <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>
+                {reservation.status}
+              </td>
+              <td className={reservation.checkin_status === 'checked-in' ? 'checked-in' : 'pending'}>
+                {reservation.checkin_status}
+              </td>
+              <td className={reservation.checkout_status === 'checked-out' ? 'checked-out' : 'not-checked-out'}>
+                {reservation.checkout_status}
+              </td>
               <td className='reservation-detail'>
                 <Link to={`/reservation-detail/${reservation.reservation_id}`} state={reservation}>
                   Reservation detail
@@ -112,6 +149,7 @@ const ReservationCard = ({ reservations, searchInput }) => {
               onDelete={handleDelete} // Corrected prop name
           />
       )}
+
 
       {showEditModal && (
         <ReservationEdit

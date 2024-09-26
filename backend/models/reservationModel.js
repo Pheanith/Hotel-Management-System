@@ -226,8 +226,10 @@ export const deleteReservationById = async (id) => {
 };
 
 
-export const getAllReservations = () => {
-    const query = `
+export const getAllReservations = (searchParams = {}) => {
+    const { reservation_id, phoneNumber, guestName, checkin_date, checkout_date } = searchParams;
+    
+    let query = `
         SELECT 
             r.reservation_id, 
             r.created_at AS reserve_date, 
@@ -252,6 +254,38 @@ export const getAllReservations = () => {
         JOIN rooms rm ON rd.room_id = rm.room_id
         JOIN room_types rt ON rm.room_type_id = rt.room_type_id
         JOIN accommodation_types at ON rm.accommodation_type_id = at.accommodation_type_id
+    `;
+
+    const conditions = [];
+    const values = [];
+
+    // Add conditions based on available parameters
+    if (reservation_id) {
+        conditions.push('r.reservation_id = ?');
+        values.push(reservation_id);
+    }
+    if (phoneNumber) {
+        conditions.push('g.phoneNumber = ?');
+        values.push(phoneNumber);
+    }
+    if (guestName) {
+        conditions.push('CONCAT(g.firstName, " ", g.lastName) LIKE ?');
+        values.push(`%${guestName}%`); // Using LIKE for partial matches
+    }
+    if (checkin_date) {
+        conditions.push('r.checkin_date = ?');
+        values.push(checkin_date);
+    }
+    if (checkout_date) {
+        conditions.push('r.checkout_date = ?');
+        values.push(checkout_date);
+    }
+
+    if (conditions.length > 0) {
+        query += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    query += `
         GROUP BY r.reservation_id, r.created_at, r.checkin_date, r.checkout_date, 
                 r.checkout_status, r.checkin_status, r.discount, 
                 g.firstName, g.lastName, g.phoneNumber
@@ -259,7 +293,7 @@ export const getAllReservations = () => {
     `;
 
     return new Promise((resolve, reject) => {
-        db.query(query, (error, results) => {
+        db.query(query, values, (error, results) => {
             if (error) {
                 return reject(error);
             }
@@ -267,6 +301,7 @@ export const getAllReservations = () => {
         });
     });
 };
+
 
 
 // Update the check-in status in the database

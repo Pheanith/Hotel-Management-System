@@ -10,6 +10,12 @@ const Invoice = () => {
 
     const invoiceRef = useRef();
 
+    // Calculate number of rooms
+    const numberOfRooms = Array.isArray(reservation.room_numbers) ? reservation.room_numbers.length : (typeof reservation.room_numbers === 'string' ? reservation.room_numbers.split(',').length : 0);
+    
+    // Check if room_type_names is an array or a string
+    const roomTypeNames = Array.isArray(reservation.room_type_names) ? reservation.room_type_names : (typeof reservation.room_type_names === 'string' ? reservation.room_type_names.split(',') : []);
+
     // Calculate number of nights
     const checkinDate = new Date(reservation.checkin_date);
     const checkoutDate = new Date(reservation.checkout_date);
@@ -55,7 +61,6 @@ const Invoice = () => {
             pdf.save(`invoice_${reservation.reservation_id}.pdf`);
         });
     };
-    
 
     return (
         <div className="invoice-container">
@@ -86,7 +91,7 @@ const Invoice = () => {
                         <p><strong>Check-in Date:</strong> {checkinDate.toLocaleDateString()}</p>
                         <p><strong>Check-out Date:</strong> {checkoutDate.toLocaleDateString()}</p>
                         <p><strong>Number of nights:</strong> {numberOfNights} night(s)</p>
-                        <p><strong>Number of rooms:</strong> {reservation.room_numbers.split(',').length}</p>
+                        <p><strong>Number of rooms:</strong> {numberOfRooms}</p>
                     </div>
                     <div className="invoice-info">
                         <p><strong>Invoice ID:</strong> {reservation.reservation_id}</p>
@@ -106,12 +111,12 @@ const Invoice = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {reservation.room_type_names.split(',').map((roomType, index) => (
+                            {roomTypeNames.map((roomType, index) => (
                                 <tr key={index}>
                                     <td>{roomType}</td>
                                     <td>1</td>
-                                    <td>${reservation.totalAmount / reservation.room_type_names.split(',').length}</td>
-                                    <td>${reservation.totalAmount / reservation.room_type_names.split(',').length}</td>
+                                    <td>${(reservation.totalAmount / roomTypeNames.length).toFixed(2)}</td>
+                                    <td>${(reservation.totalAmount / roomTypeNames.length).toFixed(2)}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -121,7 +126,7 @@ const Invoice = () => {
                     <p><strong>Sub total:</strong> ${reservation.totalAmount}</p>
                     <p><strong>Discount:</strong> {reservation.discount}%</p>
                     <hr />
-                    <p><strong>Total after discount:</strong> ${reservation.totalAfterDiscount}</p>
+                    <p><strong>Total:</strong> ${reservation.totalAfterDiscount}</p>
                     <p><strong>Paid:</strong> ${reservation.totalAfterDiscount}</p>
                 </div>
                 <div className="invoice-footer">

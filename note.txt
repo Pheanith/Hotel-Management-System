@@ -33,3 +33,14 @@ Pheanith:
     - Status booked, checkin, checkout, cancel
     - invoice can print and download (count room and room type), invoice item (reservation detail, ) (not yet since the reservation still seperate by booking many room tgt)
     - create invoice backend 
+
+TODO: 
+- finish reservation table
+- finish invoice
+- finish payment (paid, unpaid, departure)
+- finish the guest passport part in verification 
+- Make the search bar can search by checkin or checkout date
+- Before checkout need to pay first based on PAID in invoice
+- Add payment in reservation detail
+
+ IF I DONT FINISH I WILL FAIL Y4 FRRRRRRR :)

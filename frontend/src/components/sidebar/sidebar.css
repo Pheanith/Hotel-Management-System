@@ -4,20 +4,21 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
-  width: 200px;
+  width: 250px;
   background-color: rgba(15, 76, 117, 0.04); 
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   overflow-x: hidden;
+  border-top: white 1px solid;
 }
 
 /* Default styles for the dashboard items */
 .dashboard {
   display: flex;
-  width: 200px;
+  width: 250px;
   height: 50px;
   gap: 10px;
+  padding: 5px;
   cursor: pointer;
   color: black; /* Default text color */
 }
@@ -28,6 +29,8 @@
   height: 28px;
   margin-left: 10px;
   margin-top: 12px;
+  margin-left: 20px;
+
 }
 
 /* Styles for the dashboard name */
@@ -36,6 +39,8 @@
   font-family: "Inria Sans", sans-serif;
   font-weight: 500;
   font-style: normal;
+  margin-left: 10px;
+
 }
 .dashboard-name a {
   color: inherit; /* Inherit color from the parent */
@@ -46,13 +51,17 @@
 /* Hover effect */
 .dashboard:hover {
   background-color: #0F4C75;
-  color: white; /* Text color on hover */
+  color: white;
+  border-bottom-left-radius: 5px; /* Text color on hover */
+  border-top-left-radius: 5px;
 }
 
 /* Active state styles */
 .dashboard.active {
   background-color: #0F4C75; /* Background color when active */
   color: white; /* Text color when active */
+  border-bottom-left-radius: 5px; /* Text color on hover */
+  border-top-left-radius: 5px;
 }
 
 /* Override for the link to ensure it inherits the color from the parent */

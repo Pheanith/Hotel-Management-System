@@ -64,7 +64,7 @@ const RoomEdit = ({ show, room, onClose, onUpdate }) => {
     };
 
     return (
-        <div className="roomedit-main">
+        <div className="modal-overlay">
             <div className="roomedit-header">
                 <h2>Edit Room</h2>
                 <ClearOutlinedIcon onClick={onClose} className='close-icon' />
