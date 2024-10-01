@@ -6,29 +6,10 @@ import ReservationEdit from './ReservationEdit';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const ReservationCard = () => {
-  const [reservations, setReservations] = useState([]);
+const ReservationCard = ({ reservations }) => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
-
-  useEffect(() => {
-      const fetchReservations = async () => {
-        try {
-          const response = await axios.get('http://localhost:5000/api/reservations');
-          // Assuming the response contains discount and totalAmount
-          const updatedReservations = response.data.map(reservation => {
-            const discountAmount = (reservation.totalAmount * reservation.discount) / 100;
-            const totalAfterDiscount = reservation.totalAmount - discountAmount;
-            return { ...reservation, totalAfterDiscount }; // Add the discounted total
-          });
-          setReservations(updatedReservations);
-        } catch (error) {
-          console.error('Error fetching reservations:', error);
-        }
-      };
-      fetchReservations();
-  }, []);
 
   const handleDeleteClick = (reservation) => {
     setSelectedReservation(reservation);
@@ -49,20 +30,10 @@ const ReservationCard = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:5000/api/reservations/${selectedReservation.reservation_id}`);
-      setReservations(reservations.filter(reservation => reservation.reservation_id !== selectedReservation.reservation_id));
       handleClose();
     } catch (error) {
       console.error('Error deleting reservation:', error);
     }
-  };
-
-  const handleUpdate = (updatedReservation) => {
-    setReservations(prevReservations =>
-      prevReservations.map(reservation =>
-        reservation.reservation_id === updatedReservation.reservation_id ? updatedReservation : reservation
-      )
-    );
-    handleClose();
   };
 
   return (
@@ -112,7 +83,7 @@ const ReservationCard = () => {
                   ? reservation.accommodation_type_names.split(',')
                   : reservation.accommodation_type_names || []}
               </td>
-              <td>${reservation.totalAfterDiscount.toFixed(2)}</td> 
+              <td>${reservation.totalAfterDiscount.toFixed(2)}</td>
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>
                 {reservation.status}
               </td>
@@ -134,7 +105,6 @@ const ReservationCard = () => {
               </td>
               <td>
                 <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(reservation)}>🗑️</span>
-                <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(reservation)}>✏️</span>
               </td>
             </tr>
           ))}
@@ -145,19 +115,9 @@ const ReservationCard = () => {
       {showModal && (
           <ReservationDelete
               show={showModal}
-              onClose={handleClose} // Corrected prop name
-              onDelete={handleDelete} // Corrected prop name
+              onClose={handleClose}
+              onDelete={handleDelete}
           />
-      )}
-
-
-      {showEditModal && (
-        <ReservationEdit
-          show={showEditModal}
-          handleClose={handleClose}
-          handleUpdate={handleUpdate}
-          reservation={selectedReservation}
-        />
       )}
     </div>
   );

@@ -9,57 +9,58 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
-// // Helper function to update room status
-// const updateRoomStatus = (roomNumber, status="") => {
-//     return new Promise((resolve, reject) => {
-//         const query = 'UPDATE rooms SET availability_status = ? WHERE room_number = ?';
-//         db.query(query, [status, roomNumber], (err, results) => {
-//             if (err) {
-//                 console.error('Database error:', err);
-//                 return reject(err);
-//             }
-//             resolve(results.affectedRows);
-//         });
-//     });
-// };
-
 // Function to query the reservation in the database based on ID, phone number, or guest name
 export const getReservationById = (params) => {
-    const { reservation_id, phoneNumber, guestName } = params;
+    const { reservation_id, phoneNumber, guestName, checkinDate, checkoutDate } = params;
 
     let query = `
       SELECT r.*, g.phoneNumber, g.firstName, g.lastName
       FROM reservations r
       JOIN guests g ON r.guest_id = g.guest_id
-      WHERE
+      WHERE 1 = 1
     `;
+
     const values = [];
-  
+
     // Add conditions based on available parameters
     if (reservation_id) {
-        query += 'r.reservation_id = ?';
+        query += ' AND r.reservation_id = ?';
         values.push(reservation_id);
-    } else if (phoneNumber) {
-        query += 'g.phoneNumber = ?';
+    }
+    if (phoneNumber) {
+        query += ' AND g.phoneNumber = ?';
         values.push(phoneNumber);
-    } else if (guestName) {
-        query += 'CONCAT(g.firstName, " ", g.lastName) = ?';
-        values.push(guestName);
-    } else {
-        throw new Error('Invalid search parameters');
+    }
+    if (guestName) {
+        query += ' AND CONCAT(g.firstName, " ", g.lastName) LIKE ?';
+        values.push(`%${guestName}%`); // Partial match for guest name
+    }
+    if (checkinDate) {
+        query += ' AND r.checkinDate = ?';
+        values.push(checkinDate); // Exact match for check-in date
+    }
+    if (checkoutDate) {
+        query += ' AND r.checkoutDate = ?';
+        values.push(checkoutDate); // Exact match for check-out date
     }
 
-    // Execute query and return the first result
+    // Return empty result if no parameters provided
+    if (values.length === 0) {
+        return Promise.resolve([]); // No parameters, return empty array
+    }
+
+    // Execute query and return results
     return new Promise((resolve, reject) => {
         db.query(query, values, (err, results) => {
             if (err) {
                 console.error('Database error:', err);
                 return reject(err);
             }
-            resolve(results[0]);
+            resolve(results);
         });
     });
 };
+
 
 export const getReservationDetail = () => {
     return new Promise((resolve, reject) => {
@@ -227,9 +228,9 @@ export const deleteReservationById = async (id) => {
 
 
 export const getAllReservations = (searchParams = {}) => {
-    const { reservation_id, phoneNumber, guestName, checkin_date, checkout_date } = searchParams;
-    
-    let query = `
+    const { query, checkin_date, checkout_date } = searchParams;
+
+    let queryStr = `
         SELECT 
             r.reservation_id, 
             r.created_at AS reserve_date, 
@@ -254,55 +255,38 @@ export const getAllReservations = (searchParams = {}) => {
         JOIN rooms rm ON rd.room_id = rm.room_id
         JOIN room_types rt ON rm.room_type_id = rt.room_type_id
         JOIN accommodation_types at ON rm.accommodation_type_id = at.accommodation_type_id
+        WHERE 1=1
     `;
 
-    const conditions = [];
     const values = [];
 
-    // Add conditions based on available parameters
-    if (reservation_id) {
-        conditions.push('r.reservation_id = ?');
-        values.push(reservation_id);
-    }
-    if (phoneNumber) {
-        conditions.push('g.phoneNumber = ?');
-        values.push(phoneNumber);
-    }
-    if (guestName) {
-        conditions.push('CONCAT(g.firstName, " ", g.lastName) LIKE ?');
-        values.push(`%${guestName}%`); // Using LIKE for partial matches
+    if (query) {
+        queryStr += ` AND (r.reservation_id = ? OR g.phoneNumber LIKE ? OR g.email LIKE ? OR CONCAT(g.firstName, ' ', g.lastName) LIKE ?)`;
+        values.push(query, `%${query}%`, `%${query}%`, `%${query}%`);
     }
     if (checkin_date) {
-        conditions.push('r.checkin_date = ?');
+        queryStr += ' AND r.checkin_date = ?';
         values.push(checkin_date);
     }
     if (checkout_date) {
-        conditions.push('r.checkout_date = ?');
+        queryStr += ' AND r.checkout_date = ?';
         values.push(checkout_date);
     }
 
-    if (conditions.length > 0) {
-        query += ' WHERE ' + conditions.join(' AND ');
-    }
-
-    query += `
-        GROUP BY r.reservation_id, r.created_at, r.checkin_date, r.checkout_date, 
-                r.checkout_status, r.checkin_status, r.discount, 
-                g.firstName, g.lastName, g.phoneNumber
-        ORDER BY r.created_at DESC;
+    queryStr += `
+        GROUP BY r.reservation_id, g.guest_id
+        ORDER BY r.created_at DESC
     `;
 
     return new Promise((resolve, reject) => {
-        db.query(query, values, (error, results) => {
-            if (error) {
-                return reject(error);
+        db.query(queryStr, values, (err, results) => {
+            if (err) {
+                return reject(err);
             }
             resolve(results);
         });
     });
 };
-
-
 
 // Update the check-in status in the database
 export const updateCheckIn = (reservation_id) => {

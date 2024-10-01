@@ -12,8 +12,8 @@ function formatDate(date) {
 }
 // Get a reservation by ID
 export const fetchReservationById = (req, res) => {
-    const { reservation_id, phoneNumber, guestName } = req.query;
-    
+    const { reservation_id, phoneNumber, guestName } = req.params;
+    console.log(reservation_id);
     // Call the database query function, passing the search params
     getReservationById({ reservation_id, phoneNumber, guestName })
         .then(reservation => res.json(reservation))

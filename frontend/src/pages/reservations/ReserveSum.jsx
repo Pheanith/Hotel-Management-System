@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import '../../components/styles/ReserveSum.css';
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../../components/styles/invoice/Invoice.css';
 
 const ReserveSum = () => {
     const location = useLocation();
@@ -9,18 +9,16 @@ const ReserveSum = () => {
     const { state } = location;
     const { selectedRooms = [], selectedGuest, checkIn, checkOut } = state || {};
 
-    const [discountPercentage, setDiscountPercentage] = useState(0); // Discount as a percentage
+    const [discountPercentage, setDiscountPercentage] = useState(0);
 
-    // Calculate total amount based on selected rooms and stay duration
     const calculateTotalAmount = (rooms, checkIn, checkOut) => {
         const nights = (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24);
         return rooms.reduce((total, room) => total + (room.price_per_night * nights), 0);
     };
 
-    // Calculate total after discount (percentage)
     const calculateTotalAfterDiscount = (totalAmount, discountPercentage) => {
         const discountAmount = (totalAmount * discountPercentage) / 100;
-        return Math.max(totalAmount - discountAmount, 0); // Ensure total doesn't go below 0
+        return Math.max(totalAmount - discountAmount, 0);
     };
 
     const totalAmountBeforeDiscount = calculateTotalAmount(selectedRooms, checkIn, checkOut);
@@ -28,8 +26,10 @@ const ReserveSum = () => {
 
     const handleDiscountChange = (e) => {
         const discountValue = parseFloat(e.target.value);
-        setDiscountPercentage(discountValue);
-        setTotalAmount(calculateTotalAfterDiscount(totalAmountBeforeDiscount, discountValue));
+        if (discountValue >= 0 && discountValue <= 100) {
+            setDiscountPercentage(discountValue);
+            setTotalAmount(calculateTotalAfterDiscount(totalAmountBeforeDiscount, discountValue));
+        }
     };
 
     const handleReserve = async () => {
@@ -42,14 +42,14 @@ const ReserveSum = () => {
                     checkout_date: checkOut,
                     checkin_status: "Pending",
                     checkout_status: "Pending",
-                    discount: discountPercentage, // Send discount as percentage
-                    totalAmount: totalAmount // Send total amount after discount
+                    discount: discountPercentage,
+                    totalAmount: totalAmount,
                 };
 
                 return axios.post('http://localhost:5000/api/reservations', reservationData, {
                     headers: {
-                        'Content-Type': 'application/json'
-                    }
+                        'Content-Type': 'application/json',
+                    },
                 });
             });
 
@@ -68,14 +68,15 @@ const ReserveSum = () => {
     };
 
     return (
-        <div className="invoice-details">
-            <h2>Reservation Summary</h2>
+        <div className="sum-detail">
+            <div className="sum-header">
+                <h2>Reservation Summary</h2>
+            </div>
             <p><strong>Guest Name:</strong> {selectedGuest ? `${selectedGuest.firstName} ${selectedGuest.lastName}` : 'N/A'}</p>
             <p><strong>Check-in Date:</strong> {checkIn ? new Date(checkIn).toLocaleDateString() : 'N/A'}</p>
             <p><strong>Check-out Date:</strong> {checkOut ? new Date(checkOut).toLocaleDateString() : 'N/A'}</p>
             <p><strong>Total Amount (before discount):</strong> ${totalAmountBeforeDiscount.toFixed(2)}</p>
 
-            {/* Discount input */}
             <label>
                 <strong>Discount (%):</strong>
                 <input
@@ -88,7 +89,6 @@ const ReserveSum = () => {
                 />
             </label>
 
-            {/* Total amount after discount */}
             <p><strong>Total Amount (after discount):</strong> ${totalAmount.toFixed(2)}</p>
 
             <h3>Selected Rooms:</h3>
