@@ -8,13 +8,14 @@ import guestRoute from './routes/guestRoute.js';
 import roomTypeRoutes from './routes/roomTypeRoutes.js';
 import accommodationRoutes from './routes/accommodationRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import dashboardRoute from './routes/dashboardRoutes.js'; // Import the dashboard route
+import dashboardRoute from './routes/dashboardRoutes.js';
 
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "*" })); // Adjust this for production
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
 const PORT = process.env.PORT || 5000;
 
@@ -25,7 +26,13 @@ app.use('/api/guests', guestRoute);
 app.use('/api/room_types', roomTypeRoutes);
 app.use('/api/accommodation_types', accommodationRoutes);
 app.use('/auth', authRoutes);
-app.use('/api/dashboard-data', dashboardRoute); // Add the dashboard data route
+app.use('/api', dashboardRoute); // Route for dashboard data
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

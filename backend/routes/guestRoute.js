@@ -1,17 +1,17 @@
 // guestRoute.js
 import express from 'express';
 import {
-    getGuest,
+    getGuests,         // Make sure this matches your controller's export
     getAGuest,
     createGuest,
     updateGuestById,
-    deleteguestById,
+    deleteGuestById,  // Ensure this matches the controller's export
 } from '../controllers/guestController.js';
 
 const router = express.Router();
 
 // Get all guests
-router.get('/', getGuest);
+router.get('/', getGuests);  // Ensure function names match in the controller
 
 // Get guest by ID
 router.get('/:id', getAGuest);
@@ -23,6 +23,6 @@ router.post('/', createGuest);
 router.put('/:id', updateGuestById);
 
 // Delete a guest by ID
-router.delete('/:id', deleteguestById);
+router.delete('/:id', deleteGuestById); // Ensure function names match in the controller
 
 export default router;

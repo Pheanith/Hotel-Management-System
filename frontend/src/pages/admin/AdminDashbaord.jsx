@@ -1,10 +1,10 @@
-// AdminDashboard.js
+// components/AdminDashboard.js
 import React, { useState, useEffect } from 'react';
-import '../../components/styles/AdminDashboard.css';
 import axios from 'axios'; // For making API requests
 import Reserve from '../../components/assets/img/reserve.png';
 import Bed from '../../components/assets/img/beds.png';
 import Transactions from '../../components/assets/img/transaction.png';
+import '../../components/styles/AdminDashboard.css';
 
 const Card = ({ icon, title, count }) => {
   return (
@@ -13,12 +13,8 @@ const Card = ({ icon, title, count }) => {
         <img src={icon} alt={`${title} Icon`} />
       </div>
       <div className="dashboard-card-details">
-        <div className="dashboard-card-title">
-          {title}
-        </div>
-        <div className="dashboard-card-count">
-          {count}
-        </div>
+        <div className="dashboard-card-title">{title}</div>
+        <div className="dashboard-card-count">{count}</div>
       </div>
     </div>
   );
@@ -36,7 +32,7 @@ const AdminDashboard = () => {
     // Fetch dashboard data from API
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('/api/dashboard-data');
+        const response = await axios.get('http://localhost:5000/api/dashboard-data'); // Ensure the URL matches your backend
         setDashboardData(response.data);
       } catch (error) {
         console.error('Error fetching dashboard data', error);
@@ -51,28 +47,11 @@ const AdminDashboard = () => {
       <div className="admin-content-header">
         <span>Overview</span>
       </div>
-
       <div className="dashboard-cards-container">
-        <Card
-          icon={Reserve}
-          title="Total Reservations"
-          count={dashboardData.totalReservations}
-        />
-        <Card
-          icon={Transactions}
-          title="Total Revenue"
-          count={`$${dashboardData.totalRevenue}`}
-        />
-        <Card
-          icon={Bed}
-          title="Total Available Rooms"
-          count={dashboardData.totalAvailableRooms}
-        />
-        <Card
-          icon={Bed}
-          title="Total Occupied Rooms"
-          count={dashboardData.totalOccupiedRooms}
-        />
+        <Card icon={Reserve} title="Total Reservations" count={dashboardData.totalReservations} />
+        <Card icon={Transactions} title="Total Revenue" count={`$${dashboardData.totalRevenue}`} />
+        <Card icon={Bed} title="Total Available Rooms" count={dashboardData.totalAvailableRooms} />
+        <Card icon={Bed} title="Total Occupied Rooms" count={dashboardData.totalOccupiedRooms} />
       </div>
     </div>
   );

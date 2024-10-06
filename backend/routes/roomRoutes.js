@@ -1,4 +1,3 @@
-//roomRoutes.js
 import express from 'express';
 import {
     getRoom,
@@ -13,29 +12,28 @@ import {
 
 const router = express.Router();
 
-// Get room type
+// Get room types (public route)
 router.get('/room_type', fetchRoomTypes);
 
-// Get accommodation type
+// Get accommodation types (public route)
 router.get('/accommodation_type', fetchAccommodationTypes);
-// Get all rooms
+
+// Get all rooms (public route)
 router.get('/', getRoom);
 
-// Get available room
-router.get ('/available', getFreeRooms);
+// Get available rooms (public route)
+router.get('/available', getFreeRooms);
 
-// Get a room by ID
+// Get a room by ID (public route)
 router.get('/:id', getRoomById);
 
-// Add a new room
+// Add a new room (public route)
 router.post('/', createRoom);
 
-// Update a room by ID
+// Update a room by ID (public route)
 router.put('/:id', updateRoomById);
 
-
-// Delete a room by ID
+// Delete a room by ID (public route)
 router.delete('/:id', deleteRoomById);
-
 
 export default router;

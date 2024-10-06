@@ -1,23 +1,19 @@
-// routes/reservationRoutes.js
 import express from 'express';
-import { fetchReservationById, addNewReservation, modifyReservationById, removeReservationById, fetchAllReservations } from '../controllers/reservationController.js';
-
+import {
+    createReservation,
+    getAllReservations,
+    getReservationById,
+    updateReservationById,
+    deleteReservationById
+} from '../controllers/reservationController.js'; // Adjust the import to match the correct function names
 
 const router = express.Router();
 
-// Get all reservations
-router.get('/', fetchAllReservations);
-
-// Get reservation by ID
-router.get('/:id', fetchReservationById);
-
-// Create a new reservation
-router.post('/', addNewReservation);
-
-// Update reservation by ID
-router.put('/:id', modifyReservationById);
-
-// Delete reservation by ID
-router.delete('/:id', removeReservationById);
+// Define routes
+router.post('/reservations', createReservation); // Adjust the endpoint as necessary
+router.get('/reservations', getAllReservations);
+router.get('/reservations/:id', getReservationById);
+router.put('/reservations/:id', updateReservationById);
+router.delete('/reservations/:id', deleteReservationById);
 
 export default router;

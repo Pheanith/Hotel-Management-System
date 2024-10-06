@@ -15,6 +15,7 @@ import Tools from '@mui/icons-material/HomeRepairServiceOutlined';
 import Helps from '@mui/icons-material/FavoriteBorderOutlined';
 import YourItems from '@mui/icons-material/CategoryOutlined';
 import MonthlyView from '@mui/icons-material/TodayOutlined';
+import ManageUser from '@mui/icons-material/GroupOutlined'; // Add this for Manage User icon
 
 const Sidebar = () => {
   const location = useLocation();
@@ -22,7 +23,7 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className={`dashboard ${location.pathname === '/admin-dashboard' ? 'active' : ''}`}>
-        <Home/>
+        <Home />
         <div className="dashboard-name">
           <Link to='/admin-dashboard'>
             Admin Dashboard
@@ -30,7 +31,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/manage-guest' ? 'active' : ''}`}>
-        <Guest/>
+        <Guest />
         <div className="dashboard-name">
           <Link to='/manage-guest'>
             Manage Guest
@@ -38,7 +39,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/available-room' ? 'active' : ''}`}>
-        <Room/>
+        <Room />
         <div className="dashboard-name">
           <Link to='/available-room'>
             Available Rooms
@@ -46,15 +47,23 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/room-list' ? 'active' : ''}`}>
-        <RoomList/>
+        <RoomList />
         <div className="dashboard-name">
           <Link to='/room-list'>
             Rooms List
           </Link>
         </div>
       </div>
+      <div className={`dashboard ${location.pathname === '/manage-user' ? 'active' : ''}`}> {/* New Manage User button */}
+        <ManageUser />
+        <div className="dashboard-name">
+          <Link to='/manage-user'>
+            Manage User
+          </Link>
+        </div>
+      </div>
       <div className={`dashboard ${location.pathname === '/reservation' ? 'active' : ''}`}>
-        <Reservations/>
+        <Reservations />
         <div className="dashboard-name">
           <Link to='/reservation'>
             Reservations
@@ -62,7 +71,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/transaction' ? 'active' : ''}`}>
-        <Transaction/>
+        <Transaction />
         <div className="dashboard-name">
           <Link to='/transaction'>
             Transaction
@@ -70,7 +79,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/invoice' ? 'active' : ''}`}>
-        <Invoices/>
+        <Invoices />
         <div className="dashboard-name">
           <Link to='/invoice'>
             Invoices
@@ -78,7 +87,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/periodic-price' ? 'active' : ''}`}>
-        <PeriodicPrice/>
+        <PeriodicPrice />
         <div className="dashboard-name">
           <Link to='/periodic-price'>
             Periodic Price
@@ -86,7 +95,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/report' ? 'active' : ''}`}>
-        <Report/>
+        <Report />
         <div className="dashboard-name">
           <Link to='/report'>
             Report
@@ -94,7 +103,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/agency-currency' ? 'active' : ''}`}>
-        <AgencyCurrency/>
+        <AgencyCurrency />
         <div className="dashboard-name">
           <Link to='/agency-currency'>
             Agency Currency
@@ -102,7 +111,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/tools' ? 'active' : ''}`}>
-        <Tools/>
+        <Tools />
         <div className="dashboard-name">
           <Link to='/tools'>
             Tools
@@ -110,7 +119,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/helps' ? 'active' : ''}`}>
-        <Helps/>
+        <Helps />
         <div className="dashboard-name">
           <Link to='/helps'>
             Helps
@@ -118,7 +127,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/your-items' ? 'active' : ''}`}>
-        <YourItems/>
+        <YourItems />
         <div className="dashboard-name">
           <Link to='/your-items'>
             Your Items
@@ -126,7 +135,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/monthly-view' ? 'active' : ''}`}>
-        <MonthlyView/>
+        <MonthlyView />
         <div className="dashboard-name">
           <Link to='/monthly-view'>
             Monthly View

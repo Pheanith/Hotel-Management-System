@@ -1,0 +1,25 @@
+/* src/pages/user/UserList.css */
+.main-user-list-content {
+  padding: 20px;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th, .user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+}
+
+button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}

@@ -54,7 +54,8 @@ const Login = () => {
       </form>
       {message && <p className="message">{message}</p>}
       <p className="register-link">
-        Don't have an account? <Link to="/register">Register here</Link>
+        {/* Don't have an account? <Link to="/register">Register here</Link> */}
+        Don't have an account? <Link to = "/register">Register here</Link>
       </p>
     </div>
   );
