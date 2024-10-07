@@ -1,6 +1,6 @@
 // src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import Header from './components/header/header';
 import Sidebar from './components/sidebar/sidebar';
 import AdminDashboard from './pages/admin/AdminDashbaord';
@@ -37,11 +37,15 @@ function App() {
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
-            {/* Common layout for all protected routes */}
             <Route element={
               <>
                 <Header /> {/* Header for protected pages */}
-                <Sidebar /> {/* Sidebar for protected pages */}
+                <div className="main-layout">
+                  <Sidebar /> {/* Sidebar for protected pages */}
+                  <main className="content">
+                    <Outlet /> {/* Render the child routes here */}
+                  </main>
+                </div>
               </>
             }>
               <Route path="/" element={<AdminDashboard />} />
