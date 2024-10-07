@@ -1,17 +1,14 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Adjust the path if necessary
+// src/components/ProtectedRoute.js
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth(); // Get the current user from AuthContext
+const ProtectedRoute = () => {
+    const { token } = useAuth(); // Use the token from AuthContext
 
-  // If there is no user, redirect to the login page
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+    // Check if the token exists to determine if the user is authenticated
+    const isAuthenticated = Boolean(token);
 
-  // If user is authenticated, return the children components
-  return children;
+    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;

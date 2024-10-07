@@ -1,9 +1,10 @@
+// src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/header/header';
 import Sidebar from './components/sidebar/sidebar';
+import AdminDashboard from './pages/admin/AdminDashbaord';
 import Reservation from './pages/Reservation';
-import AdminDashbaord from './pages/admin/AdminDashbaord';
 import Invoice from './pages/invoice/Invoice';
 import Room from './pages/rooms/Room';
 import RoomList from './pages/rooms/RoomList';
@@ -19,48 +20,50 @@ import GuestReserve from './pages/guests/GuestReserve';
 import Register from './pages/Login&Rgister/Register';
 import Login from './pages/Login&Rgister/Login';
 import AuthLayout from './layouts/AuthLayout';
-import { AuthProvider } from '../src/context/AuthContext'; // Adjust this import based on your structure
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import DataDisplayComponent from './components/DataDisplayComponent';
 import './App.css';
-
-function MainLayout({ children }) {
-  return (
-    <div className="App">
-      <Header />
-      <div className="main-container">
-        <Sidebar />
-        <div className="content-area">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Routes>
-          <Route path="/" element={<MainLayout><AdminDashbaord /></MainLayout>} />
-          <Route path="admin-dashboard" element={<MainLayout><AdminDashbaord /></MainLayout>} />
-          <Route path="reservation" element={<MainLayout><Reservation /></MainLayout>} />
-          <Route path="invoice" element={<MainLayout><Invoice /></MainLayout>} />
-          <Route path="available-room" element={<MainLayout><Room /></MainLayout>} />
-          <Route path="transaction" element={<MainLayout><Transaction /></MainLayout>} />
-          <Route path="reserve" element={<MainLayout><Reservationform /></MainLayout>} />
-          <Route path="manage-guest" element={<MainLayout><Guest /></MainLayout>} />
-          <Route path="room-list" element={<MainLayout><RoomList /></MainLayout>} />
-          <Route path="add-room" element={<MainLayout><AddRoom /></MainLayout>} />
-          <Route path="edit-room/:id" element={<MainLayout><RoomEdit /></MainLayout>} />
-          <Route path="edit-reservation/:id" element={<MainLayout><ReservationEdit /></MainLayout>} />
-          <Route path="add-new-guest" element={<MainLayout><GuestForm /></MainLayout>} />
-          <Route path="select-guest" element={<MainLayout><GuestReserve /></MainLayout>} />
-          <Route path="/userlist" element={<UserList />} />
-          <Route path="register" element={<AuthLayout><Register /></AuthLayout>} />
-          <Route path="login" element={<AuthLayout><Login /></AuthLayout>} />
+          {/* Public Routes */}
+          <Route path="/login" element={<AuthLayout><Login /></AuthLayout>} />
+          <Route path="/register" element={<AuthLayout><Register /></AuthLayout>} />
+          <Route path="/data" element={<DataDisplayComponent />} />
+
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute />}>
+            {/* Common layout for all protected routes */}
+            <Route element={
+              <>
+                <Header /> {/* Header for protected pages */}
+                <Sidebar /> {/* Sidebar for protected pages */}
+              </>
+            }>
+              <Route path="/" element={<AdminDashboard />} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              <Route path="/reservation" element={<Reservation />} />
+              <Route path="/invoice" element={<Invoice />} />
+              <Route path="/available-room" element={<Room />} />
+              <Route path="/transaction" element={<Transaction />} />
+              <Route path="/reserve" element={<Reservationform />} />
+              <Route path="/manage-guest" element={<Guest />} />
+              <Route path="/room-list" element={<RoomList />} />
+              <Route path="/add-room" element={<AddRoom />} />
+              <Route path="/edit-room/:id" element={<RoomEdit />} />
+              <Route path="/edit-reservation/:id" element={<ReservationEdit />} />
+              <Route path="/add-new-guest" element={<GuestForm />} />
+              <Route path="/select-guest" element={<GuestReserve />} />
+              <Route path="/userlist" element={<UserList />} />
+            </Route>
+          </Route>
         </Routes>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
