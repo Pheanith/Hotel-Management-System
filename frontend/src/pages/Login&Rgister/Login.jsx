@@ -12,11 +12,15 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log("username", username);
+    console.log("password", password);
+
+
     // Replace with your real API call for authentication
-    const mockUser = { username, role: 'Admin' }; // Simulated API response
+   // const mockUser = { username,password}; // Simulated API response
 
     // Simulate successful login and redirect
-    login(mockUser);
+    login(username, password);
     navigate('/admin-dashboard');
   };
 

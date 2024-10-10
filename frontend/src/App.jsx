@@ -24,6 +24,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import DataDisplayComponent from './components/DataDisplayComponent';
 import './App.css';
+import UserForm from './pages/user/UserForm';
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
           <Route path="/data" element={<DataDisplayComponent />} />
 
           {/* Protected Routes */}
-          <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute />} >
             <Route element={
               <>
                 <Header /> {/* Header for protected pages */}
@@ -63,6 +64,8 @@ function App() {
               <Route path="/add-new-guest" element={<GuestForm />} />
               <Route path="/select-guest" element={<GuestReserve />} />
               <Route path="/userlist" element={<UserList />} />
+              <Route path="/add-user" element={<UserForm />} />
+            
             </Route>
           </Route>
         </Routes>

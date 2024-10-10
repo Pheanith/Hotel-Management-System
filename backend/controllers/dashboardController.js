@@ -5,9 +5,14 @@ export const getDashboardData = async (req, res) => {
   try {
     // Example queries; adjust according to your actual database structure
     const totalReservationsQuery = 'SELECT COUNT(*) as total FROM reservations'; // Adjust the query
-    const totalRevenueQuery = 'SELECT SUM(amount) as totalRevenue FROM reservations'; // Adjust the query
-    const totalAvailableRoomsQuery = 'SELECT COUNT(*) as total FROM rooms WHERE is_available = 1'; // Adjust the query
-    const totalOccupiedRoomsQuery = 'SELECT COUNT(*) as total FROM rooms WHERE is_available = 0'; // Adjust the query
+    const totalRevenueQuery = `
+      SELECT SUM(r.price_per_night) AS totalRevenue 
+      FROM reservation_details AS rd
+      JOIN reservations AS res ON rd.reservation_id = res.reservation_id
+      JOIN rooms AS r ON rd.room_id = r.room_id;
+    `;
+    const totalAvailableRoomsQuery = 'SELECT COUNT(*) as total FROM rooms WHERE availability_status = "Available"'; // Adjust the query
+    const totalOccupiedRoomsQuery = 'SELECT COUNT(*) as total FROM rooms WHERE availability_status = "Occupied"'; // Adjust the query
 
     const totalReservations = await db.query(totalReservationsQuery);
     const totalRevenue = await db.query(totalRevenueQuery);

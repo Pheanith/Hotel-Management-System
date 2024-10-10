@@ -57,7 +57,7 @@ const Sidebar = () => {
       <div className={`dashboard ${location.pathname === '/manage-user' ? 'active' : ''}`}> {/* New Manage User button */}
         <ManageUser />
         <div className="dashboard-name">
-          <Link to='/manage-user'>
+          <Link to='/UserList'>
             Manage User
           </Link>
         </div>

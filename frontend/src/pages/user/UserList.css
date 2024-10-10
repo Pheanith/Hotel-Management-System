@@ -1,25 +1,87 @@
-/* src/pages/user/UserList.css */
 .main-user-list-content {
   padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.user-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  height: 45px; /* Adjust as needed */
+  padding: 0 5px; /* Add horizontal padding */
+}
+
+.search-icon {
+  color: #007bff; /* Blue color */
+  margin-right: 10px; /* Space between icon and input */
+  font-size: 20px; /* Adjust size as needed */
+}
+
+.search-input {
+  border: none;
+  padding: 5px 10px; /* Padding for better visibility */
+  outline: none;
+  font-size: 16px; /* Adjust font size */
+  flex-grow: 1; /* Take up remaining space */
+}
+
+.add-user-btn {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px; /* Adjusted font size */
+}
+
+.add-user-btn:hover {
+  background-color: darkblue;
 }
 
 .user-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 .user-table th, .user-table td {
+  padding: 12px 15px;
   border: 1px solid #ddd;
-  padding: 8px;
   text-align: left;
 }
 
 .user-table th {
   background-color: #f4f4f4;
+  font-weight: bold;
 }
 
-button {
-  margin: 0 5px;
+.action-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
   padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
+}
+
+.action-btn:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
 }
