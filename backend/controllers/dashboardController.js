@@ -1,29 +1,31 @@
 // controllers/dashboardController.js
-import db from '../utils/db.js'; // Adjust this import based on your actual database connection file
+import db from '../utils/db.js'; // Ensure you use .js if applicable
 
 export const getDashboardData = async (req, res) => {
   try {
-    // Example queries; adjust according to your actual database structure
-    const totalReservationsQuery = 'SELECT COUNT(*) as total FROM reservations'; // Adjust the query
+    // Define SQL queries
+    const totalReservationsQuery = 'SELECT COUNT(*) AS total FROM reservations';
     const totalRevenueQuery = `
       SELECT SUM(r.price_per_night) AS totalRevenue 
       FROM reservation_details AS rd
       JOIN reservations AS res ON rd.reservation_id = res.reservation_id
       JOIN rooms AS r ON rd.room_id = r.room_id;
     `;
-    const totalAvailableRoomsQuery = 'SELECT COUNT(*) as total FROM rooms WHERE availability_status = "Available"'; // Adjust the query
-    const totalOccupiedRoomsQuery = 'SELECT COUNT(*) as total FROM rooms WHERE availability_status = "Occupied"'; // Adjust the query
+    const totalAvailableRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE availability_status = "Available"';
+    const totalOccupiedRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE availability_status = "Occupied"';
 
-    const totalReservations = await db.query(totalReservationsQuery);
-    const totalRevenue = await db.query(totalRevenueQuery);
-    const totalAvailableRooms = await db.query(totalAvailableRoomsQuery);
-    const totalOccupiedRooms = await db.query(totalOccupiedRoomsQuery);
+    // Execute queries
+    const [[totalReservations]] = await db.query(totalReservationsQuery);
+    const [[totalRevenue]] = await db.query(totalRevenueQuery);
+    const [[totalAvailableRooms]] = await db.query(totalAvailableRoomsQuery);
+    const [[totalOccupiedRooms]] = await db.query(totalOccupiedRoomsQuery);
 
+    // Send response with structured data
     res.json({
-      totalReservations: totalReservations[0].total, // Adjust if necessary based on your database query response
-      totalRevenue: totalRevenue[0].totalRevenue || 0,
-      totalAvailableRooms: totalAvailableRooms[0].total,
-      totalOccupiedRooms: totalOccupiedRooms[0].total,
+      totalReservations: totalReservations.total || 0,
+      totalRevenue: totalRevenue.totalRevenue || 0,
+      totalAvailableRooms: totalAvailableRooms.total || 0,
+      totalOccupiedRooms: totalOccupiedRooms.total || 0,
     });
   } catch (error) {
     console.error('Error fetching dashboard data:', error);

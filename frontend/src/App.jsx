@@ -25,6 +25,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import DataDisplayComponent from './components/DataDisplayComponent';
 import './App.css';
 import UserForm from './pages/user/UserForm';
+import EditForm from './pages/user/EditForm';
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
               <Route path="/select-guest" element={<GuestReserve />} />
               <Route path="/userlist" element={<UserList />} />
               <Route path="/add-user" element={<UserForm />} />
+              <Route path="/edit-user/:id" element={<EditForm />} />
             
             </Route>
           </Route>

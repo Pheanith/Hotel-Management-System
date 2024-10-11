@@ -1,63 +1,69 @@
-/* src/Sidebar.css */
-@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  width: 200px;
-  background-color: rgba(15, 76, 117, 0.04); 
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  overflow-x: hidden;
+  width: 250px; /* Adjust width as necessary */
+  background-color: #f0f0f0; /* Background color for sidebar */
+  height: 100vh; /* Full height */
+  display: flex; /* Flexbox layout */
+  flex-direction: column; /* Vertical alignment */
+  padding: 20px; /* Padding inside sidebar */
 }
 
-/* Default styles for the dashboard items */
 .dashboard {
-  display: flex;
-  width: 200px;
-  height: 50px;
-  gap: 10px;
-  cursor: pointer;
-  color: black; /* Default text color */
+  display: flex; /* Flexbox for each item */
+  align-items: center; /* Center items vertically */
+  padding: 10px; /* Padding for items */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s; /* Smooth background transition */
 }
 
-/* Styles for the icon inside the dashboard item */
-.dashboard svg {
-  width: 28px;
-  height: 28px;
-  margin-left: 10px;
-  margin-top: 12px;
-}
-
-/* Styles for the dashboard name */
-.dashboard-name {
-  margin-top: 15px;
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-.dashboard-name a {
-  color: inherit; /* Inherit color from the parent */
-  text-decoration: none; /* Remove underline */
-  border: none; /* Remove any border */
-}
-
-/* Hover effect */
 .dashboard:hover {
-  background-color: #0F4C75;
-  color: white; /* Text color on hover */
+  background-color: rgba(15, 76, 117, 0.1); /* Highlight on hover */
 }
 
-/* Active state styles */
-.dashboard.active {
-  background-color: #0F4C75; /* Background color when active */
-  color: white; /* Text color when active */
+.dashboard-name {
+  margin-left: 10px; /* Space between icon and text */
 }
 
-/* Override for the link to ensure it inherits the color from the parent */
-.dashboard-name a {
-  color: inherit; /* Inherit color from the parent */
-  text-decoration: none; /* Remove underline */
-  border: none; /* Remove any border */
+.active {
+  background-color: rgba(15, 76, 117, 0.2); /* Active item background */
+}
+
+.dropdown-container {
+  position: relative; /* Positioning context for dropdown */
+}
+
+.dropdown-toggle {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  cursor: pointer; /* Change cursor to pointer */
+  padding: 10px; /* Add padding for better click area */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.dropdown-toggle:hover {
+  background-color: rgba(15, 76, 117, 0.1); /* Highlight on hover */
+}
+
+.dropdown-menu {
+  position: absolute; /* Position relative to toggle */
+  top: 100%; /* Position it directly below the toggle */
+  left: 0; /* Align to the left of the toggle */
+  background-color: white; /* Background color for dropdown */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Add shadow for depth */
+  z-index: 1000; /* Ensure it appears above other elements */
+  border-radius: 5px; /* Rounded corners for the dropdown */
+  margin-top: 5px; /* Space between toggle and dropdown */
+  min-width: 200px; /* Set a minimum width for the dropdown */
+  padding: 0; /* Reset padding for the dropdown */
+}
+
+.dropdown-item {
+  padding: 10px 15px; /* Padding for dropdown items */
+  display: block; /* Display items as block elements */
+  color: black; /* Text color for items */
+  text-decoration: none; /* Remove underline from links */
+  transition: background-color 0.3s; /* Smooth background transition for hover */
+}
+
+.dropdown-item:hover {
+  background-color: rgba(15, 76, 117, 0.1); /* Highlight on hover */
 }

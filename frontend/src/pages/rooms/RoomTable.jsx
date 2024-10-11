@@ -1,4 +1,3 @@
-//RoomTable.jsx
 import React, { useEffect, useState } from 'react';
 import '../../components/styles/rooms/RoomTable.css';
 import RoomDelete from './RoomDelete';
@@ -42,8 +41,8 @@ const RoomTable = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/rooms/${selectedRoom.room_id}`);
-            setRooms(rooms.filter(room => room.room_id !== selectedRoom.room_id));
+            await axios.delete(`http://localhost:5000/api/rooms/${selectedRoom.id}`); // Update based on your DB structure
+            setRooms(rooms.filter(room => room.id !== selectedRoom.id)); // Update based on your DB structure
             handleClose();
         } catch (error) {
             console.error('Error deleting room:', error);
@@ -51,11 +50,10 @@ const RoomTable = () => {
     };
 
     const handleUpdate = (updatedRoom) => {
-        setRooms(prevRooms => prevRooms.map(room => (room.room_id === updatedRoom.room_id ? updatedRoom : room)));
+        setRooms(prevRooms => prevRooms.map(room => (room.id === updatedRoom.id ? updatedRoom : room))); // Update based on your DB structure
         handleClose();
     };
     
-
     return (
         <div className='room-table-container'>
             <table className='room-table'>
@@ -75,15 +73,13 @@ const RoomTable = () => {
                 <tbody>
                     {rooms.map((room, index) => (
                         <tr key={index}>
-                            <td>{room.room_id}</td>
+                            <td>{room.id}</td> {/* Update based on your DB structure */}
                             <td>{room.room_number}</td>
-                            <td>{room.room_type_name}</td> {/* Display Room Type Name */}
-                            <td>{room.accommodation_type_name}</td> {/* Display Accommodation Type Name */}
-                            <td className={
-                                room.availability_status === 'Maintenance' ? 'Maintenance'
-                                    : room.availability_status === 'Occupied' ? 'Occupied'
-                                    : 'Available'
-                            }>
+                            <td>{room.room_type_name}</td> {/* Update based on your DB structure */}
+                            <td>{room.accommodation_type_name}</td> {/* Update based on your DB structure */}
+                            <td className={room.availability_status === 'Maintenance' ? 'Maintenance'
+                                : room.availability_status === 'Occupied' ? 'Occupied'
+                                : 'Available'}>
                                 {room.availability_status}
                             </td>
                             <td>{room.floor_number}</td>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../sidebar/sidebar.css';
 import Home from "@mui/icons-material/HomeOutlined";
@@ -15,131 +15,135 @@ import Tools from '@mui/icons-material/HomeRepairServiceOutlined';
 import Helps from '@mui/icons-material/FavoriteBorderOutlined';
 import YourItems from '@mui/icons-material/CategoryOutlined';
 import MonthlyView from '@mui/icons-material/TodayOutlined';
-import ManageUser from '@mui/icons-material/GroupOutlined'; // Add this for Manage User icon
+import ManageUser from '@mui/icons-material/GroupOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; // Icon for dropdown
 
 const Sidebar = () => {
   const location = useLocation();
+  const [isRoomListOpen, setRoomListOpen] = useState(false); // State to toggle dropdown
+
+  const toggleRoomListDropdown = (event) => {
+    event.stopPropagation(); // Prevent click event from bubbling up
+    setRoomListOpen(prevState => !prevState);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isRoomListOpen && !event.target.closest('.dropdown-container')) {
+        setRoomListOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isRoomListOpen]);
 
   return (
     <aside className="sidebar">
       <div className={`dashboard ${location.pathname === '/admin-dashboard' ? 'active' : ''}`}>
         <Home />
         <div className="dashboard-name">
-          <Link to='/admin-dashboard'>
-            Admin Dashboard
-          </Link>
+          <Link to='/admin-dashboard'>Admin Dashboard</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/manage-guest' ? 'active' : ''}`}>
         <Guest />
         <div className="dashboard-name">
-          <Link to='/manage-guest'>
-            Manage Guest
-          </Link>
+          <Link to='/manage-guest'>Manage Guest</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/available-room' ? 'active' : ''}`}>
         <Room />
         <div className="dashboard-name">
-          <Link to='/available-room'>
-            Available Rooms
-          </Link>
+          <Link to='/available-room'>Available Rooms</Link>
         </div>
       </div>
-      <div className={`dashboard ${location.pathname === '/room-list' ? 'active' : ''}`}>
-        <RoomList />
-        <div className="dashboard-name">
-          <Link to='/room-list'>
-            Rooms List
-          </Link>
+      
+      {/* Room List with Dropdown */}
+      <div className={`dashboard ${location.pathname.startsWith('/room-list') ? 'active' : ''}`}>
+        <div className="dropdown-container">
+          <div className="dropdown-toggle" onClick={toggleRoomListDropdown}>
+            <RoomList />
+            <span className="dashboard-name">Rooms List</span>
+            <ExpandMoreIcon className={`dropdown-icon ${isRoomListOpen ? 'open' : ''}`} />
+          </div>
+          {isRoomListOpen && (
+            <div className="dropdown-menu">
+              <Link to="/room-list" className="dropdown-item">All Rooms</Link>
+              <Link to="/add-room" className="dropdown-item">Add Room</Link>
+              <Link to="/edit-room" className="dropdown-item">Edit Room</Link>
+            </div>
+          )}
         </div>
       </div>
-      <div className={`dashboard ${location.pathname === '/manage-user' ? 'active' : ''}`}> {/* New Manage User button */}
+
+      <div className={`dashboard ${location.pathname === '/manage-user' ? 'active' : ''}`}>
         <ManageUser />
         <div className="dashboard-name">
-          <Link to='/UserList'>
-            Manage User
-          </Link>
+          <Link to='/UserList'>Manage User</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/reservation' ? 'active' : ''}`}>
         <Reservations />
         <div className="dashboard-name">
-          <Link to='/reservation'>
-            Reservations
-          </Link>
+          <Link to='/reservation'>Reservations</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/transaction' ? 'active' : ''}`}>
         <Transaction />
         <div className="dashboard-name">
-          <Link to='/transaction'>
-            Transaction
-          </Link>
+          <Link to='/transaction'>Transaction</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/invoice' ? 'active' : ''}`}>
         <Invoices />
         <div className="dashboard-name">
-          <Link to='/invoice'>
-            Invoices
-          </Link>
+          <Link to='/invoice'>Invoices</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/periodic-price' ? 'active' : ''}`}>
         <PeriodicPrice />
         <div className="dashboard-name">
-          <Link to='/periodic-price'>
-            Periodic Price
-          </Link>
+          <Link to='/periodic-price'>Periodic Price</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/report' ? 'active' : ''}`}>
         <Report />
         <div className="dashboard-name">
-          <Link to='/report'>
-            Report
-          </Link>
+          <Link to='/report'>Report</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/agency-currency' ? 'active' : ''}`}>
         <AgencyCurrency />
         <div className="dashboard-name">
-          <Link to='/agency-currency'>
-            Agency Currency
-          </Link>
+          <Link to='/agency-currency'>Agency Currency</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/tools' ? 'active' : ''}`}>
         <Tools />
         <div className="dashboard-name">
-          <Link to='/tools'>
-            Tools
-          </Link>
+          <Link to='/tools'>Tools</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/helps' ? 'active' : ''}`}>
         <Helps />
         <div className="dashboard-name">
-          <Link to='/helps'>
-            Helps
-          </Link>
+          <Link to='/helps'>Helps</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/your-items' ? 'active' : ''}`}>
         <YourItems />
         <div className="dashboard-name">
-          <Link to='/your-items'>
-            Your Items
-          </Link>
+          <Link to='/your-items'>Your Items</Link>
         </div>
       </div>
       <div className={`dashboard ${location.pathname === '/monthly-view' ? 'active' : ''}`}>
         <MonthlyView />
         <div className="dashboard-name">
-          <Link to='/monthly-view'>
-            Monthly View
-          </Link>
+          <Link to='/monthly-view'>Monthly View</Link>
         </div>
       </div>
     </aside>
