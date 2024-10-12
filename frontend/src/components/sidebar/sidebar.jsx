@@ -16,18 +16,17 @@ import Helps from '@mui/icons-material/FavoriteBorderOutlined';
 import YourItems from '@mui/icons-material/CategoryOutlined';
 import MonthlyView from '@mui/icons-material/TodayOutlined';
 import ManageUser from '@mui/icons-material/GroupOutlined';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; // Icon for dropdown
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const Sidebar = () => {
   const location = useLocation();
-  const [isRoomListOpen, setRoomListOpen] = useState(false); // State to toggle dropdown
+  const [isRoomListOpen, setRoomListOpen] = useState(false);
 
   const toggleRoomListDropdown = (event) => {
-    event.stopPropagation(); // Prevent click event from bubbling up
+    event.stopPropagation();
     setRoomListOpen(prevState => !prevState);
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isRoomListOpen && !event.target.closest('.dropdown-container')) {
@@ -67,7 +66,7 @@ const Sidebar = () => {
         <div className="dropdown-container">
           <div className="dropdown-toggle" onClick={toggleRoomListDropdown}>
             <RoomList />
-            <span className="dashboard-name">Rooms List</span>
+            <span className="dashboard-name">Manage Rooms</span>
             <ExpandMoreIcon className={`dropdown-icon ${isRoomListOpen ? 'open' : ''}`} />
           </div>
           {isRoomListOpen && (
@@ -75,6 +74,9 @@ const Sidebar = () => {
               <Link to="/room-list" className="dropdown-item">All Rooms</Link>
               <Link to="/add-room" className="dropdown-item">Add Room</Link>
               <Link to="/edit-room" className="dropdown-item">Edit Room</Link>
+              <Link to="/room-types" className="dropdown-item">Room Types</Link>
+              <Link to="/accommodation-types" className="dropdown-item">Accommodation Types</Link>
+              <Link to="/available" className="dropdown-item">Available</Link>
             </div>
           )}
         </div>

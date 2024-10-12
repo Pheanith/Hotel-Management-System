@@ -1,0 +1,35 @@
+.accommodation-types-container {
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.accommodation-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+.accommodation-table th,
+.accommodation-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.accommodation-table th {
+  background-color: #1e3a8a; /* Dark blue background similar to room types */
+  color: white;
+}
+
+.accommodation-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.accommodation-table tr:hover {
+  background-color: #ddd;
+}
+
+.accommodation-table td {
+  color: #333;
+}

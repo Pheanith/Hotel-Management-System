@@ -26,6 +26,10 @@ import DataDisplayComponent from './components/DataDisplayComponent';
 import './App.css';
 import UserForm from './pages/user/UserForm';
 import EditForm from './pages/user/EditForm';
+import RoomTypeList from './pages/rooms/RoomTypeList';
+import AddRoomType from './pages/rooms/AddRoomType';
+import EditRoomType from './pages/rooms/EditRoomType';
+import AccommodationTypeList from './pages/rooms/AccommodationTypes'; // Import the new component
 
 function App() {
   return (
@@ -67,7 +71,10 @@ function App() {
               <Route path="/userlist" element={<UserList />} />
               <Route path="/add-user" element={<UserForm />} />
               <Route path="/edit-user/:id" element={<EditForm />} />
-            
+              <Route path="/room-types" element={<RoomTypeList />} />
+              <Route path="/add-room-type" element={<AddRoomType />} />
+              <Route path="/edit-room-type/:id" element={<EditRoomType />} />
+              <Route path="/accommodation-types" element={<AccommodationTypeList />} /> {/* New Route */}
             </Route>
           </Route>
         </Routes>
