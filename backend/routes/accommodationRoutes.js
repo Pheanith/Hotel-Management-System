@@ -1,27 +1,20 @@
 import express from 'express';
 import {
     fetchAccommodationTypes,
-    getAccommodationTypeById,
     createAccommodationType,
-    updateAccommodationTypeById,
-    deleteAccommodationTypeById
-} from '../controllers/accommodationController.js';
+    // Import other controller functions as needed
+} from '../controllers/accommodationController.js'; // Adjust path as necessary
 
 const router = express.Router();
 
-// Get all accommodation types
+// Route for fetching all accommodation types
 router.get('/', fetchAccommodationTypes);
 
-// Get a single accommodation type by ID
-router.get('/:id', getAccommodationTypeById);
-
-// Add a new accommodation type
+// Route for adding a new accommodation type
 router.post('/', createAccommodationType);
 
-// Update an accommodation type by ID
-router.put('/:id', updateAccommodationTypeById);
-
-// Delete an accommodation type by ID
-router.delete('/:id', deleteAccommodationTypeById);
+// Add other routes for updating and deleting as needed
+// e.g., router.put('/:id', updateAccommodationType);
+//      router.delete('/:id', deleteAccommodationType);
 
 export default router;

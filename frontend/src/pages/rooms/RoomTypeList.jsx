@@ -68,9 +68,12 @@ const RoomTypeList = () => {
             <table className="styled-table">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th>ID</th>
                         <th>Name</th>
+                        <th>Max Occupancy</th>
+                        <th>Price</th>
                         <th>Description</th>
+                        <th>Created At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -80,7 +83,10 @@ const RoomTypeList = () => {
                             <tr key={roomType.room_type_id}>
                                 <td>{index + 1}</td>
                                 <td>{roomType.name}</td>
+                                <td>{roomType.max_occupancy}</td>
+                                <td>{`$${roomType.price}`}</td>
                                 <td>{roomType.description}</td>
+                                <td>{new Date(roomType.created_at).toLocaleString()}</td>
                                 <td>
                                     <Link to={`/edit-room-type/${roomType.room_type_id}`} className="btn btn-edit">Edit</Link>
                                     <button onClick={() => handleDelete(roomType.room_type_id)} className="btn btn-delete">
@@ -91,7 +97,7 @@ const RoomTypeList = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="4">No room types found.</td>
+                            <td colSpan="7">No room types found.</td>
                         </tr>
                     )}
                 </tbody>

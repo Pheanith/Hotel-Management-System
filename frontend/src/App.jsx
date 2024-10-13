@@ -30,6 +30,8 @@ import RoomTypeList from './pages/rooms/RoomTypeList';
 import AddRoomType from './pages/rooms/AddRoomType';
 import EditRoomType from './pages/rooms/EditRoomType';
 import AccommodationTypeList from './pages/rooms/AccommodationTypes'; // Import the new component
+import AddAccommodationType from './pages/rooms/AddAccommodationType';
+import RoomFeatures from './pages/rooms/RoomFeatures';
 
 function App() {
   return (
@@ -75,6 +77,11 @@ function App() {
               <Route path="/add-room-type" element={<AddRoomType />} />
               <Route path="/edit-room-type/:id" element={<EditRoomType />} />
               <Route path="/accommodation-types" element={<AccommodationTypeList />} /> {/* New Route */}
+              <Route path="/add-accommodation-type" element={<AddAccommodationType />} />
+              <Route path="/room-features/:id" element={<RoomFeatures />} /> {/* New Route */}
+
+
+
             </Route>
           </Route>
         </Routes>

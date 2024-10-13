@@ -71,11 +71,13 @@ const Sidebar = () => {
           </div>
           {isRoomListOpen && (
             <div className="dropdown-menu">
-              <Link to="/room-list" className="dropdown-item">All Rooms</Link>
-              <Link to="/add-room" className="dropdown-item">Add Room</Link>
-              <Link to="/edit-room" className="dropdown-item">Edit Room</Link>
+              <Link to="/room-list" className="dropdown-item">Room List</Link>
+              {/* <Link to="/add-room" className="dropdown-item">Add Room</Link> */}
+              {/* <Link to="/edit-room" className="dropdown-item">Edit Room</Link> */}
               <Link to="/room-types" className="dropdown-item">Room Types</Link>
               <Link to="/accommodation-types" className="dropdown-item">Accommodation Types</Link>
+              <Link to="/room-features/:id" className="dropdown-item">RoomFeatures</Link>
+
               <Link to="/available" className="dropdown-item">Available</Link>
             </div>
           )}

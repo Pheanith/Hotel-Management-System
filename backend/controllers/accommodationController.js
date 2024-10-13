@@ -1,75 +1,75 @@
 import {
-  getAllAccommodationTypes,
-  getAccommodationTypeById as fetchAccommodationTypeById, // Renamed to avoid conflict
-  addAccommodationType,
-  updateAccommodationType,
-  deleteAccommodationType
-} from '../models/accommodationModel.js';
-
-// Get all accommodation types
-export const fetchAccommodationTypes = async (req, res) => {
-  try {
+    getAllAccommodationTypes,
+    getAccommodationTypeById as fetchAccommodationTypeById, // Renamed to avoid conflict
+    addAccommodationType,
+    updateAccommodationType,
+    deleteAccommodationType
+  } from '../models/accommodationModel.js';
+  
+  // Controller to fetch all accommodation types
+  export const fetchAccommodationTypes = async (req, res) => {
+    try {
       const accommodationTypes = await getAllAccommodationTypes();
-      res.json(accommodationTypes);
-  } catch (error) {
-      console.error('Error fetching accommodation types:', error);
+      res.status(200).json(accommodationTypes);
+    } catch (err) {
+      console.error('Error fetching accommodation types:', err);
       res.status(500).json({ error: 'Server Error' });
-  }
-};
-
-// Get accommodation type by ID
-export const getAccommodationTypeById = async (req, res) => {
-  try {
-      const accommodationType = await fetchAccommodationTypeById(req.params.id); // Use the renamed import here
-      if (accommodationType) {
-          res.json(accommodationType);
-      } else {
-          res.status(404).json({ message: 'Accommodation type not found' });
+    }
+  };
+  
+  // Controller to fetch accommodation type by ID
+  export const getAccommodationTypeById = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const accommodationType = await fetchAccommodationTypeById(id);
+      if (!accommodationType) {
+        return res.status(404).json({ error: 'Accommodation type not found' });
       }
-  } catch (error) {
-      console.error('Error fetching accommodation type by ID:', error);
+      res.status(200).json(accommodationType);
+    } catch (err) {
+      console.error('Error fetching accommodation type:', err);
       res.status(500).json({ error: 'Server Error' });
-  }
-};
-
-// Add a new accommodation type
-export const createAccommodationType = async (req, res) => {
-  try {
-      const newAccommodationType = req.body;
-      const accommodationTypeId = await addAccommodationType(newAccommodationType);
-      res.status(201).json({ message: 'Accommodation type added successfully', accommodationTypeId });
-  } catch (error) {
-      console.error('Error adding accommodation type:', error);
+    }
+  };
+  
+  // Controller to add a new accommodation type
+  export const createAccommodationType = async (req, res) => {
+    try {
+      const insertId = await addAccommodationType(req.body);
+      res.status(201).json({ message: 'Accommodation type added', insertId });
+    } catch (err) {
+      console.error('Error adding accommodation type:', err);
       res.status(500).json({ error: 'Server Error' });
-  }
-};
-
-// Update accommodation type by ID
-export const updateAccommodationTypeById = async (req, res) => {
-  try {
-      const updated = await updateAccommodationType(req.params.id, req.body);
-      if (updated) {
-          res.json({ message: 'Accommodation type updated successfully' });
-      } else {
-          res.status(404).json({ message: 'Accommodation type not found' });
+    }
+  };
+  
+  // Controller to update accommodation type by ID
+  export const modifyAccommodationType = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const isUpdated = await updateAccommodationType(id, req.body);
+      if (!isUpdated) {
+        return res.status(404).json({ error: 'Accommodation type not found or not updated' });
       }
-  } catch (error) {
-      console.error('Error updating accommodation type:', error);
+      res.status(200).json({ message: 'Accommodation type updated' });
+    } catch (err) {
+      console.error('Error updating accommodation type:', err);
       res.status(500).json({ error: 'Server Error' });
-  }
-};
-
-// Delete accommodation type by ID
-export const deleteAccommodationTypeById = async (req, res) => {
-  try {
-      const deleted = await deleteAccommodationType(req.params.id);
-      if (deleted) {
-          res.json({ message: 'Accommodation type deleted successfully' });
-      } else {
-          res.status(404).json({ message: 'Accommodation type not found' });
+    }
+  };
+  
+  // Controller to delete accommodation type by ID
+  export const removeAccommodationType = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const isDeleted = await deleteAccommodationType(id);
+      if (!isDeleted) {
+        return res.status(404).json({ error: 'Accommodation type not found or not deleted' });
       }
-  } catch (error) {
-      console.error('Error deleting accommodation type:', error);
+      res.status(200).json({ message: 'Accommodation type deleted' });
+    } catch (err) {
+      console.error('Error deleting accommodation type:', err);
       res.status(500).json({ error: 'Server Error' });
-  }
-};
+    }
+  };
+  

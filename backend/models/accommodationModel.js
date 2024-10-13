@@ -1,71 +1,58 @@
 import db from '../utils/db.js';
 
 // Get all accommodation types
-export const getAllAccommodationTypes = () => {
-    return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM accommodation_types', (err, results) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
-            }
-            resolve(results);
-        });
-    });
+export const getAllAccommodationTypes = async () => {
+  try {
+    const [rows] = await db.query('SELECT * FROM accommodation_types');
+    return rows; // Return the rows from the query
+  } catch (err) {
+    console.error('Error fetching accommodation types:', err);
+    throw err; // Re-throw to be handled in the controller
+  }
 };
 
 // Get accommodation type by ID
-export const getAccommodationTypeById = (id) => {
-    return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM accommodation_types WHERE accommodation_type_id = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
-            }
-            resolve(results[0]);
-        });
-    });
+export const getAccommodationTypeById = async (id) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM accommodation_types WHERE accommodation_type_id = ?', [id]);
+    return rows[0]; // Return the first result (or undefined if not found)
+  } catch (err) {
+    console.error('Error fetching accommodation type by ID:', err);
+    throw err;
+  }
 };
 
 // Add a new accommodation type
-export const addAccommodationType = (accommodationType) => {
-    const { name, description } = accommodationType;
-    return new Promise((resolve, reject) => {
-        const query = 'INSERT INTO accommodation_types (name, description) VALUES (?, ?)';
-        db.query(query, [name, description], (err, result) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
-            }
-            resolve(result.insertId);
-        });
-    });
+export const addAccommodationType = async (accommodationType) => {
+  const { name, description } = accommodationType;
+  try {
+    const [result] = await db.query('INSERT INTO accommodation_types (name, description) VALUES (?, ?)', [name, description]);
+    return result.insertId; // Return the insert ID
+  } catch (err) {
+    console.error('Error adding accommodation type:', err);
+    throw err;
+  }
 };
 
 // Update accommodation type by ID
-export const updateAccommodationType = (id, updates) => {
-    const { name, description } = updates;
-    return new Promise((resolve, reject) => {
-        const query = 'UPDATE accommodation_types SET name = ?, description = ? WHERE accommodation_type_id = ?';
-        db.query(query, [name, description, id], (err, result) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
-            }
-            resolve(result.affectedRows > 0);
-        });
-    });
+export const updateAccommodationType = async (id, updates) => {
+  const { name, description } = updates;
+  try {
+    const [result] = await db.query('UPDATE accommodation_types SET name = ?, description = ? WHERE accommodation_type_id = ?', [name, description, id]);
+    return result.affectedRows > 0; // Return true if rows were affected
+  } catch (err) {
+    console.error('Error updating accommodation type:', err);
+    throw err;
+  }
 };
 
 // Delete accommodation type by ID
-export const deleteAccommodationType = (id) => {
-    return new Promise((resolve, reject) => {
-        db.query('DELETE FROM accommodation_types WHERE accommodation_type_id = ?', [id], (err, result) => {
-            if (err) {
-                console.error('Database error:', err);
-                return reject(err);
-            }
-            resolve(result.affectedRows > 0);
-        });
-    });
+export const deleteAccommodationType = async (id) => {
+  try {
+    const [result] = await db.query('DELETE FROM accommodation_types WHERE accommodation_type_id = ?', [id]);
+    return result.affectedRows > 0; // Return true if rows were deleted
+  } catch (err) {
+    console.error('Error deleting accommodation type:', err);
+    throw err;
+  }
 };

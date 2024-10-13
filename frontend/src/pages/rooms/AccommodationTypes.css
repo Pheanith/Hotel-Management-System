@@ -1,6 +1,6 @@
 .accommodation-types-container {
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #f4f4f4; /* Light gray background for the container */
 }
 
 .accommodation-table {
@@ -18,18 +18,34 @@
 }
 
 .accommodation-table th {
-  background-color: #1e3a8a; /* Dark blue background similar to room types */
-  color: white;
+  background-color: #1e3a8a; /* Dark blue background for the header */
+  color: white; /* White text color for header */
 }
 
 .accommodation-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #f2f2f2; /* Light gray background for even rows */
 }
 
 .accommodation-table tr:hover {
-  background-color: #ddd;
+  background-color: #ddd; /* Light gray background on hover */
 }
 
 .accommodation-table td {
-  color: #333;
+  color: #333; /* Dark gray text for table cells */
+}
+
+/* Styles for the add accommodation type button */
+.add-accommodation-type-button {
+  background-color: #1e3a8a; /* Dark blue button background */
+  color: white; /* White text color */
+  border: none; /* No border */
+  padding: 10px 15px; /* Padding inside the button */
+  font-size: 16px; /* Font size for button text */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-bottom: 20px; /* Space below the button */
+  transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.add-accommodation-type-button:hover {
+  background-color: #163a6b; /* Darker blue on hover */
 }

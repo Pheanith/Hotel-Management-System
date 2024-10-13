@@ -1,52 +1,52 @@
-// src/components/AccommodationTypes.jsx
+// src/components/RoomFeatures.jsx
 import React, { useState } from 'react';
-import './AccommodationTypes.css';
+import './RoomFeatures.css';
 
-const AccommodationTypes = () => {
-    // Mock state for accommodation types
-    const [accommodationTypes, setAccommodationTypes] = useState([
-        { id: 1, name: 'Family', description: 'Suitable for families', createdAt: '2024-01-01 12:00:00' },
-        { id: 2, name: 'Business', description: 'Ideal for business trips', createdAt: '2024-01-02 12:00:00' },
-        { id: 3, name: 'Suite', description: 'Luxurious accommodation', createdAt: '2024-01-03 12:00:00' },
+const RoomFeatures = () => {
+    // Mock state for room features
+    const [roomFeatures, setRoomFeatures] = useState([
+        { id: 1, name: 'Wi-Fi', description: 'High-speed internet', createdAt: '2024-01-01 12:00:00' },
+        { id: 2, name: 'Air Conditioning', description: 'Climate control', createdAt: '2024-01-02 12:00:00' },
+        { id: 3, name: 'Balcony', description: 'Private outdoor space', createdAt: '2024-01-03 12:00:00' },
     ]);
 
-    const [newType, setNewType] = useState({ id: null, name: '', description: '', createdAt: '' });
+    const [newFeature, setNewFeature] = useState({ id: null, name: '', description: '', createdAt: '' });
 
     // Function to handle input changes
     const handleChange = (e) => {
-        setNewType({ ...newType, [e.target.name]: e.target.value });
+        setNewFeature({ ...newFeature, [e.target.name]: e.target.value });
     };
 
-    // Function to handle adding a new accommodation type
+    // Function to handle adding a new room feature
     const handleAdd = () => {
-        if (newType.name && newType.description) {
+        if (newFeature.name && newFeature.description) {
             const createdAt = new Date().toISOString().slice(0, 19).replace('T', ' '); // Current date and time
-            setAccommodationTypes((prev) => [
+            setRoomFeatures((prev) => [
                 ...prev,
-                { id: prev.length + 1, createdAt, ...newType }, // Automatically assign new ID
+                { id: prev.length + 1, createdAt, ...newFeature }, // Automatically assign new ID
             ]);
-            setNewType({ id: null, name: '', description: '', createdAt: '' }); // Reset input fields
+            setNewFeature({ id: null, name: '', description: '', createdAt: '' }); // Reset input fields
         }
     };
 
-    // Function to handle editing an accommodation type
+    // Function to handle editing a room feature
     const handleEdit = (id) => {
-        const typeToEdit = accommodationTypes.find(type => type.id === id);
-        setNewType(typeToEdit);
-        setAccommodationTypes(accommodationTypes.filter(type => type.id !== id)); // Remove the type being edited
+        const featureToEdit = roomFeatures.find(feature => feature.id === id);
+        setNewFeature(featureToEdit);
+        setRoomFeatures(roomFeatures.filter(feature => feature.id !== id)); // Remove the feature being edited
     };
 
-    // Function to handle deleting an accommodation type
+    // Function to handle deleting a room feature
     const handleDelete = (id) => {
-        setAccommodationTypes(accommodationTypes.filter(type => type.id !== id));
+        setRoomFeatures(roomFeatures.filter(feature => feature.id !== id));
     };
 
     return (
-        <div className="accommodation-types-container">
+        <div className="room-features-container">
             <div className="header">
-                <h1 className="title">Accommodation Types</h1>
+                <h1 className="title">Room Features</h1>
                 <button className="add-button" onClick={handleAdd}>
-                    Add Accommodation
+                    Add Room Feature
                 </button>
             </div>
             <div className="search-container">
@@ -68,22 +68,22 @@ const AccommodationTypes = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {accommodationTypes.map((type) => (
-                        <tr key={type.id}>
-                            <td>{type.id}</td>
-                            <td>{type.name}</td>
-                            <td>{type.description}</td>
-                            <td>{type.createdAt}</td>
+                    {roomFeatures.map((feature) => (
+                        <tr key={feature.id}>
+                            <td>{feature.id}</td>
+                            <td>{feature.name}</td>
+                            <td>{feature.description}</td>
+                            <td>{feature.createdAt}</td>
                             <td className="actions-column">
                                 <button
                                     className="btn btn-edit"
-                                    onClick={() => handleEdit(type.id)}
+                                    onClick={() => handleEdit(feature.id)}
                                 >
                                     Edit
                                 </button>
                                 <button
                                     className="btn btn-delete"
-                                    onClick={() => handleDelete(type.id)}
+                                    onClick={() => handleDelete(feature.id)}
                                 >
                                     Delete
                                 </button>
@@ -93,12 +93,12 @@ const AccommodationTypes = () => {
                 </tbody>
             </table>
 
-            {/* Form for adding or editing accommodation types */}
+            {/* Form for adding or editing room features */}
             <div className="add-form">
                 <input
                     type="text"
                     name="name"
-                    value={newType.name}
+                    value={newFeature.name}
                     onChange={handleChange}
                     placeholder="Name"
                     className="search-input"
@@ -106,17 +106,17 @@ const AccommodationTypes = () => {
                 <input
                     type="text"
                     name="description"
-                    value={newType.description}
+                    value={newFeature.description}
                     onChange={handleChange}
                     placeholder="Description"
                     className="search-input"
                 />
                 <button className="add-button" onClick={handleAdd}>
-                    {newType.id ? 'Update Accommodation' : 'Add Accommodation'}
+                    {newFeature.id ? 'Update Feature' : 'Add Feature'}
                 </button>
             </div>
         </div>
     );
 };
 
-export default AccommodationTypes;
+export default RoomFeatures;
