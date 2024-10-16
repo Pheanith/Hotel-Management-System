@@ -3,7 +3,7 @@
 
 .room-content-header{
     display: flex;
-    gap: 310px;
+    gap: 500px;
 }
 .room-content-header a{
     margin-top: 20px;

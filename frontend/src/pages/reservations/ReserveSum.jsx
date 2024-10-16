@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../components/styles/ReserveSum.css';
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { previousFriday } from "date-fns";
 
 const ReserveSum = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { state } = location;
     const { selectedRooms = [], selectedGuest, checkIn, checkOut } = state || {};
-
+    const [room_ids, setRoom_ids] = useState([
+       
+    ]);
     const [discountPercentage, setDiscountPercentage] = useState(0);
 
     const calculateTotalAmount = (rooms, checkIn, checkOut) => {
@@ -32,35 +35,71 @@ const ReserveSum = () => {
         }
     };
 
+    const handleRoomSelection =  () =>{
+        const newRoomIds = selectedRooms.map((room)=>room.room_id);
+         setRoom_ids(newRoomIds);
+    }
+
+    useEffect(()=>{
+        handleRoomSelection();
+        console.log("handle room ids: ", room_ids);
+    },[selectedRooms])
+
     const handleReserve = async () => {
         try {
-            const promises = selectedRooms.map((room) => {
-                const reservationData = {
-                    guest_id: selectedGuest.guest_id,
-                    room_id: room.room_id,
-                    checkin_date: checkIn,
-                    checkout_date: checkOut,
-                    checkin_status: "Pending",
-                    checkout_status: "Pending",
-                    discount: discountPercentage,
-                    totalAmount: totalAmount,
-                };
 
-                return axios.post('http://localhost:5000/api/reservations', reservationData, {
+            console.log("selectedRooms id:", selectedRooms.room_id) ; 
+            
+    
+            console.log("Room ids :", room_ids);
+
+            const reservationData = {
+                "guest_id": selectedGuest.guest_id,
+                "checkin_date": checkIn,
+                "checkout_date": checkOut,
+                "discount": discountPercentage,
+            "room_id": room_ids
+            } ;
+            const response = await axios.post('http://localhost:5000/api/reservations', reservationData, {
                     headers: {
                         'Content-Type': 'application/json',
-                    },
-                });
-            });
+                    },});
 
-            const responses = await Promise.all(promises);
-
-            if (responses.every((response) => response.status === 200)) {
+            if (response.status === 200) {  
                 alert('Reservations created successfully!');
                 navigate('/reservation');
             } else {
                 alert('Failed to create reservations.');
-            }
+            };
+
+            // const promises = selectedRooms.map((room) => {
+            //     const reservationData = {
+            //         guest_id: selectedGuest.guest_id,
+            //         room_ids: room.room_id,
+            //         checkin_date: checkIn,
+            //         checkout_date: checkOut,
+            //         checkin_status: "Pending",
+            //         checkout_status: "Pending",
+            //         discount: discountPercentage,
+            //         totalAmount: totalAmount,
+            //     };
+
+            //     return axios.post('http://localhost:5000/api/reservations', reservationData, {
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+                    
+            //     });
+            // });
+
+            // const responses = await Promise.all(promises);
+
+            // if (responses.every((response) => response.status === 200)) {
+            //     alert('Reservations created successfully!');
+            //     navigate('/reservation');
+            // } else {
+            //     alert('Failed to create reservations.');
+            // }
         } catch (error) {
             console.error('Error creating reservations:', error);
             alert('Failed to create reservations.');
@@ -91,22 +130,25 @@ const ReserveSum = () => {
 
             <p><strong>Total Amount (after discount):</strong> ${totalAmount.toFixed(2)}</p>
 
-            <h3>Selected Rooms:</h3>
-            <ul>
-                {selectedRooms.length > 0 ? (
-                    selectedRooms.map((room, index) => (
-                        <li key={index}>
-                            <p><strong>Room Number:</strong> {room.room_number}</p>
-                            <p><strong>Room Type:</strong> {room.room_type_name}</p>
-                            <p><strong>Accommodation Type:</strong> {room.accommodation_type_name}</p>
-                            <p><strong>Price Per Night:</strong> ${room.price_per_night}</p>
-                            <p><strong>Description:</strong> {room.description}</p>
-                        </li>
-                    ))
-                ) : (
-                    <p>No rooms selected.</p>
-                )}
-            </ul>
+            <div className="selected-rooms">
+                <h3>Selected Rooms:</h3>
+                <ul>
+                    {selectedRooms.length > 0 ? (
+                        selectedRooms.map((room, index) => (
+                            
+                            <li key={index}>
+                                <p><strong>Room Number:</strong> {room.room_number}</p>
+                                <p><strong>Room Type:</strong> {room.room_type_name}</p>
+                                <p><strong>Accommodation Type:</strong> {room.accommodation_type_name}</p>
+                                <p><strong>Price Per Night:</strong> ${room.price_per_night}</p>
+                                <p><strong>Description:</strong> {room.description}</p>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No rooms selected.</p>
+                    )}
+                </ul>
+            </div>
 
             <button onClick={handleReserve}>Reserve</button>
         </div>

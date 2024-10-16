@@ -7,51 +7,48 @@ const maskCardNumber = (cardNumber) => {
   return cardNumber ? `**** **** **** ${cardNumber.slice(-4)}` : 'N/A';
 };
 
-const copyEmailToClipboard = (reservation) => {
-  const emailContent = `
-    Dear ${reservation.firstName} ${reservation.lastName},
-
-    Thank you for choosing LA LUNE HOTEL for your stay in Phnom Penh. We're excited to welcome you!
-
-    Your Booking Details:
-
-    - Room Number: ${reservation.room_number}
-    - Room Type: ${reservation.room_type_name}
-    - Check-in Date: ${new Date(reservation.checkin_date).toLocaleDateString()}
-    - Check-out Date: ${new Date(reservation.checkout_date).toLocaleDateString()}
-    - Number of Guests: ${reservation.number_of_guests || 'N/A'}
-
-    Important Information:
-
-    - Check-in Time: 2:00 PM
-    - Check-out Time: 12:00 PM
-    - Location: 123 LA LUNE Street, Phnom Penh, Cambodia
-    - Contact Information: +855 12345678 | contact@lalunehotel.com
-
-    Amenities:
-    - Free Wi-Fi, Complimentary Breakfast, Airport Shuttle
-
-    We look forward to providing you with a memorable experience. If you have any questions or require further assistance, please don't hesitate to contact us.
-
-    Best regards,
-    LA LUNE HOTEL
-  `;
-
-  // Copy the formatted email content to the clipboard
-  navigator.clipboard.writeText(emailContent)
-    .then(() => {
-      alert('Email template copied to clipboard!');
-    })
-    .catch(err => {
-      console.error('Failed to copy email content:', err);
-    });
-};
-
 const ReservationDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { state: reservation } = location;
+  const reservation = location.state;
 
+  const copyEmailToClipboard = (reservation) => {
+    const emailContent = `
+      Dear ${reservation.firstName} ${reservation.lastName},
+  
+      Thank you for choosing LA LUNE HOTEL for your stay in Phnom Penh. We're excited to welcome you!
+  
+      Your Booking Details:
+  
+      - Room Number: ${reservation.room_number}
+      - Room Type: ${reservation.room_type_name}
+      - Check-in Date: ${new Date(reservation.checkin_date).toLocaleDateString()}
+      - Check-out Date: ${new Date(reservation.checkout_date).toLocaleDateString()}
+  
+      Important Information:
+      - Check-in Time: 2:00 PM
+      - Check-out Time: 12:00 PM
+      - Location: 123 LA LUNE Street, Phnom Penh, Cambodia
+      - Contact Information: +855 12345678 | contact@lalunehotel.com
+  
+      Amenities:
+      - Free Wi-Fi, Complimentary Breakfast, Airport Shuttle
+  
+      We look forward to providing you with a memorable experience. If you have any questions or require further assistance, please don't hesitate to contact us.
+  
+      Best regards,
+      LA LUNE HOTEL
+    `;
+  
+    // Copy the formatted email content to the clipboard
+    navigator.clipboard.writeText(emailContent)
+      .then(() => {
+        alert('Email template copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy email content:', err);
+      });
+  };
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
 
   if (!reservation) {
@@ -67,7 +64,7 @@ const ReservationDetail = () => {
       navigate('/verification', {
         state: {
           ...reservation,
-          identity_no: reservation.identity_no,
+          identity_no: reservation.identity_no, // Make sure identity_no is included
         }
       });
     } else if (action === 'checkout') {
@@ -83,6 +80,7 @@ const ReservationDetail = () => {
     }
     setIsDropdownOpen(false);
   };
+  
 
   return (
     <div className="reservation-detail">
@@ -122,7 +120,7 @@ const ReservationDetail = () => {
           <h3><strong>Payment Information</strong></h3>
           <p><strong>Payment Method:</strong> {reservation.payment_method || 'N/A'}</p>
           <p><strong>Card Number:</strong> {maskCardNumber(reservation.card_number)}</p>
-          <p><strong>Total Amount:</strong> ${reservation.totalAmount}</p>
+          <p><strong>Total Amount:</strong> ${reservation.totalAfterDiscount.toFixed(2)}</p>
         </div>
         <div className="section">
           <h3><strong></strong></h3>

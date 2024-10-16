@@ -54,7 +54,7 @@ p {
 .dropdown-menu {
   position: absolute;
   margin-top: 10px;
-  background-color: white;
+  background-color: #0F4C75;
   border: 1px solid #ddd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
@@ -72,6 +72,7 @@ p {
 
 .dropdown-menu button:hover {
   background-color: #f2f2f2;
+  color: black;
 }
 
 .copy-btn {

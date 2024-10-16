@@ -72,13 +72,13 @@ const GuestTable = () => {
         });
     };
 
-    const handleTransactionClick = (guest) => {
-        navigate ('/transaction', {
-            state: {
-                fromPage: 'manage-guest',
-            }
-        });
-    }
+    // const handleTransactionClick = (guest) => {
+    //     navigate ('/transaction', {
+    //         state: {
+    //             fromPage: 'manage-guest',
+    //         }
+    //     });
+    // }
 
     return (
         <div className="guest-table-container">
@@ -95,7 +95,6 @@ const GuestTable = () => {
                         <th> Identity type </th>
                         <th> Identity number</th>
                         {/* <th> Reservation </th> */}
-                        <th> Transaction</th>
                         <th> Action </th>
                     </tr>
                 </thead>
@@ -114,9 +113,9 @@ const GuestTable = () => {
                             {/* <td className="reservation" onClick={() => handleReservationClick(guest)}>
                                 Make quick reservation
                             </td> */}
-                            <td className="transaction" onClick={() => handleTransactionClick(guest)}> 
+                            {/* <td className="transaction" onClick={() => handleTransactionClick(guest)}> 
                                 See all transaction
-                            </td>
+                            </td> */}
                             <td>
                                 <span className="guest-edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(guest)} >
                                     <ModeOutlinedIcon/>

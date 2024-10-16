@@ -44,3 +44,10 @@ TODO:
 - Add payment in reservation detail
 
  IF I DONT FINISH I WILL FAIL Y4 FRRRRRRR :)
+
+16/10/2024
+- show each room in category in available room
+- Make the checkin date set as today as default
+- Clean UI more reliable
+- Make all the icon work
+- Finish report

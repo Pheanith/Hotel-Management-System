@@ -94,10 +94,32 @@ const ReservationCard = ({ reservations }) => {
                 {reservation.checkout_status}
               </td>
               <td className='reservation-detail'>
-                <Link to={`/reservation-detail/${reservation.reservation_id}`} state={reservation}>
+              <Link 
+                  to={`/reservation-detail/${reservation.reservation_id}`} 
+                  state={{
+                    reservation_id: reservation.reservation_id,
+                    firstName: reservation.firstName,
+                    lastName: reservation.lastName,
+                    phoneNumber: reservation.phoneNumber,
+                    reserve_date: reservation.reserve_date,
+                    checkin_date: reservation.checkin_date,
+                    checkout_date: reservation.checkout_date,
+                    room_number: reservation.room_numbers,  // Add room numbers here
+                    room_type_name: reservation.room_type_names,  // Add room type here
+                    totalAfterDiscount: reservation.totalAfterDiscount,
+                    status: reservation.status,
+                    checkin_status: reservation.checkin_status,
+                    checkout_status: reservation.checkout_status,
+                    payment_method: reservation.payment_method,
+                    card_number: reservation.card_number,
+                    totalAmount: reservation.totalAmount
+                  }}
+                >
+
                   Reservation detail
                 </Link>
               </td>
+
               <td>
                 <Link to={`/invoice/${reservation.reservation_id}`} state={reservation}>
                   Invoice

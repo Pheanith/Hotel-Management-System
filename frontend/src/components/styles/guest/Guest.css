@@ -13,7 +13,6 @@
 }
 .guest-search-bar{
     display: flex;
-    gap: 10px;
 }
 .guest-search-bar svg{
     margin-left: 300px;
@@ -32,7 +31,7 @@
     cursor: pointer;
     height: 35px;
     width: 150px;
-    margin-left: 250px;
+    margin-left: 700px;
     color: white;
     background-color: #0F4C75;
     border-color: #0F4C75;

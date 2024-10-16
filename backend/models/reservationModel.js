@@ -112,36 +112,102 @@ export const createReservation = (reservation) => {
     });
 };
 
-export const CreateReservationDetail = (reservation_id, room_id) => {
-    // const { room_id, guest_id, checkin_date, checkout_date, checkin_time, checkout_time, checkin_status, checkout_status, discount } = reservation;
+// export const CreateReservationDetail = (reservation_id, room_id) => {
+//     // const { room_id, guest_id, checkin_date, checkout_date, checkin_time, checkout_time, checkin_status, checkout_status, discount } = reservation;
+//     const query = `
+//         INSERT INTO reservation_details (reservation_id, room_id) 
+//         VALUES (?, ?);
+//     `;
+
+//     return new Promise((resolve, reject) => {
+//         db.query(query, [reservation_id, room_id], (err, results) => {
+//             if (err) {
+//                 return reject(err);
+//             }
+
+//             // Retrieve the last inserted ID
+//             const insertedId = results.insertId;
+
+//             // Optionally, you can fetch the inserted data here if needed
+//             // For example, you might want to select the inserted reservation
+//             const selectQuery = `
+//                 SELECT * FROM reservation_details WHERE detail_id = ?
+//             `;
+//             db.query(selectQuery, [insertedId], (err, rows) => {
+//                 if (err) {
+//                     return reject(err);
+//                 }
+//                 resolve(rows[0]); // Assuming you want to return the first row
+//             });
+//         });
+//     });
+// };
+export const CreateReservationDetail = (reservation_id, room_ids) => {
+    // room_ids is now expected to be an array of room IDs
     const query = `
         INSERT INTO reservation_details (reservation_id, room_id) 
         VALUES (?, ?);
     `;
-
+    console.log("Detail: ", reservation_id );
     return new Promise((resolve, reject) => {
-        db.query(query, [reservation_id, room_id], (err, results) => {
+        // Begin a transaction for multiple insertions
+        db.beginTransaction((err) => {
             if (err) {
                 return reject(err);
             }
 
-            // Retrieve the last inserted ID
-            const insertedId = results.insertId;
+            // Keep track of successful insertions
+            let insertedRows = [];
+            let completedInserts = 0;
 
-            // Optionally, you can fetch the inserted data here if needed
-            // For example, you might want to select the inserted reservation
-            const selectQuery = `
-                SELECT * FROM reservation_details WHERE detail_id = ?
-            `;
-            db.query(selectQuery, [insertedId], (err, rows) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(rows[0]); // Assuming you want to return the first row
+            // Loop through the room_ids array and insert each one
+            room_ids.forEach((room_id) => { 
+                console.log(room_ids);
+                db.query(query, [reservation_id, room_id], (err, results) => {
+                    if (err) {
+                        return db.rollback(() => {
+                            reject(err);  // Rollback transaction on error
+                        });
+                    }
+
+                    console.log("id",reservation_id);
+
+                    // Retrieve the last inserted ID
+                    const insertedId = results.insertId;
+                    console.log(insertedId);
+
+                    // Optionally, select the inserted data
+                    const selectQuery = `
+                        SELECT * FROM reservation_details WHERE detail_id = ?
+                    `;
+                    db.query(selectQuery, [insertedId], (err, rows) => {
+                        if (err) {
+                            return db.rollback(() => {
+                                reject(err);  // Rollback transaction on error
+                            });
+                        }
+
+                        insertedRows.push(rows[0]);  // Store inserted rows
+                        completedInserts++;
+
+                        // If all inserts are done, commit the transaction
+                        if (completedInserts === room_ids.length) {
+                            db.commit((err) => {
+                                if (err) {
+                                    return db.rollback(() => {
+                                        reject(err);
+                                    });
+                                }
+                                resolve(insertedRows);  // Return all inserted rows
+                            });
+                        }
+                    });
+                });
             });
         });
     });
 };
+
 
 // Update a reservation by ID
 export const updateReservationById = (id, updatedReservation) => {
@@ -248,7 +314,8 @@ export const getAllReservations = (searchParams = {}) => {
             GROUP_CONCAT(DISTINCT rm.room_number ORDER BY rm.room_number SEPARATOR ', ') AS room_numbers, 
             GROUP_CONCAT(DISTINCT rt.name ORDER BY rt.name SEPARATOR ', ') AS room_type_names,
             GROUP_CONCAT(DISTINCT at.name ORDER BY at.name SEPARATOR ', ') AS accommodation_type_names,
-            SUM(rm.price_per_night * DATEDIFF(r.checkout_date, r.checkin_date)) AS totalAmount 
+            SUM(rm.price_per_night * DATEDIFF(r.checkout_date, r.checkin_date)) AS totalAmount,
+            GROUP_CONCAT(DISTINCT rm.price_per_night ORDER BY rm.room_number SEPARATOR ', ') AS room_prices
         FROM reservations r
         JOIN guests g ON r.guest_id = g.guest_id
         JOIN reservation_details rd ON r.reservation_id = rd.reservation_id

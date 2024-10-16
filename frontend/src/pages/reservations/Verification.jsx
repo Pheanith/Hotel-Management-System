@@ -45,7 +45,7 @@ const Verification = () => {
                 onChange={(e) => setVerificationCode(e.target.value)}
             />
             {error && <p className="error-message">{error}</p>}
-            <button onClick={handleVerify}>Verify</button>
+            <button onClick={handleVerify}>Check-in</button>
         </div>
     );
 };
