@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const ReservationCard = ({ reservations }) => {
+  console.log("ReservationCard:",reservations);
+  
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
@@ -60,7 +62,9 @@ const ReservationCard = ({ reservations }) => {
           </tr>
         </thead>
         <tbody>
-          {reservations.map((reservation, index) => (
+          {
+          
+          reservations.map((reservation, index) => (
             <tr key={index}>
               <td>{reservation.reservation_id}</td>
               <td>{`${reservation.firstName} ${reservation.lastName}`}</td>

@@ -10,6 +10,8 @@ const Invoice = () => {
 
     const invoiceRef = useRef();
 
+    console.log("reservation: ", reservation);
+
     // Calculate number of rooms
     const numberOfRooms = Array.isArray(reservation.room_numbers) ? reservation.room_numbers.length : (typeof reservation.room_numbers === 'string' ? reservation.room_numbers.split(',').length : 0);
 
@@ -25,23 +27,27 @@ const Invoice = () => {
     const checkoutDate = new Date(reservation.checkout_date);
     const numberOfNights = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24);
 
+    console.log("roomTypeNames: ", roomTypeNames);	
     // Correct room type count logic based on room numbers
     const roomTypeCount = roomTypeNames.reduce((acc, roomType, index) => {
         const unitPrice = roomPrices[index] || 0;
         
-        // Find how many rooms correspond to the current room type
+        //Find how many rooms correspond to the current room type
         const roomTypeQuantity = reservation.room_numbers.reduce((count, _, i) => {
             console.log("roomtypename[" , i, "]: ", roomTypeNames[i]);
             console.log("roomType: ", roomType);
+            console.log("count", count);
+            console.log("roomTypeNames[i] === roomType : ",roomTypeNames[i] === roomType );
             return roomTypeNames[i] === roomType ? count + 1 : count;
         }, 0);
     
         // If the room type already exists in the accumulator, add the quantity, else set it
         if (acc[roomType]) {
-            acc[roomType].quantity += roomTypeQuantity;
+            acc[roomType].quantity = roomTypeQuantity;
         } else {
-            acc[roomType] = { quantity: roomTypeQuantity, unitPrice };
+            acc[roomType] = { quantity: 1, unitPrice };
         }
+        console.log(acc);
     
         return acc;
     }, {});

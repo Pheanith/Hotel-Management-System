@@ -312,10 +312,10 @@ export const getAllReservations = (searchParams = {}) => {
             g.address,
             g.phoneNumber,
             GROUP_CONCAT(DISTINCT rm.room_number ORDER BY rm.room_number SEPARATOR ', ') AS room_numbers, 
-            GROUP_CONCAT(DISTINCT rt.name ORDER BY rt.name SEPARATOR ', ') AS room_type_names,
+            GROUP_CONCAT( rt.name ORDER BY rt.name SEPARATOR ', ') AS room_type_names,
             GROUP_CONCAT(DISTINCT at.name ORDER BY at.name SEPARATOR ', ') AS accommodation_type_names,
             SUM(rm.price_per_night * DATEDIFF(r.checkout_date, r.checkin_date)) AS totalAmount,
-            GROUP_CONCAT(DISTINCT rm.price_per_night ORDER BY rm.room_number SEPARATOR ', ') AS room_prices
+            GROUP_CONCAT( rm.price_per_night ORDER BY rm.room_number SEPARATOR ', ') AS room_prices
         FROM reservations r
         JOIN guests g ON r.guest_id = g.guest_id
         JOIN reservation_details rd ON r.reservation_id = rd.reservation_id

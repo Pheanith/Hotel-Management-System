@@ -111,47 +111,54 @@ const ReserveSum = () => {
             <div className="sum-header">
                 <h2>Reservation Summary</h2>
             </div>
-            <p><strong>Guest Name:</strong> {selectedGuest ? `${selectedGuest.firstName} ${selectedGuest.lastName}` : 'N/A'}</p>
-            <p><strong>Check-in Date:</strong> {checkIn ? new Date(checkIn).toLocaleDateString() : 'N/A'}</p>
-            <p><strong>Check-out Date:</strong> {checkOut ? new Date(checkOut).toLocaleDateString() : 'N/A'}</p>
-            <p><strong>Total Amount (before discount):</strong> ${totalAmountBeforeDiscount.toFixed(2)}</p>
 
-            <label>
-                <strong>Discount (%):</strong>
-                <input
-                    type="number"
-                    value={discountPercentage}
-                    onChange={handleDiscountChange}
-                    min="0"
-                    max="100"
-                    step="0.01"
-                />
-            </label>
+            <div className="summary-container">
+                {/* Guest Information */}
+                <div className="guest-info">
+                    <p><strong>Guest Name:</strong> {selectedGuest ? `${selectedGuest.firstName} ${selectedGuest.lastName}` : 'N/A'}</p>
+                    <p><strong>Check-in Date:</strong> {checkIn ? new Date(checkIn).toLocaleDateString() : 'N/A'}</p>
+                    <p><strong>Check-out Date:</strong> {checkOut ? new Date(checkOut).toLocaleDateString() : 'N/A'}</p>
+                    <p><strong>Total Amount (before discount):</strong> ${totalAmountBeforeDiscount.toFixed(2)}</p>
 
-            <p><strong>Total Amount (after discount):</strong> ${totalAmount.toFixed(2)}</p>
+                    <label>
+                        <strong>Discount (%):</strong>
+                        <input
+                            type="number"
+                            value={discountPercentage}
+                            onChange={handleDiscountChange}
+                            min="0"
+                            max="100"
+                            step="0.01"
+                        />
+                    </label>
 
-            <div className="selected-rooms">
-                <h3>Selected Rooms:</h3>
-                <ul>
-                    {selectedRooms.length > 0 ? (
-                        selectedRooms.map((room, index) => (
-                            
-                            <li key={index}>
-                                <p><strong>Room Number:</strong> {room.room_number}</p>
-                                <p><strong>Room Type:</strong> {room.room_type_name}</p>
-                                <p><strong>Accommodation Type:</strong> {room.accommodation_type_name}</p>
-                                <p><strong>Price Per Night:</strong> ${room.price_per_night}</p>
-                                <p><strong>Description:</strong> {room.description}</p>
-                            </li>
-                        ))
-                    ) : (
-                        <p>No rooms selected.</p>
-                    )}
-                </ul>
+                    <p><strong>Total Amount (after discount):</strong> ${totalAmount.toFixed(2)}</p>
+                </div>
+
+                {/* Selected Rooms Information */}
+                <div className="selected-rooms">
+                    <h3>Selected Rooms:</h3>
+                    <ul>
+                        {selectedRooms.length > 0 ? (
+                            selectedRooms.map((room, index) => (
+                                <li key={index}>
+                                    <p><strong>Room Number:</strong> {room.room_number}</p>
+                                    <p><strong>Room Type:</strong> {room.room_type_name}</p>
+                                    <p><strong>Accommodation Type:</strong> {room.accommodation_type_name}</p>
+                                    <p><strong>Price Per Night:</strong> ${room.price_per_night}</p>
+                                    <p><strong>Description:</strong> {room.description}</p>
+                                </li>
+                            ))
+                        ) : (
+                            <p>No rooms selected.</p>
+                        )}
+                    </ul>
+                </div>
             </div>
 
             <button onClick={handleReserve}>Reserve</button>
         </div>
+
     );
 };
 

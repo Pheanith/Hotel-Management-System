@@ -23,22 +23,8 @@ const Room = () => {
     const [rooms, setRooms] = useState([]);
     const [selectedRooms, setSelectedRooms] = useState([]);
 
-    // Fetch all rooms excluding maintenance on initial render
-    // useEffect(() => {
-    //     const fetchAllRooms = async () => {
-    //     try {
-    //         const response = await axios.get('http://localhost:5000/api/rooms/available');
-    //         setRooms(response.data);
-    //     } catch (error) {
-    //         console.error('Error fetching all rooms:', error);
-    //     }
-    //     };
-
-    //     fetchAllRooms();
-    // }, []);
-
-     // Fetch available rooms when check-in or check-out dates change
-     useEffect(() => {
+    // Fetch available rooms when check-in or check-out dates change
+    useEffect(() => {
         const fetchAvailableRooms = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/rooms/available', {
@@ -138,12 +124,16 @@ const Room = () => {
                     <tbody>
                         {rooms.length > 0 ? (
                             rooms.map((room, index) => (
-                                <tr key={index}>
+                                <tr key={index} 
+                                    onClick={() => handleRoomSelection(room)}
+                                    className={`room-row ${selectedRooms.some(r => r.room_number === room.room_number) ? 'selected' : ''}`}
+                                >
                                     <td>
                                         <input
                                             type="checkbox"
                                             checked={selectedRooms.some(r => r.room_number === room.room_number)}
                                             onChange={() => handleRoomSelection(room)}
+                                            onClick={(e) => e.stopPropagation()} // Prevent row click when clicking checkbox
                                         />
                                     </td>
                                     <td>{room.room_number}</td>
