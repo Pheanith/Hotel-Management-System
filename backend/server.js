@@ -10,7 +10,8 @@ import accommodationRoutes from './routes/accommodationRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import dashboardRoute from './routes/dashboardRoutes.js';
 import adminRoute from './routes/adminRoute.js';
-
+import roomFeatureRoutes from './routes/roomFeatureRoutes.js';
+import availabilityRoutes from './routes/availabilityRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -29,8 +30,8 @@ app.use('/api/accommodation_types', accommodationRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', dashboardRoute); // Route for dashboard data
 app.use('/api', adminRoute);
-
-
+app.use('/api/room-features', roomFeatureRoutes);
+app.use('/api/availability', availabilityRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

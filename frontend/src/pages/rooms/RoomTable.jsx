@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import '../../components/styles/rooms/RoomTable.css';
+import React, { useState } from 'react';
 import RoomDelete from './RoomDelete';
-import RoomEdit from './RoomEdit'; // Import your RoomEdit component
-import axios from 'axios';
+import '../../components/styles/rooms/RoomTable.css';
+import { FaSearch } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const RoomTable = () => {
-    const [rooms, setRooms] = useState([]);
+const RoomTable = ({ rooms, updateRoom }) => {
     const [showModal, setShowModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false); // For edit modal
     const [selectedRoom, setSelectedRoom] = useState(null);
+    const [searchInput, setSearchInput] = useState('');
 
-    useEffect(() => {
-        const fetchRooms = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/rooms');
-                setRooms(response.data);
-            } catch (error) {
-                console.error('Error fetching rooms:', error);
-            }
-        };
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const roomsPerPage = 3;
 
-        fetchRooms();
-    }, []);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleDeleteClick = (room) => {
         setSelectedRoom(room);
@@ -29,78 +21,100 @@ const RoomTable = () => {
     };
 
     const handleEditClick = (room) => {
-        setSelectedRoom(room);
-        setShowEditModal(true); // Show edit modal
+        navigate(`/edit-room/${room.id}`); // Navigate to the edit room page
     };
 
     const handleClose = () => {
         setShowModal(false);
-        setShowEditModal(false); // Close edit modal
         setSelectedRoom(null);
     };
 
-    const handleDelete = async () => {
-        try {
-            await axios.delete(`http://localhost:5000/api/rooms/${selectedRoom.id}`); // Update based on your DB structure
-            setRooms(rooms.filter(room => room.id !== selectedRoom.id)); // Update based on your DB structure
-            handleClose();
-        } catch (error) {
-            console.error('Error deleting room:', error);
-        }
+    const handleSearchChange = (e) => {
+        setSearchInput(e.target.value);
+        setCurrentPage(1); // Reset to the first page when search input changes
     };
 
-    const handleUpdate = (updatedRoom) => {
-        setRooms(prevRooms => prevRooms.map(room => (room.id === updatedRoom.id ? updatedRoom : room))); // Update based on your DB structure
-        handleClose();
+    // Filter rooms based on search input
+    const filteredRooms = rooms.filter((room) =>
+        room.room_number.toLowerCase().includes(searchInput.toLowerCase()) ||
+        room.room_type_name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        room.accommodation_type_name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        room.status.toLowerCase().includes(searchInput.toLowerCase()) ||
+        room.check_in.toLowerCase().includes(searchInput.toLowerCase()) ||
+        room.check_out.toLowerCase().includes(searchInput.toLowerCase())
+    );
+
+    const indexOfLastRoom = currentPage * roomsPerPage;
+    const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+    const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
+    const totalPages = Math.ceil(filteredRooms.length / roomsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
-    
+
     return (
-        <div className='room-table-container'>
+        <>
+            <div className="search-container">
+                <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search rooms..."
+                    value={searchInput}
+                    onChange={handleSearchChange}
+                />
+                <button className="search-button">
+                    <FaSearch />
+                </button>
+            </div>
             <table className='room-table'>
                 <thead>
                     <tr>
-                        <th> ID </th>
-                        <th> Room number </th>
-                        <th> Room type </th>
-                        <th> Accommodation type </th>
-                        <th> Availability status </th>
-                        <th> Floor number </th>
-                        <th> Price per night</th>
-                        <th> Description </th>
-                        <th> Actions </th>
+                        <th>Room Number</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Room Type</th>
+                        <th>Accommodation Type</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {rooms.map((room, index) => (
-                        <tr key={index}>
-                            <td>{room.id}</td> {/* Update based on your DB structure */}
+                    {currentRooms.map((room) => (
+                        <tr key={room.id}>
                             <td>{room.room_number}</td>
-                            <td>{room.room_type_name}</td> {/* Update based on your DB structure */}
-                            <td>{room.accommodation_type_name}</td> {/* Update based on your DB structure */}
-                            <td className={room.availability_status === 'Maintenance' ? 'Maintenance'
-                                : room.availability_status === 'Occupied' ? 'Occupied'
-                                : 'Available'}>
-                                {room.availability_status}
-                            </td>
-                            <td>{room.floor_number}</td>
-                            <td>{room.price_per_night}</td>
-                            <td>{room.description}</td>
+                            <td>{room.base_price}</td>
+                            <td>{room.status}</td>
+                            <td>{room.room_type_name}</td>
+                            <td>{room.accommodation_type_name}</td>
+                            <td>{room.check_in}</td>
+                            <td>{room.check_out}</td>
                             <td>
-                                <span className="edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(room)}>✏️</span>
-                                <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(room)}>🗑️</span>
+                                <button onClick={() => handleEditClick(room)}>Edit</button>
+                                <button onClick={() => handleDeleteClick(room)}>Delete</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            {showModal && (
-                <RoomDelete show={showModal} onClose={handleClose} onDelete={handleDelete} />
-            )}
-            {showEditModal && (
-                <RoomEdit show={showEditModal} room={selectedRoom} onClose={handleClose} onUpdate={handleUpdate} />
-            )}
-        </div>
+
+            {/* Pagination Controls */}
+            <div className="pagination">
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                        key={index + 1}
+                        className={currentPage === index + 1 ? 'active' : ''}
+                        onClick={() => handlePageChange(index + 1)}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+            </div>
+
+            {showModal && <RoomDelete show={showModal} onClose={handleClose} room={selectedRoom} />}
+        </>
     );
-}
+};
 
 export default RoomTable;

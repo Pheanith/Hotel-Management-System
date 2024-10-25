@@ -5,14 +5,15 @@ export const getDashboardData = async (req, res) => {
   try {
     // Define SQL queries
     const totalReservationsQuery = 'SELECT COUNT(*) AS total FROM reservations';
+    
     const totalRevenueQuery = `
-      SELECT SUM(r.price_per_night) AS totalRevenue 
-      FROM reservation_details AS rd
-      JOIN reservations AS res ON rd.reservation_id = res.reservation_id
-      JOIN rooms AS r ON rd.room_id = r.room_id;
+      SELECT SUM(b.total_amount) AS totalRevenue 
+      FROM billing AS b
+      JOIN reservations AS r ON b.reservation_id = r.reservation_id;
     `;
-    const totalAvailableRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE availability_status = "Available"';
-    const totalOccupiedRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE availability_status = "Occupied"';
+    
+    const totalAvailableRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE status = "available"';
+    const totalOccupiedRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE status = "occupied"';
 
     // Execute queries
     const [[totalReservations]] = await db.query(totalReservationsQuery);
@@ -28,7 +29,7 @@ export const getDashboardData = async (req, res) => {
       totalOccupiedRooms: totalOccupiedRooms.total || 0,
     });
   } catch (error) {
-    console.error('Error fetching dashboard data:', error);
+    console.error('Error fetching dashboard data:', error); // Log the error to console
     res.status(500).json({ error: 'Failed to fetch dashboard data' });
   }
 };

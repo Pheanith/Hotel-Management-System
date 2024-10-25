@@ -5,19 +5,18 @@ import Home from "@mui/icons-material/HomeOutlined";
 import Guest from "@mui/icons-material/PeopleAltOutlined";
 import Room from "@mui/icons-material/HotelOutlined";
 import RoomList from '@mui/icons-material/BallotOutlined';
-import Reservations from '@mui/icons-material/BrowserUpdatedOutlined';
-import Transaction from '@mui/icons-material/DiamondOutlined';
-import Invoices from '@mui/icons-material/ReceiptOutlined';
-import PeriodicPrice from '@mui/icons-material/PriceChangeOutlined';
-import Report from '@mui/icons-material/AssessmentOutlined';
-import AgencyCurrency from '@mui/icons-material/CurrencyExchangeOutlined';
-import Tools from '@mui/icons-material/HomeRepairServiceOutlined';
-import Helps from '@mui/icons-material/FavoriteBorderOutlined';
-import YourItems from '@mui/icons-material/CategoryOutlined';
-import MonthlyView from '@mui/icons-material/TodayOutlined';
 import ManageUser from '@mui/icons-material/GroupOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+// import Reservations from '@mui/icons-material/BrowserUpdatedOutlined';
+// import Transaction from '@mui/icons-material/DiamondOutlined';
+// import Invoices from '@mui/icons-material/ReceiptOutlined';
+// import PeriodicPrice from '@mui/icons-material/PriceChangeOutlined';
+// import Report from '@mui/icons-material/AssessmentOutlined';
+// import AgencyCurrency from '@mui/icons-material/CurrencyExchangeOutlined';
+// import Tools from '@mui/icons-material/HomeRepairServiceOutlined';
+// import Helps from '@mui/icons-material/FavoriteBorderOutlined';
+// import YourItems from '@mui/icons-material/CategoryOutlined';
+// import MonthlyView from '@mui/icons-material/TodayOutlined';
 const Sidebar = () => {
   const location = useLocation();
   const [isRoomListOpen, setRoomListOpen] = useState(false);
@@ -76,9 +75,9 @@ const Sidebar = () => {
               {/* <Link to="/edit-room" className="dropdown-item">Edit Room</Link> */}
               <Link to="/room-types" className="dropdown-item">Room Types</Link>
               <Link to="/accommodation-types" className="dropdown-item">Accommodation Types</Link>
-              <Link to="/room-features/:id" className="dropdown-item">RoomFeatures</Link>
+              {/* <Link to="/room-features/:id" className="dropdown-item">RoomFeatures</Link> */}
 
-              <Link to="/available" className="dropdown-item">Available</Link>
+              {/* <Link to="/available" className="dropdown-item">Available</Link> */}
             </div>
           )}
         </div>
@@ -90,13 +89,14 @@ const Sidebar = () => {
           <Link to='/UserList'>Manage User</Link>
         </div>
       </div>
-      <div className={`dashboard ${location.pathname === '/reservation' ? 'active' : ''}`}>
+      {/* <div className={`dashboard ${location.pathname === '/reservation' ? 'active' : ''}`}>
         <Reservations />
         <div className="dashboard-name">
           <Link to='/reservation'>Reservations</Link>
         </div>
-      </div>
-      <div className={`dashboard ${location.pathname === '/transaction' ? 'active' : ''}`}>
+      </div> */}
+
+      {/* <div className={`dashboard ${location.pathname === '/transaction' ? 'active' : ''}`}>
         <Transaction />
         <div className="dashboard-name">
           <Link to='/transaction'>Transaction</Link>
@@ -149,7 +149,7 @@ const Sidebar = () => {
         <div className="dashboard-name">
           <Link to='/monthly-view'>Monthly View</Link>
         </div>
-      </div>
+      </div> */}
     </aside>
   );
 };

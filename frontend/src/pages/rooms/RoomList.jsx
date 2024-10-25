@@ -1,35 +1,37 @@
-//RoomList.jsx
-import { useState } from 'react';
-import React from "react";
+// RoomList.jsx
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import RoomTable from './RoomTable';
-import { useNavigate } from "react-router-dom";
 import '../../components/styles/rooms/RoomList.css';
 
 const RoomList = () => {
-const [isFormVisible, setFormVisible] = useState(false);
-  const navigate = useNavigate();
+    const [rooms, setRooms] = useState([]);
+    const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    setFormVisible(true);
-  };
+    useEffect(() => {
+        const fetchRooms = async () => {
+            const response = await fetch('http://localhost:5000/api/rooms');
+            const data = await response.json();
+            setRooms(data);
+        };
+        fetchRooms();
+    }, []);
 
-  const handleCloseForm = () => {
-    setFormVisible(false);
-  };
+    const handleOpenForm = () => {
+        navigate('/add-room'); // Navigate to the RoomForm component
+    };
 
-  const handleOpenForm = () => {
-    navigate('/add-room', { state: { fromPage: 'room-list' } });
-  };
     return (
-       <div className="main-room-list-content">
+        <div className="main-room-list-content">
             <div className="room-content-body">
-                <a> Room List </a>
-                <button onClick={handleOpenForm}>Add new room </button>
+                <h1>Room List</h1>
+                <button onClick={handleOpenForm}>Add New Room</button>
             </div>
-            <div className="room-table"> 
-                <RoomTable/>
+            <div className="room-table">
+                <RoomTable rooms={rooms} />
             </div>
-       </div>
+        </div>
     );
-}
- export default RoomList;
+};
+
+export default RoomList;

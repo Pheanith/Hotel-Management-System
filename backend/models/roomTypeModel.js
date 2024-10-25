@@ -3,7 +3,7 @@ import db from '../utils/db.js';
 // Get all room types
 export const getAllRoomTypes = async () => {
     try {
-        const [results] = await db.query('SELECT * FROM room_types'); // Use await with db.query
+        const [results] = await db.query('SELECT * FROM room_types');
         return results; // Return the results
     } catch (err) {
         console.error('Database error:', err);
@@ -24,10 +24,10 @@ export const getRoomTypeById = async (id) => {
 
 // Add a new room type
 export const addRoomType = async (roomType) => {
-    const { name, description } = roomType;
+    const { type_name, description, amenities, capacity, price, status, image_url } = roomType; // Extract new fields
     try {
-        const query = 'INSERT INTO room_types (name, description) VALUES (?, ?)';
-        const [result] = await db.query(query, [name, description]);
+        const query = 'INSERT INTO room_types (type_name, description, amenities, capacity, price, status, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const [result] = await db.query(query, [type_name, description, amenities, capacity, price, status, image_url]);
         return result.insertId; // Return the inserted ID
     } catch (err) {
         console.error('Database error:', err);
@@ -37,10 +37,10 @@ export const addRoomType = async (roomType) => {
 
 // Update room type by ID
 export const updateRoomType = async (id, updates) => {
-    const { name, description } = updates;
+    const { type_name, description, amenities, capacity, price, status, image_url } = updates; // Extract new fields
     try {
-        const query = 'UPDATE room_types SET name = ?, description = ? WHERE room_type_id = ?';
-        const [result] = await db.query(query, [name, description, id]);
+        const query = 'UPDATE room_types SET type_name = ?, description = ?, amenities = ?, capacity = ?, price = ?, status = ?, image_url = ? WHERE room_type_id = ?';
+        const [result] = await db.query(query, [type_name, description, amenities, capacity, price, status, image_url, id]);
         return result.affectedRows > 0; // Return true if any row was updated
     } catch (err) {
         console.error('Database error:', err);

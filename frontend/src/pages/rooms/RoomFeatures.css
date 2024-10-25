@@ -78,3 +78,25 @@
   padding: 10px;
   border: 1px solid #ccc;
 }
+.pagination {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.page-button {
+  margin: 0 5px;
+  padding: 8px 16px;
+  background-color: #1e3a8a; /* Dark blue */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.page-button:hover {
+  background-color: #163a6b; /* Darker blue */
+}
+
+.page-button.active {
+  background-color: #2c5282; /* Even darker blue for active page */
+}

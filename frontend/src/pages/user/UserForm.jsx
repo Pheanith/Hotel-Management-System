@@ -1,82 +1,137 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './UserForm.css';
-import '../user/EditForm';
+import './UserForm.css'; // Ensure styles align with the image's appearance
 
 const UserForm = () => {
-  const [username, setUsername] = useState('');
-  const [role, setRole] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+    const [users, setUsers] = useState([]);
+    const [role, setRole] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [dateOfJoin, setDateOfJoin] = useState('');
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/admins');
+                setUsers(response.data);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+                setError('Error fetching users. Please try again later.');
+            }
+        };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+        fetchUsers();
+    }, []);
 
-    const newAdmin = {
-      username,
-      role,
-      password,
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/admins', {
+                role,
+                username,
+                password,
+                date_of_join: dateOfJoin
+            });
+            setUsers([...users, response.data]); // Add new user to the list
+            setRole('');
+            setUsername('');
+            setPassword('');
+            setDateOfJoin('');
+        } catch (error) {
+            setError('Error adding user. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    try {
-      await axios.post('http://localhost:5000/api/admins', newAdmin); // API for creating a new admin
-      alert('Admin added successfully!');
-      navigate('/UserList'); // Redirect to UserList page after successful creation
-    } catch (error) {
-      console.error('Error adding admin:', error);
-      alert('There was an error adding the admin.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    const handleDelete = async (userId) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/admins/${userId}`);
+            setUsers(users.filter(user => user.id !== userId));
+        } catch (error) {
+            setError('Error deleting user. Please try again.');
+        }
+    };
 
-  return (
-    <div className="user-form-container">
-      <h2>Add New Admin</h2>
-      <form onSubmit={handleSubmit} className="user-form">
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    return (
+        <div className="user-form-container">
+            <h2>Manage Users</h2>
+            <input type="text" placeholder="Search..." className="search-input" />
+
+            {error && <p className="error-message">{error}</p>} {/* Display error message */}
+
+            <table className="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Role</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Date of Join</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((user, index) => (
+                        <tr key={user.id}>
+                            <td>{index + 1}</td>
+                            <td>{user.role}</td>
+                            <td>{user.username}</td>
+                            <td>******</td> {/* Masked password */}
+                            <td>{user.date_of_join}</td>
+                            <td>
+                                <button className="edit-button">Edit</button>
+                                <button className="delete-button" onClick={() => handleDelete(user.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            <form onSubmit={handleSubmit} className="user-form">
+                <input
+                    type="text"
+                    placeholder="Role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    required
+                    disabled={loading}
+                />
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    disabled={loading}
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={loading}
+                />
+                <input
+                    type="date"
+                    placeholder="Date of Join"
+                    value={dateOfJoin}
+                    onChange={(e) => setDateOfJoin(e.target.value)}
+                    required
+                    disabled={loading}
+                />
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Adding...' : 'Add User'}
+                </button>
+            </form>
         </div>
-        <div className="form-group">
-          <label htmlFor="role">Role:</label>
-          <select
-            id="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-          >
-            <option value="">Select role</option>
-            <option value="Admin">Admin</option>
-            <option value="Simple Admin">Staff</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Add Admin'}
-        </button>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default UserForm;

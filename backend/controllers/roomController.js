@@ -1,118 +1,95 @@
-//roomController.js
-import {
-    getAllRooms,
-    getRoomById as fetchRoomById,
-    addRoom,
-    updateRoom,
-    deleteRoom,
-    getAvailableRooms,
-    getAllRoomTypes,
-    getAllAccommodationTypes
-} from '../models/roomModel.js';
+// controllers/roomController.js
 
-// Get all rooms
-export const getRoom = async (req, res) => {
+import db from '../utils/db.js'; // Adjust this import based on your directory structure
+
+// Get all rooms with room and accommodation type details
+export const getAllRooms = async (req, res) => {
     try {
-        const rooms = await getAllRooms();
-        res.json(rooms);
+        const query = `
+            SELECT rooms.*, 
+                   room_types.type_name AS room_type_name, 
+                   accommodation_types.accommodation_name AS accommodation_type_name
+            FROM rooms
+            LEFT JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+            LEFT JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+        `;
+        const [rows] = await db.query(query);
+        res.status(200).json(rows);
     } catch (error) {
-        console.error('Error fetching rooms:', error);
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Error fetching rooms:", error);
+        res.status(500).json({ message: "Error fetching rooms" });
     }
 };
 
 // Get a room by ID
 export const getRoomById = async (req, res) => {
+    const { id } = req.params;
     try {
-        const room = await fetchRoomById(req.params.id);
-        if (room) {
-            res.json(room);
-        } else {
-            res.status(404).json({ message: 'Room not found 1' });
+        const query = `
+            SELECT rooms.*, 
+                   room_types.type_name AS room_type_name, 
+                   accommodation_types.accommodation_name AS accommodation_type_name
+            FROM rooms
+            LEFT JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+            LEFT JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+            WHERE room_id = ?
+        `;
+        const [rows] = await db.query(query, [id]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Room not found" });
         }
+        res.status(200).json(rows[0]);
     } catch (error) {
-        console.error('Error fetching room by ID:', error);
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Error fetching room:", error);
+        res.status(500).json({ message: "Error fetching room" });
     }
 };
 
-// Add a new room
+// Create a new room
 export const createRoom = async (req, res) => {
+    const { room_number, room_type_id, accommodation_type_id, price_per_night, status, floor_number, description } = req.body;
     try {
-        const newRoom = req.body;
-        const roomId = await addRoom(newRoom);
-        res.status(201).json({ message: 'Room added successfully', roomId });
+        const query = `
+            INSERT INTO rooms (room_number, room_type_id, accommodation_type_id, price_per_night, status, floor_number, description)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+        const result = await db.query(query, [room_number, room_type_id, accommodation_type_id, price_per_night, status, floor_number, description]);
+        res.status(201).json({ id: result.insertId, message: "Room created successfully" });
     } catch (error) {
-        console.error('Error adding room:', error);
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Error creating room:", error);
+        res.status(500).json({ message: "Error creating room" });
     }
 };
 
 // Update a room by ID
-export const updateRoomById = async (req, res) => {
+export const updateRoom = async (req, res) => {
+    const { id } = req.params;
+    const { room_number, room_type_id, accommodation_type_id, price_per_night, status, floor_number, description } = req.body;
     try {
-        const updated = await updateRoom(req.params.id, req.body);
-        if (updated) {
-            res.json({ message: 'Room updated successfully' });
-        } else {
-            res.status(404).json({ message: 'Room not found 2' });
-        }
+        const query = `
+            UPDATE rooms
+            SET room_number = ?, room_type_id = ?, accommodation_type_id = ?, price_per_night = ?, status = ?, floor_number = ?, description = ?
+            WHERE room_id = ?
+        `;
+        await db.query(query, [room_number, room_type_id, accommodation_type_id, price_per_night, status, floor_number, description, id]);
+        res.status(200).json({ message: "Room updated successfully" });
     } catch (error) {
-        console.error('Error updating room:', error);
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Error updating room:", error);
+        res.status(500).json({ message: "Error updating room" });
     }
 };
 
 // Delete a room by ID
-export const deleteRoomById = async (req, res) => {
+export const deleteRoom = async (req, res) => {
+    const { id } = req.params;
     try {
-        const deleted = await deleteRoom(req.params.id);
-        if (deleted) {
-            res.json({ message: 'Room deleted successfully' });
-        } else {
-            res.status(404).json({ message: 'Room not found 3' });
-        }
+        const query = `
+            DELETE FROM rooms WHERE room_id = ?
+        `;
+        await db.query(query, [id]);
+        res.status(200).json({ message: "Room deleted successfully" });
     } catch (error) {
-        console.error('Error deleting room:', error);
-        res.status(500).json({ error: 'Server Error' });
-    }
-};
-
-// Get available rooms
-export const getFreeRooms = async (req, res) => {
-    const { checkIn, checkOut } = req.query;
-
-    try {
-        const rooms = await getAvailableRooms(checkIn, checkOut);
-        if (rooms.length > 0) {
-            res.json(rooms);
-        } else {
-            res.status(404).json({ message: 'No available rooms found for the given dates' });
-        }
-    } catch (error) {
-        console.error('Error fetching available rooms:', error);
-        res.status(500).json({ error: 'Server Error' });
-    }
-};
-
-// Get room types
-export const fetchRoomTypes = async (req, res) => {
-    try {
-        const roomTypes = await getAllRoomTypes();
-        res.json(roomTypes);
-    } catch (error) {
-        console.error('Error fetching room types:', error);
-        res.status(500).json({ error: 'Server Error' });
-    }
-};
-
-// Get accommodation type
-export const fetchAccommodationTypes = async (req, res) => {
-    try {
-        const accommodationTypes = await getAllAccommodationTypes();
-        res.json(accommodationTypes);
-    } catch (error) {
-        console.error('Error fetching accommodation types:', error);
-        res.status(500).json({ error: 'Server Error' });
+        console.error("Error deleting room:", error);
+        res.status(500).json({ message: "Error deleting room" });
     }
 };

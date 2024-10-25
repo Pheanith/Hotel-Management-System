@@ -49,3 +49,26 @@
 .add-accommodation-type-button:hover {
   background-color: #163a6b; /* Darker blue on hover */
 }
+.pagination {
+  display: flex;
+  justify-content: center; /* Center align the buttons */
+  margin-top: 10px; /* Add margin top of 10px */
+}
+
+.pagination-button {
+  background-color: #1e3a8a; /* Dark blue background for buttons */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  padding: 8px 12px; /* Add padding for buttons */
+  margin: 0 5px; /* Space between buttons */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.pagination-button.active {
+  background-color: #163a6b; /* Darker blue for the active page */
+}
+
+.pagination-button:hover {
+  background-color: #163a6b; /* Darker blue on hover */
+}

@@ -1,152 +1,138 @@
-//AddRoom.jsx
-import React, { useEffect, useState } from "react";
-import '../../components/styles/rooms/AddRoom.css';
-import { useNavigate } from "react-router-dom";
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const AddRoom = () => {
+const RoomAdd = () => {
     const navigate = useNavigate();
-    const [room_number, setRoomNumber] = useState('');
-    const [roomTypes, setRoomTypes] = useState([]);
-    const [accommodationTypes, setAccommodationTypes] = useState([]);
-    const [availability_status, setAvailabilityStatus] = useState('');
-    const [floor_number, setFloorNumber] = useState('');
-    const [price_per_night, setPricePerNight] = useState('');
-    const [description, setDescription] = useState('');
-    const [selectedRoomType, setSelectedRoomType] = useState('');
-    const [selectedAccommodationType, setSelectedAccommodationType] = useState('');
 
-    useEffect(() => {
-        // Fetch room types
-        axios.get('http://localhost:5000/api/rooms/room_type')
-            .then(response => {
-                setRoomTypes(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching room types:', error);
-            });
+    const [roomData, setRoomData] = useState({
+        room_num: '',
+        room_type: '',
+        accommodation_type: '',
+        checkin: '',
+        checkout: '',
+        price: '',
+        status: '',
+    });
 
-        // Fetch accommodation types
-        axios.get('http://localhost:5000/api/rooms/accommodation_type')
-            .then(response => {
-                setAccommodationTypes(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching accommodation types:', error);
-            });
-    }, []);
+    // Placeholder data for room types and accommodation types
+    const roomTypes = ['Single', 'Double', 'Suite']; // Example room types
+    const accommodationTypes = ['Hotel', 'Hostel', 'Apartment']; // Example accommodation types
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setRoomData({
+            ...roomData,
+            [name]: value,
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const formattedData = {
-                room_number,
-                room_type_id: selectedRoomType,
-                accommodation_type_id: selectedAccommodationType,
-                availability_status,
-                floor_number,
-                price_per_night,
-                description,
-            };
-            await axios.post('http://localhost:5000/api/rooms', formattedData);
-            navigate('/room-list');
+            await axios.post('http://localhost:5000/api/rooms', roomData);
+            alert('Room added successfully!');
+            navigate('/room-list'); // Navigate back to the room list
         } catch (error) {
-            console.error('Error adding room:', error.response ? error.response.data : error.message);
+            console.error('Error adding room:', error);
         }
     };
 
-    const handleClose = () => navigate('/room-list');
-
     return (
-        <div className="addroom-main">
-            <div className="addroom-header">
-                <h2>Add New Room</h2>
-                <ClearOutlinedIcon onClick={handleClose} className='close-icon' />
-            </div>
+        <div className="accommodation-types-container">
+            <h2>Add New Room</h2>
             <form onSubmit={handleSubmit}>
-                <div className="addroom-form-group">
-                    <div className="row1">
-                        <input
-                            type="text"
-                            name="room_number"
-                            placeholder="Room number"
-                            value={room_number}
-                            onChange={(e) => setRoomNumber(e.target.value)}
-                        />
-                        <select
-                            name='room_type'
-                            value={selectedRoomType}
-                            onChange={(e) => setSelectedRoomType(e.target.value)}
-                        >
-                            <option value="">Select Room Type</option>
-                            {roomTypes.map((type) => (
-                                <option key={type.room_type_id} value={type.room_type_id}>
-                                    {type.name}
-                                </option>
-                            ))}
-                        </select>
-
-                        <select
-                            name='accommodation_type'
-                            value={selectedAccommodationType}
-                            onChange={(e) => setSelectedAccommodationType(e.target.value)}
-                        >
-                            <option value="">Select Accommodation Type</option>
-                            {accommodationTypes.map((type) => (
-                                <option key={type.accommodation_type_id} value={type.accommodation_type_id}>
-                                    {type.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="row2">
-                        <select
-                            name='status'
-                            value={availability_status}
-                            onChange={(e) => setAvailabilityStatus(e.target.value)}
-                        >
-                            <option value="">Please select room status</option>
-                            <option value="Available">Available</option>
-                            <option value="Occupied">Occupied</option>
-                            <option value="Maintenance">Maintenance</option>
-                        </select>
-                        <select
-                            name='floorNumber'
-                            value={floor_number}
-                            onChange={(e) => setFloorNumber(e.target.value)}
-                        >
-                            <option value="">Please select floor No.</option>
-                            <option value="1">1st floor</option>
-                            <option value="2">2nd floor</option>
-                            <option value="3">3rd floor</option>
-                        </select>
-                    </div>
-                    <div className="row3">
-                        <input
-                            type="text"
-                            name="price"
-                            placeholder="$"
-                            value={price_per_night}
-                            onChange={(e) => setPricePerNight(e.target.value)}
-                        />
-                    </div>
-                    <div className="row4">
-                        <input
-                            type="text"
-                            name="description"
-                            placeholder="Room description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </div>
+                <div>
+                    <label>Room Number:</label>
+                    <input
+                        type="text"
+                        name="room_num"
+                        value={roomData.room_num}
+                        onChange={handleInputChange}
+                        required
+                    />
                 </div>
-                <div className="submit-room">
-                    <button type="submit">Submit</button>
+                <div>
+                    <label>Room Type:</label>
+                    <select
+                        name="room_type"
+                        value={roomData.room_type}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="">Select Room Type</option>
+                        {roomTypes.map((type) => (
+                            <option key={type} value={type}>{type}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label>Accommodation Type:</label>
+                    <select
+                        name="accommodation_type"
+                        value={roomData.accommodation_type}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="">Select Accommodation Type</option>
+                        {accommodationTypes.map((type) => (
+                            <option key={type} value={type}>{type}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label>Check-in Date:</label>
+                    <input
+                        type="date"
+                        name="checkin"
+                        value={roomData.checkin}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Check-out Date:</label>
+                    <input
+                        type="date"
+                        name="checkout"
+                        value={roomData.checkout}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Price:</label>
+                    <input
+                        type="number"
+                        name="price"
+                        value={roomData.price}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Status:</label>
+                    <select
+                        name="status"
+                        value={roomData.status}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="">Select Status</option>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Under Maintenance">Under Maintenance</option>
+                    </select>
+                </div>
+
+                {/* Button container with margin-top */}
+                <div className="button-group">
+                    <button type="submit" className="add-button">Add Room</button>
+                    <button type="button" className="add-button" onClick={() => navigate('/room-list')}>Cancel</button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default AddRoom;
+export default RoomAdd;

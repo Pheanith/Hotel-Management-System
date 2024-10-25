@@ -28,7 +28,7 @@
 }
 
 .search-button {
-  background-color: #007bff;
+  background-color: #0F4C75; /* Blue */
   color: white;
   padding: 8px;
   border: none;
@@ -43,7 +43,7 @@
 }
 
 .add-button {
-  background-color: #007bff; /* Blue */
+  background-color: #0F4C75; /* Blue */
   color: white;
   padding: 10px 15px;
   border: none;
@@ -71,7 +71,7 @@
 }
 
 .styled-table th {
-  background-color: #007bff; /* Blue header */
+  background-color: #0F4C75; /* Blue header */
   color: white; /* White text for header */
   font-weight: bold;
 }
@@ -99,7 +99,7 @@
 }
 
 .btn-edit {
-  background-color: #007bff; /* Blue */
+  background-color: #0F4C75; /* Blue */
   color: white;
 }
 
@@ -114,6 +114,35 @@
 
 .btn-delete:hover {
   background-color: #c62828; /* Darker red */
+}
+
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust as needed */
+}
+
+.pagination-button {
+  padding: 5px 10px; /* Smaller padding for smaller buttons */
+  margin: 0 5px; /* Space between buttons */
+  border: 1px solid #0F4C75; /* Button border color */
+  background-color: #f8f9fa; /* Light background color */
+  color: #0F4C75; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  border-radius: 3px; /* Rounded corners */
+  font-size: 0.9rem; /* Smaller font size */
+  transition: background-color 0.2s ease; /* Transition effect */
+}
+
+.pagination-button:hover {
+  background-color: #e2e6ea; /* Light hover effect */
+}
+
+.pagination-button.active {
+  background-color: #0F4C75; /* Active button color */
+  color: white; /* Text color for active button */
+  border-color: #0F4C75; /* Border color for active button */
 }
 
 /* Responsive Design */

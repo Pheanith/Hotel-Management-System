@@ -25,8 +25,18 @@
   border-radius: 4px;
 }
 
+.add-button {
+  background-color: #0F4C75 !important; /* Ensure it overrides other styles */
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
 .search-button {
-  background-color: #007bff;
+  background-color: #0F4C75 !important;
   color: white;
   padding: 8px;
   border: none;
@@ -35,13 +45,6 @@
   margin-left: 5px;
 }
 
-.add-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  text-decoration: none;
-}
 
 .styled-table {
   width: 100%;
@@ -72,7 +75,7 @@
 }
 
 .btn-edit {
-  background-color: #007bff;
+  background-color:#0F4C75;
   color: white;
 }
 

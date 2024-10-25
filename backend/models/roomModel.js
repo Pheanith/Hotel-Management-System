@@ -1,15 +1,15 @@
 import db from '../utils/db.js';
 
-// Get all rooms with room_type and accommodation_type
+// Get all rooms with room type and accommodation type
 export const getAllRooms = async () => {
     try {
         const query = `
-            SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+            SELECT rooms.*, room_types.type_name AS room_type_name, accommodation_types.accommodation_name AS accommodation_type_name
             FROM rooms
-            JOIN room_types ON rooms.room_type_id = room_types.room_type_id
-            JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+            LEFT JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+            LEFT JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
         `;
-        const [results] = await db.query(query);  // Use promise-based query
+        const [results] = await db.query(query);
         return results;
     } catch (error) {
         console.error('Database error:', error);
@@ -17,14 +17,14 @@ export const getAllRooms = async () => {
     }
 };
 
-// Get a room by ID with room_type and accommodation_type
+// Get a room by ID with room type and accommodation type
 export const getRoomById = async (id) => {
     try {
         const query = `
-            SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+            SELECT rooms.*, room_types.type_name AS room_type_name, accommodation_types.accommodation_name AS accommodation_type_name
             FROM rooms
-            JOIN room_types ON rooms.room_type_id = room_types.room_type_id
-            JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+            LEFT JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+            LEFT JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
             WHERE rooms.room_id = ?
         `;
         const [results] = await db.query(query, [id]);
@@ -37,37 +37,39 @@ export const getRoomById = async (id) => {
 
 // Add a new room
 export const addRoom = async (room) => {
-    const { accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description } = room;
+    const { accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, status, description } = room;
+
     try {
         const checkQuery = 'SELECT room_number FROM rooms WHERE room_number = ?';
         const [result] = await db.query(checkQuery, [room_number]);
 
         if (result.length > 0) {
-            throw new Error(`Room number ${room_number} already exists`);
+            throw new Error(`Room number ${room_number} already exists.`);
         }
 
         const insertQuery = `
-            INSERT INTO rooms (accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description) 
+            INSERT INTO rooms (accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, status, description) 
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
-        const [insertResult] = await db.query(insertQuery, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description]);
+        const [insertResult] = await db.query(insertQuery, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, status, description]);
         return insertResult.insertId;
     } catch (error) {
-        console.error('Database error:', error);
+        console.error('Error in addRoom function:', error.message);
         throw error;
     }
 };
 
 // Update room
 export const updateRoom = async (id, updates) => {
-    const { accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description } = updates;
+    const { accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, status, description } = updates;
+
     try {
         const query = `
             UPDATE rooms 
-            SET accommodation_type_id = ?, room_type_id = ?, floor_number = ?, room_number = ?, price_per_night = ?, availability_status = ?, description = ?
+            SET accommodation_type_id = ?, room_type_id = ?, floor_number = ?, room_number = ?, price_per_night = ?, status = ?, description = ?
             WHERE room_id = ?
         `;
-        const [result] = await db.query(query, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, availability_status, description, id]);
+        const [result] = await db.query(query, [accommodation_type_id, room_type_id, floor_number, room_number, price_per_night, status, description, id]);
         return result.affectedRows > 0;
     } catch (error) {
         console.error('Database error:', error);
@@ -94,29 +96,29 @@ export const getAvailableRooms = async (checkIn, checkOut) => {
     try {
         if (checkIn && checkOut) {
             query = `
-                SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+                SELECT rooms.*, room_types.type_name AS room_type_name, accommodation_types.accommodation_name AS accommodation_type_name
                 FROM rooms
-                JOIN room_types ON rooms.room_type_id = room_types.room_type_id
-                JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
-                WHERE rooms.availability_status = 'Available'
-                OR rooms.room_id NOT IN (
+                LEFT JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+                LEFT JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+                WHERE rooms.status = 'available'
+                AND rooms.room_id NOT IN (
                     SELECT room_id 
                     FROM reservation_details
                     INNER JOIN reservations ON reservations.reservation_id = reservation_details.reservation_id
                     WHERE reservations.checkin_date < ? AND reservations.checkout_date > ?
                 )
-                AND rooms.availability_status != 'Maintenance'
+                AND rooms.status != 'maintenance'
                 ORDER BY rooms.room_number ASC;
             `;
             params = [checkOut, checkIn];
         } else {
             query = `
-                SELECT rooms.*, room_types.name AS room_type_name, accommodation_types.name AS accommodation_type_name
+                SELECT rooms.*, room_types.type_name AS room_type_name, accommodation_types.accommodation_name AS accommodation_type_name
                 FROM rooms
-                JOIN room_types ON rooms.room_type_id = room_types.room_type_id
-                JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
-                WHERE rooms.availability_status = 'Available'
-                AND rooms.availability_status != 'Maintenance'
+                LEFT JOIN room_types ON rooms.room_type_id = room_types.room_type_id
+                LEFT JOIN accommodation_types ON rooms.accommodation_type_id = accommodation_types.accommodation_type_id
+                WHERE rooms.status = 'available'
+                AND rooms.status != 'maintenance'
                 ORDER BY rooms.room_number ASC;
             `;
         }
@@ -124,7 +126,7 @@ export const getAvailableRooms = async (checkIn, checkOut) => {
         const [results] = await db.query(query, params);
         return results;
     } catch (error) {
-        console.error('Database error:', error);
+        console.error('Error in getAvailableRooms function:', error.message);
         throw error;
     }
 };
@@ -135,7 +137,7 @@ export const getAllRoomTypes = async () => {
         const [results] = await db.query('SELECT * FROM room_types');
         return results;
     } catch (error) {
-        console.error('Database error:', error);
+        console.error('Error fetching room types:', error);
         throw error;
     }
 };
@@ -146,7 +148,7 @@ export const getAllAccommodationTypes = async () => {
         const [results] = await db.query('SELECT * FROM accommodation_types');
         return results;
     } catch (error) {
-        console.error('Database error:', error);
+        console.error('Error fetching accommodation types:', error);
         throw error;
     }
 };
