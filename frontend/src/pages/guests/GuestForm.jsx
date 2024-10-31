@@ -49,22 +49,7 @@ const GuestForm = () => {
     
         try {
             await axios.post('http://localhost:5000/api/guests', formattedData);
-            
-            // Navigate based on the fromPage value
-            if (fromPage === 'manage-guest') {
-                navigate('/manage-guest');
-            } else if (fromPage === 'select-guest') {
-                navigate('/select-guest'
-                    , { 
-                    state: {
-                        selectedRooms,
-                        checkIn: checkIn,
-                        checkOut: checkOut,
-                    }}
-                );
-            } else {
-                navigate('/'); // Default navigation if fromPage is not set
-            }
+            navigate('/manage-guest');
         } catch (error) {
             console.error('Cannot add guest:', error.response ? error.response.data : error.message);
         }

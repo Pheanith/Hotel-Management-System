@@ -58,7 +58,7 @@ const ReserveSum = () => {
                 "checkin_date": checkIn,
                 "checkout_date": checkOut,
                 "discount": discountPercentage,
-            "room_id": room_ids
+                "room_id": room_ids
             } ;
             const response = await axios.post('http://localhost:5000/api/reservations', reservationData, {
                     headers: {
@@ -72,34 +72,6 @@ const ReserveSum = () => {
                 alert('Failed to create reservations.');
             };
 
-            // const promises = selectedRooms.map((room) => {
-            //     const reservationData = {
-            //         guest_id: selectedGuest.guest_id,
-            //         room_ids: room.room_id,
-            //         checkin_date: checkIn,
-            //         checkout_date: checkOut,
-            //         checkin_status: "Pending",
-            //         checkout_status: "Pending",
-            //         discount: discountPercentage,
-            //         totalAmount: totalAmount,
-            //     };
-
-            //     return axios.post('http://localhost:5000/api/reservations', reservationData, {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-                    
-            //     });
-            // });
-
-            // const responses = await Promise.all(promises);
-
-            // if (responses.every((response) => response.status === 200)) {
-            //     alert('Reservations created successfully!');
-            //     navigate('/reservation');
-            // } else {
-            //     alert('Failed to create reservations.');
-            // }
         } catch (error) {
             console.error('Error creating reservations:', error);
             alert('Failed to create reservations.');

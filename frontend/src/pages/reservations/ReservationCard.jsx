@@ -62,8 +62,7 @@ const ReservationCard = ({ reservations }) => {
           </tr>
         </thead>
         <tbody>
-          {
-          
+          {  
           reservations.map((reservation, index) => (
             <tr key={index}>
               <td>{reservation.reservation_id}</td>

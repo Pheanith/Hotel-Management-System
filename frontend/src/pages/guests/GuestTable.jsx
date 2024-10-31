@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import '../../components/styles/guest/GuestTable.css';
 import GuestDelete from './GuestDelete';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import GuestEdit from "./GuestEdit";
 import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
@@ -13,7 +12,7 @@ const GuestTable = () => {
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedGuest, setSelectedGuest] = useState(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         const getGuest = async () => {
@@ -63,14 +62,14 @@ const GuestTable = () => {
         handleClose();
     };
 
-    const handleReservationClick = (guest) => {
-        navigate('/reserve', {
-            state: {
-                fromPage: 'manage-guest',
-                guestInfo: guest // Passing guest details (optional)
-            }
-        });
-    };
+    // const handleReservationClick = (guest) => {
+    //     navigate('/reserve', {
+    //         state: {
+    //             fromPage: 'manage-guest',
+    //             guestInfo: guest // Passing guest details (optional)
+    //         }
+    //     });
+    // };
 
     // const handleTransactionClick = (guest) => {
     //     navigate ('/transaction', {
@@ -94,7 +93,6 @@ const GuestTable = () => {
                         <th> Address </th>
                         <th> Identity type </th>
                         <th> Identity number</th>
-                        {/* <th> Reservation </th> */}
                         <th> Action </th>
                     </tr>
                 </thead>
@@ -110,12 +108,6 @@ const GuestTable = () => {
                             <td>{guest.address}</td>
                             <td>{guest.identity_type}</td>
                             <td>{guest.identity_no}</td>
-                            {/* <td className="reservation" onClick={() => handleReservationClick(guest)}>
-                                Make quick reservation
-                            </td> */}
-                            {/* <td className="transaction" onClick={() => handleTransactionClick(guest)}> 
-                                See all transaction
-                            </td> */}
                             <td>
                                 <span className="guest-edit-icon" role="img" aria-label="edit" onClick={() => handleEditClick(guest)} >
                                     <ModeOutlinedIcon/>

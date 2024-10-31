@@ -267,25 +267,6 @@ export const deleteReservationById = async (id) => {
             });
         });
 
-        // Update room status to Available
-        // for (const room of rooms) {
-        //     try {
-        //         await new Promise((resolve, reject) => {
-        //             db.query('UPDATE rooms SET status = ? WHERE room_number = ?', ['Available', room], (err, results) => {
-        //                 if (err) {
-        //                     console.error('Failed to update room status:', err);
-        //                     return reject(err);
-        //                 }
-        //                 resolve(results.affectedRows);
-        //             });
-        //         });
-        //     } catch (updateError) {
-        //         console.error('Failed to update room status:', updateError);
-        //         // Optionally, handle rollback or continue with the next room
-        //     }
-        // }
-
-        // return rooms.length; // Return number of rooms updated or affected rows as needed
     } catch (error) {
         console.error('Error in deleteReservationById:', error);
         throw error;

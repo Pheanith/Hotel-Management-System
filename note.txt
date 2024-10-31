@@ -58,3 +58,20 @@ TODO:
 - solve delete function
 - Clear side bar
 - Make guest list can be searched
+
+    Teacher's feedback
+- Add Line Spacing after paragraph: DONE
+- Rewrite the Summary and Abstract 
+ => system allows Customers to search for available rooms and make reservations by themself???????????
+ => make a reservation for multiple rooms in one reservation
+- Describe all technologies are used to develop the system  : ReactJS for ..., ExpressJS, NodeJS, MySQL for ...: DONE
+- On Project Requirement table, use bullet points to list the description: DONE
+- On User role table, use bullet points to list the Function: DONE
+- On Admin Functionalities table, add the "Read" Functions to retrieve the list of rooms, guests, reservations in Room management, Guest management, Reservation management.  - Remove empty row: DONE
+- On Staff Functionalities table, add the "Read" Functions to retrieve the list of rooms, guests, reservations in Room management, Guest management, Reservation management. DONE
+- On Use case diagram, include authentication. Change Manage Staff to Manage : DONE
+- On Database table, redraw it and don't take just database tables from Internet. No reservation details? sex table and user?? Role at User_profile and User_type is 1:M ? User and user_profile?  guest_identify and guest is 1:M?: DONE
+- From page 22, re-draw flowchart 
+- From page 23, put the codes and explain the codes to get all guest info, ...
+- On page 26, change Status Complete to "Completed", add "Read" Functionality, add "Print Invoice": DONE
+- On 5.2. and 5.3. , check grammars: some strong points, It is easy..., 

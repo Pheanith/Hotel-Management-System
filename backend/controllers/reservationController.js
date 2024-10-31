@@ -74,6 +74,7 @@ export const removeReservationById = (req, res) => {
             }
         })
         .catch(err => res.status(500).json({ error: err.message }));
+    console.log("Deleted reservation: ", req.params.reservation_id);
 };
 
 // Get all reservations
