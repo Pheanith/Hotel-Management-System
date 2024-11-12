@@ -1,12 +1,12 @@
-// RoomList.jsx
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import RoomTable from './RoomTable';
+import RoomModal from './RoomModal';
 import '../../components/styles/rooms/RoomList.css';
 
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
-    const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedRoom, setSelectedRoom] = useState(null);
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -17,19 +17,37 @@ const RoomList = () => {
         fetchRooms();
     }, []);
 
-    const handleOpenForm = () => {
-        navigate('/add-room'); // Navigate to the RoomForm component
+    const handleEditClick = (room) => {
+        setSelectedRoom(room); // Pass room data to the modal
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedRoom(null);
+    };
+
+    const handleSaveRoom = (roomData) => {
+        // Save or update the room data here, and refresh the list if necessary
+        // For now, we're just logging it
+        console.log('Room saved:', roomData);
+        handleCloseModal();
     };
 
     return (
         <div className="main-room-list-content">
             <div className="room-content-body">
                 <h1>Room List</h1>
-                <button onClick={handleOpenForm}>Add New Room</button>
             </div>
             <div className="room-table">
-                <RoomTable rooms={rooms} />
+                <RoomTable rooms={rooms} onEdit={handleEditClick} />
             </div>
+            <RoomModal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                roomData={selectedRoom}
+                onSave={handleSaveRoom}
+            />
         </div>
     );
 };

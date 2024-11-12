@@ -1,40 +1,52 @@
 import React, { useState } from 'react';
+import RoomModal from './RoomModal';
 import RoomDelete from './RoomDelete';
 import '../../components/styles/rooms/RoomTable.css';
 import { FaSearch } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const RoomTable = ({ rooms, updateRoom }) => {
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [searchInput, setSearchInput] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
 
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const roomsPerPage = 3;
 
-    const navigate = useNavigate(); // Initialize useNavigate
-
     const handleDeleteClick = (room) => {
         setSelectedRoom(room);
-        setShowModal(true);
+        setShowDeleteModal(true);
     };
 
     const handleEditClick = (room) => {
-        navigate(`/edit-room/${room.id}`); // Navigate to the edit room page
+        setSelectedRoom(room);
+        setIsEditing(true);
+        setShowModal(true);
     };
 
-    const handleClose = () => {
+    const handleAddClick = () => {
+        setSelectedRoom(null);
+        setIsEditing(false);
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
         setShowModal(false);
+        setSelectedRoom(null);
+        setIsEditing(false);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setShowDeleteModal(false);
         setSelectedRoom(null);
     };
 
     const handleSearchChange = (e) => {
         setSearchInput(e.target.value);
-        setCurrentPage(1); // Reset to the first page when search input changes
+        setCurrentPage(1);
     };
 
-    // Filter rooms based on search input
     const filteredRooms = rooms.filter((room) =>
         room.room_number.toLowerCase().includes(searchInput.toLowerCase()) ||
         room.room_type_name.toLowerCase().includes(searchInput.toLowerCase()) ||
@@ -53,6 +65,15 @@ const RoomTable = ({ rooms, updateRoom }) => {
         setCurrentPage(pageNumber);
     };
 
+    const handleSave = (roomData) => {
+        if (isEditing) {
+            updateRoom(selectedRoom.id, roomData);
+        } else {
+            // Add new room logic here
+        }
+        handleCloseModal();
+    };
+
     return (
         <>
             <div className="search-container">
@@ -66,8 +87,11 @@ const RoomTable = ({ rooms, updateRoom }) => {
                 <button className="search-button">
                     <FaSearch />
                 </button>
+                <button className="add-room-button" onClick={handleAddClick}>
+                    Add Room
+                </button>
             </div>
-            <table className='room-table'>
+            <table className="room-table">
                 <thead>
                     <tr>
                         <th>Room Number</th>
@@ -99,7 +123,6 @@ const RoomTable = ({ rooms, updateRoom }) => {
                 </tbody>
             </table>
 
-            {/* Pagination Controls */}
             <div className="pagination">
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
@@ -112,7 +135,18 @@ const RoomTable = ({ rooms, updateRoom }) => {
                 ))}
             </div>
 
-            {showModal && <RoomDelete show={showModal} onClose={handleClose} room={selectedRoom} />}
+            {showModal && (
+                <RoomModal
+                    isOpen={showModal}
+                    onClose={handleCloseModal}
+                    roomData={selectedRoom}
+                    onSave={handleSave}
+                />
+            )}
+
+            {showDeleteModal && (
+                <RoomDelete show={showDeleteModal} onClose={handleCloseDeleteModal} room={selectedRoom} />
+            )}
         </>
     );
 };

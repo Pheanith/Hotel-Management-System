@@ -11,7 +11,7 @@ export const getDashboardData = async (req, res) => {
       FROM billing AS b
       JOIN reservations AS r ON b.reservation_id = r.reservation_id;
     `;
-    
+
     const totalAvailableRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE status = "available"';
     const totalOccupiedRoomsQuery = 'SELECT COUNT(*) AS total FROM rooms WHERE status = "occupied"';
 

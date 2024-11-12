@@ -4,17 +4,17 @@ import '../header/header.css';
 import logo from '../assets/img/logo.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import profile from '../assets/img/profile.png';
-import { Link, useNavigate } from 'react-router-dom'; // For navigation
-import { useAuth } from '../../context/AuthContext'; // Adjust the import to point to AuthContext
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Header = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useAuth(); // Access the logout function from AuthContext
+  const { user, logout } = useAuth(); // Access the user and logout from AuthContext
 
   const handleLogout = () => {
     logout();
-    navigate('/login'); // Redirect to the login page after logout
+    navigate('/login');
   };
 
   return (
@@ -36,6 +36,8 @@ const Header = () => {
             onClick={() => setDropdownVisible(!isDropdownVisible)}
             className="profile-image"
           />
+          {/* Display username under profile */}
+          {user && <span className="username">{user.username}</span>}
           {isDropdownVisible && (
             <div className="dropdown-menu">
               <ul>

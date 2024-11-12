@@ -1,19 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
 .search-container {
     display: flex;
-    justify-content: flex-end; /* Align search to the right */
-    margin-bottom: 10px; /* Spacing below the search input */
+    justify-content: flex-end;
+    margin-bottom: 10px;
 }
 
 .search-input {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-right: 10px; /* Spacing between input and button */
+    margin-right: 10px;
 }
 
 .search-button {
     padding: 8px;
-    background-color: #007bff; /* Primary button color */
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
@@ -21,7 +23,25 @@
 }
 
 .search-button:hover {
-    background-color: #0056b3; /* Darker on hover */
+    background-color: #0056b3;
+}
+
+.add-room-button {
+    padding: 8px 12px; 
+    font-size: 14px;
+    background-color: #0F4C75 !important; 
+    color: white; 
+    border: none; 
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    display: inline-flex; /* Use inline-flex to center text vertically */
+    align-items: center; /* Align text vertically in the button */
+}
+
+.add-room-button:hover {
+    background-color: #063855; /* Darker on hover */
 }
 
 .room-table {
@@ -31,27 +51,27 @@
 
 .room-table th, .room-table td {
     padding: 10px;
-    border: 1px solid #ddd; /* Table border */
+    border: 1px solid #ddd;
     text-align: left;
 }
 
 .room-table th {
-    background-color: #0F4C75; /* Updated header background */
+    background-color: #0F4C75;
     color: white;
 }
 
 .room-table tr:nth-child(even) {
-    background-color: #f2f2f2; /* Zebra striping */
+    background-color: #f2f2f2;
 }
 
 .room-table tr:hover {
-    background-color: #ddd; /* Highlight row on hover */
+    background-color: #ddd;
 }
 
 button {
-    margin-right: 5px; /* Space between buttons */
+    margin-right: 5px;
     padding: 5px 10px;
-    background-color: #0F4C75; /* Blue for edit */
+    background-color: #0F4C75;
     color: white;
     border: none;
     border-radius: 4px;
@@ -59,18 +79,17 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker on hover for edit button */
+    background-color: #0056b3;
 }
 
 button:last-child {
-    background-color: #dc3545; /* Red for delete */
+    background-color: #dc3545;
 }
 
 button:last-child:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
 }
 
-/* Pagination Styles */
 .pagination {
     display: flex;
     justify-content: center;

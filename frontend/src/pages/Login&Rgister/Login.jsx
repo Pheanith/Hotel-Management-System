@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import './Login.css'; // Make sure this is imported
+import './Login.css'; // 
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -11,14 +11,8 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     console.log("username", username);
     console.log("password", password);
-
-
-    // Replace with your real API call for authentication
-   // const mockUser = { username,password}; // Simulated API response
-
     // Simulate successful login and redirect
     login(username, password);
     navigate('/admin-dashboard');

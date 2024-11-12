@@ -26,11 +26,14 @@ import DataDisplayComponent from './components/DataDisplayComponent';
 import './App.css';
 import UserForm from './pages/user/UserForm';
 import EditForm from './pages/user/EditForm';
+import ProfilePage from '../src/pages/user/ProfilePage';
 import RoomTypeList from './pages/rooms/RoomTypeList';
 import AddRoomType from './pages/rooms/AddRoomType';
 import EditRoomType from './pages/rooms/EditRoomType';
-import AccommodationTypeList from './pages/rooms/AccommodationTypes'; // Import the new component
-import AddAccommodationType from './pages/rooms/AddAccommodationType';
+import AccommodationTypeList from '../src/pages/rooms/AccommodationTypes'; // Import the new component
+import AddAccommodationType from '../src/pages/rooms/AddAccommodationType';
+import EditAccommodationType from '../src/pages/rooms/EditAccommodationType';
+// import EditAccommodationType from './components/EditAccommodationType';
 // import RoomFeatures from './pages/rooms/RoomFeatures';
 
 function App() {
@@ -73,15 +76,16 @@ function App() {
               <Route path="/userlist" element={<UserList />} />
               <Route path="/add-user" element={<UserForm />} />
               <Route path="/edit-user/:id" element={<EditForm />} />
+              <Route path="/view-profile" element={<ProfilePage />} />
               <Route path="/room-types" element={<RoomTypeList />} />
               <Route path="/add-room-type" element={<AddRoomType />} />
               <Route path="/edit-room-type/:id" element={<EditRoomType />} />
               <Route path="/accommodation-types" element={<AccommodationTypeList />} /> {/* New Route */}
-              <Route path="/add-accommodation-type" element={<AddAccommodationType />} />
+              {/* <Route path="/accommodation-types" element={<AccommodationTypeList />} /> */}
+                <Route path="/accommodation-types/add" element={<AddAccommodationType />} />
+                <Route path="/accommodation-types/edit/:id" element={<EditAccommodationType />} />
+              {/* <Route path="/add-accommodation-type" element={<AddAccommodationType />} /> */}
               {/* <Route path="/room-features/:id" element={<RoomFeatures />} /> New Route */}
-
-
-
             </Route>
           </Route>
         </Routes>

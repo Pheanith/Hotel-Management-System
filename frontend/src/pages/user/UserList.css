@@ -1,6 +1,7 @@
 .main-user-list-content {
   padding: 20px;
   background-color: #f9f9f9;
+  color: #0B3D91 !important;
 }
 
 .user-list-header {
@@ -8,9 +9,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  color: #0056b3;
 }
 
 .search-bar {
+  margin-top: 10px !important;
   display: flex;
   align-items: center;
   background-color: white;
@@ -21,21 +24,24 @@
 }
 
 .search-icon {
-  color: #007bff; /* Blue color */
+  color: #0B3D91; /* Blue color */
   margin-right: 10px; /* Space between icon and input */
-  font-size: 20px; /* Adjust size as needed */
+  font-size: 40px; /* Adjust size as needed */
+  margin-bottom: 20px !important;
 }
 
 .search-input {
+  
   border: none;
   padding: 5px 10px; /* Padding for better visibility */
   outline: none;
   font-size: 16px; /* Adjust font size */
   flex-grow: 1; /* Take up remaining space */
+  margin-top: 20px !important;
 }
 
 .add-user-btn {
-  background-color: blue;
+  background-color: #0B3D91 !important;
   color: white;
   padding: 10px 20px;
   text-decoration: none;
@@ -45,13 +51,17 @@
 }
 
 .add-user-btn:hover {
-  background-color: darkblue;
+  background-color: rgb(36, 36, 237);
 }
 
 .user-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  
+}
+.title-content{
+  color: #f9f9f9;
 }
 
 .user-table th, .user-table td {
@@ -61,13 +71,13 @@
 }
 
 .user-table th {
-  background-color: #f4f4f4;
+  background-color: #0B3D91 !important;
   font-weight: bold;
 }
 
 .action-btn {
-  background-color: #007bff;
-  color: white;
+  background-color: #0B3D91;
+  color: #f9f9f9;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
@@ -84,4 +94,8 @@
 
 .delete-btn:hover {
   background-color: #c82333;
+}
+
+.action-button{
+  margin-left: 200px;
 }

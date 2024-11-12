@@ -1,0 +1,50 @@
+/* src/pages/user/ProfilePage.css */
+.profile-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.profile-header h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.profile-header p {
+  color: #888;
+}
+
+.profile-details {
+  margin-top: 20px;
+}
+
+.profile-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-detail strong {
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-detail p {
+  color: #555;
+}

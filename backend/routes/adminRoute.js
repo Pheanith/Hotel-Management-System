@@ -103,6 +103,5 @@ router.delete('/admins/:id', async (req, res) => {
     console.error('Error deleting admin:', error);
     res.status(500).send('Error deleting admin');
   }
-});
-
+})
 export default router; // Export the router for use in other files

@@ -89,12 +89,12 @@ const UserList = () => {
           <FaSearch className="search-icon" />
         </div>
         <button onClick={handleAddUser} className="add-user-btn">
-          <FaUserPlus /> + Add User
+          <FaUserPlus />  Add User
         </button>
       </div>
 
       <table className="user-table">
-        <thead>
+        <thead className='title-content'>
           <tr>
             <th>No</th>
             <th>Username</th>
@@ -110,9 +110,10 @@ const UserList = () => {
               <td>{user.username}</td>
               <td>{user.role}</td>
               <td>{new Date(user.created_at).toLocaleDateString()}</td>
-              <td>
+              <td className='action-button'>
                 <button onClick={() => handleEdit(user)} className="action-btn">Edit</button>
-                <button onClick={() => handleDelete(user.id)} className="action-btn delete-btn" style={{ marginLeft: '10px' }}>Delete</button>
+                <button onClick={() => handleDelete(user.id)} className="action-btn delete-btn" 
+                style={{ marginLeft: '10px' }}>Delete</button>
               </td>
             </tr>
           ))}

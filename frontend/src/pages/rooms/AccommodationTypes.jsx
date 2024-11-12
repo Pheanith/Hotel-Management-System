@@ -1,241 +1,152 @@
 import React, { useState, useEffect } from 'react';
-import './AccommodationTypes.css';
-import { FaSearch } from "react-icons/fa";
+import axios from 'axios';
+import './AccommodationType.css';
+import AddAccommodationType from '../rooms/AddAccommodationType.jsx'; // Assuming this is the correct path
+import EditAccommodationType from '../rooms/EditAccommodationType.jsx'; // Assuming this is the correct path
 
-const AccommodationTypes = () => {
-    // State for accommodation types, pagination, and loading/error states
+const AccommodationTypeList = () => {
     const [accommodationTypes, setAccommodationTypes] = useState([]);
-    const [newType, setNewType] = useState({ id: null, name: '', description: '', createdAt: '', priceRange: '', numberOfUnits: '' });
-    const [searchInput, setSearchInput] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showAddAccommodationModal, setShowAddAccommodationModal] = useState(false);
+    const [editingAccommodationType, setEditingAccommodationType] = useState(null);
+    const [showEditAccommodationModal, setShowEditAccommodationModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1); // Current page state
-    const [itemsPerPage] = useState(3); // Number of items per page (set to 3)
-    const [totalPages, setTotalPages] = useState(1); // Track total pages for pagination
 
-    // Fetch accommodation types from the API with pagination
+    // Fetch accommodation types from the backend
     useEffect(() => {
         const fetchAccommodationTypes = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/accommodation_types?page=${currentPage}&limit=${itemsPerPage}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch accommodation types');
-                }
-                const data = await response.json();
-
-                // Map the API response directly as it's an array
-                const formattedTypes = data.map(type => ({
-                    id: type.accommodation_type_id, // Map accommodation_type_id to id
-                    name: type.accommodation_name,   // Map accommodation_name to name
-                    description: type.description,   // Use description directly
-                    priceRange: type.price_range || '', // Add price range
-                    numberOfUnits: type.number_of_units || '' // Add number of units
-                }));
-
-                setAccommodationTypes(formattedTypes);
-                setTotalPages(Math.ceil(formattedTypes.length / itemsPerPage)); // Set total pages based on the number of fetched items
+                const response = await axios.get('http://localhost:5000/api/accommodations');
+                setAccommodationTypes(response.data);
             } catch (error) {
-                setError(error.message);
+                setError('Error fetching accommodation types');
             } finally {
                 setLoading(false);
             }
         };
 
         fetchAccommodationTypes();
-    }, [currentPage, itemsPerPage]); // Re-fetch when currentPage or itemsPerPage changes
+    }, []);
 
-    // Function to handle input changes for accommodation types
-    const handleChange = (e) => {
-        setNewType({ ...newType, [e.target.name]: e.target.value });
-    };
-
-    // Function to handle search input change
-    const handleSearchChange = (e) => {
-        setSearchInput(e.target.value);
-    };
-
-    // Function to handle adding a new accommodation type
-    const handleAdd = async () => {
-        if (newType.name && newType.description && newType.priceRange && newType.numberOfUnits) {
-            const createdAt = new Date().toISOString().slice(0, 19).replace('T', ' '); // Current date and time
-            const newAccommodationType = { ...newType, createdAt };
-
-            try {
-                const response = await fetch('http://localhost:5000/api/accommodation_types', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(newAccommodationType),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to add accommodation type');
-                }
-
-                const savedType = await response.json();
-                const formattedType = {
-                    id: savedType.accommodation_type_id,
-                    name: savedType.accommodation_name,
-                    description: savedType.description,
-                    priceRange: savedType.price_range || '', // Include price range
-                    numberOfUnits: savedType.number_of_units || '' // Include number of units
-                };
-                setAccommodationTypes((prev) => [...prev, formattedType]);
-                setNewType({ id: null, name: '', description: '', createdAt: '', priceRange: '', numberOfUnits: '' }); // Reset input fields
-            } catch (error) {
-                setError(error.message);
-            }
-        }
-    };
-
-    // Function to handle editing an accommodation type
-    const handleEdit = (id) => {
-        const typeToEdit = accommodationTypes.find(type => type.id === id);
-        setNewType(typeToEdit);
-        setAccommodationTypes(accommodationTypes.filter(type => type.id !== id)); // Remove the type being edited
-    };
-
-    // Function to handle deleting an accommodation type
+    // Handle deleting an accommodation type
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/accommodation_types/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete accommodation type');
-            }
-
-            setAccommodationTypes(accommodationTypes.filter(type => type.id !== id));
+            await axios.delete(`http://localhost:5000/api/accommodations/${id}`);
+            setAccommodationTypes(accommodationTypes.filter((type) => type.id !== id));
         } catch (error) {
-            setError(error.message);
+            console.error('Error deleting accommodation type:', error);
         }
     };
 
-    // Filtered accommodation types based on search input
-    const filteredTypes = accommodationTypes.filter(type =>
-        type.name.toLowerCase().includes(searchInput.toLowerCase()) ||
-        type.description.toLowerCase().includes(searchInput.toLowerCase())
+    // Handle editing an accommodation type
+    const handleEdit = (type) => {
+        setEditingAccommodationType(type); 
+        setShowEditAccommodationModal(true);
+    };
+
+    // Handle adding a new accommodation type
+    const handleAdd = () => {
+        setShowAddAccommodationModal(true); 
+    };
+
+    // Filter accommodation types based on search term
+    const filteredAccommodationTypes = accommodationTypes.filter(type =>
+        type.type_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        type.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    // Pagination controls
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="accommodation-types-container">
+        <div className="accommodation-type-list">
+            <h1 className="title">Accommodation Types</h1>
             <div className="header">
-                <h1 className="title">Accommodation Types</h1>
-                <button className="add-button" onClick={handleAdd}>
-                    Add Accommodation
-                </button>
-            </div>
-            <div className="search-container">
                 <input
                     type="text"
+                    placeholder="Search by name, description..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-input"
-                    placeholder="Search..."
-                    value={searchInput}
-                    onChange={handleSearchChange}
                 />
-                <button className="search-button">
-                    <FaSearch />
-                </button>
+                <button onClick={handleAdd} className="add-button">Add Accommodation</button>
             </div>
-            <table className="styled-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Accommodation Type</th> {/* Updated column name */}
-                        <th>Description</th>
-                        <th>Price Range</th>
-                        <th>Number of Units</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredTypes.map((type) => (
-                        <tr key={type.id}>
-                            <td>{type.id}</td>
-                            <td>{type.name}</td> {/* Corresponds to updated column name */}
-                            <td>{type.description}</td>
-                            <td>{type.priceRange}</td>
-                            <td>{type.numberOfUnits}</td>
-                            <td className="actions-column">
-                                <button
-                                    className="btn btn-edit"
-                                    onClick={() => handleEdit(type.id)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className="btn btn-delete"
-                                    onClick={() => handleDelete(type.id)}
-                                >
-                                    Delete
-                                </button>
-                            </td>
+
+            {/* Add Accommodation Type Modal */}
+            {showAddAccommodationModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <AddAccommodationType onClose={() => setShowAddAccommodationModal(false)} />
+                        {/* <button onClick={() => setShowAddAccommodationModal(false)}>Close</button> */}
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Accommodation Type Modal */}
+            {showEditAccommodationModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <EditAccommodationType
+                            accommodationType={editingAccommodationType}
+                            onClose={() => setShowEditAccommodationModal(false)}
+                        />
+                        {/* <button onClick={() => setShowEditAccommodationModal(false)}>Close</button> */}
+                    </div>
+                </div>
+            )}
+
+            {loading ? (
+                <p>Loading...</p>
+            ) : error ? (
+                <p>{error}</p>
+            ) : (
+                <table className="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>General Amenities</th>
+                            <th>Pricing Range</th>
+                            <th>Number of Units</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            {/* Form for adding or editing accommodation types */}
-            <div className="add-form">
-                <input
-                    type="text"
-                    name="name"
-                    value={newType.name}
-                    onChange={handleChange}
-                    placeholder="Name"
-                    className="search-input"
-                />
-                <input
-                    type="text"
-                    name="description"
-                    value={newType.description}
-                    onChange={handleChange}
-                    placeholder="Description"
-                    className="search-input"
-                />
-                <input
-                    type="text"
-                    name="priceRange"
-                    value={newType.priceRange}
-                    onChange={handleChange}
-                    placeholder="Price Range"
-                    className="search-input"
-                />
-                <input
-                    type="text"
-                    name="numberOfUnits"
-                    value={newType.numberOfUnits}
-                    onChange={handleChange}
-                    placeholder="Number of Units"
-                    className="search-input"
-                />
-                <button className="add-button" onClick={handleAdd}>
-                    {newType.id ? 'Update Accommodation' : 'Add Accommodation'}
-                </button>
-            </div>
-
-            {/* Pagination controls */}
-            <div className="pagination">
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                        key={index + 1}
-                        onClick={() => paginate(index + 1)}
-                        className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-            </div>
+                    </thead>
+                    <tbody>
+                        {filteredAccommodationTypes.length > 0 ? (
+                            filteredAccommodationTypes.map(type => (
+                                <tr key={type.id}>
+                                    <td>
+                                        {type.image ? (
+                                            <img
+                                                src={`http://localhost:5000/${type.image}`}
+                                                alt={type.type_name}
+                                                className="accommodation-image"
+                                                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                            />
+                                        ) : (
+                                            <span>No Image</span>
+                                        )}
+                                    </td>
+                                    <td>{type.type_name}</td>
+                                    <td>{type.description}</td>
+                                    <td>{type.general_amenities || 'N/A'}</td>
+                                    <td>{type.price_range || 'N/A'}</td>
+                                    <td>{type.number_of_units || 'N/A'}</td>
+                                    <td>
+                                        <button onClick={() => handleEdit(type)} className="edit-button">Edit</button>
+                                        <button onClick={() => handleDelete(type.id)} className="delete-button">Delete</button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="7">No accommodation types found.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
-}
+};
 
-export default AccommodationTypes;
+export default AccommodationTypeList;

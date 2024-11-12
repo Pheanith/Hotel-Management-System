@@ -1,62 +1,114 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; // Make sure axios is imported
 
-const AddAccommodationType = () => {
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [error, setError] = useState(null); // State for error handling
-    const [loading, setLoading] = useState(false); // State for loading
+const AddAccommodationType = ({ onClose }) => {
+    const [formData, setFormData] = useState({
+        type_name: '',
+        description: '',
+        general_amenities: '',
+        price_range: '',
+        number_of_units: '',
+        image: null,
+        target_audience: '', // Added target_audience field
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleFileChange = (e) => {
+        setFormData({
+            ...formData,
+            image: e.target.files[0]
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true); // Set loading to true on form submission
-        setError(null); // Reset any previous errors
+        const updatedFormData = new FormData();
+        for (let key in formData) {
+            updatedFormData.append(key, formData[key]);
+        }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/accommodation_types', {
-                name,
-                description,
-            });
-            // Reset form fields after submission
-            setName('');
-            setDescription('');
-            alert('Accommodation type added successfully!'); // Optional success message
+            // Make a POST request to create a new accommodation type
+            await axios.post('http://localhost:5000/api/accommodations', updatedFormData);
+            onClose(); // Close the modal on success
         } catch (error) {
-            setError('Error adding accommodation type. Please try again.'); // Set error message
             console.error('Error adding accommodation type:', error);
-        } finally {
-            setLoading(false); // Reset loading state
         }
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <form onSubmit={handleSubmit}>
             <h2>Add Accommodation Type</h2>
-            {error && <div style={{ color: 'red' }}>{error}</div>} {/* Show error message */}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name:</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Description:</label>
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" disabled={loading}> {/* Disable button while loading */}
-                    {loading ? 'Adding...' : 'Add Accommodation Type'}
-                </button>
-                <button type="button" onClick={() => window.history.back()}>Cancel</button> {/* Navigate back */}
-            </form>
-        </div>
+            
+            <input
+                type="text"
+                name="type_name"
+                value={formData.type_name}
+                onChange={handleChange}
+                placeholder="Type Name"
+                required
+            />
+            <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Description"
+                required
+            />
+            <input
+                type="text"
+                name="general_amenities"
+                value={formData.general_amenities}
+                onChange={handleChange}
+                placeholder="General Amenities"
+            />
+            <input
+                type="text"
+                name="price_range"
+                value={formData.price_range}
+                onChange={handleChange}
+                placeholder="Price Range"
+            />
+            <input
+                type="number"
+                name="number_of_units"
+                value={formData.number_of_units}
+                onChange={handleChange}
+                placeholder="Number of Units"
+            />
+            {/* Target Audience Field */}
+            <input
+                type="text"
+                name="target_audience"
+                value={formData.target_audience}
+                onChange={handleChange}
+                placeholder="Target Audience"
+                required
+            />
+            <div>
+                <label>Upload Image</label>
+                <input
+                    type="file"
+                    name="image"
+                    onChange={handleFileChange}
+                />
+                {formData.image && (
+                    <div>
+                        <strong>Selected Image:</strong> {formData.image.name}
+                    </div>
+                )}
+            </div>
+            
+            <button type="submit">Add Accommodation</button>
+            <button type="button" onClick={onClose}>Cancel</button>
+        </form>
     );
 };
 

@@ -1,69 +1,113 @@
+/* Sidebar Styles */
 .sidebar {
-  width: 250px; /* Adjust width as necessary */
-  background-color: #f0f0f0; /* Background color for sidebar */
-  height: 100vh; /* Full height */
-  display: flex; /* Flexbox layout */
-  flex-direction: column; /* Vertical alignment */
-  padding: 20px; /* Padding inside sidebar */
+  width: 250px;
+  background-color: #0A192F; /* Dark blue background */
+  height: 100vh;
+  padding: 0; /* Remove padding to eliminate space with header */
+  color: white;
+  overflow-y: auto; /* Allows scrolling when content overflows */
+  margin-top: -20px;
 }
 
-.dashboard {
-  display: flex; /* Flexbox for each item */
-  align-items: center; /* Center items vertically */
-  padding: 10px; /* Padding for items */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.3s; /* Smooth background transition */
+/* Menu Item */
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
-.dashboard:hover {
-  background-color: rgba(15, 76, 117, 0.1); /* Highlight on hover */
+.menu-item .icon {
+  margin-right: 10px;
+  color: #8892B0; /* Lighter blue for icons */
 }
 
-.dashboard-name {
-  margin-left: 10px; /* Space between icon and text */
+.menu-item a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  flex: 1;
 }
 
-.active {
-  background-color: rgba(15, 76, 117, 0.2); /* Active item background */
+.menu-item.active, 
+.menu-item:hover {
+  background-color: #0B3D91; /* Bright blue highlight */
+  border-radius: 10px;
+}
+
+/* Dropdown Styles */
+.dropdown {
+  position: relative; /* Set position relative to parent */
 }
 
 .dropdown-container {
-  position: relative; /* Positioning context for dropdown */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.dropdown-toggle {
-  display: flex; /* Use flexbox for alignment */
-  align-items: center; /* Center items vertically */
-  cursor: pointer; /* Change cursor to pointer */
-  padding: 10px; /* Add padding for better click area */
-  transition: background-color 0.3s; /* Smooth background transition */
+.dropdown-icon {
+  transition: transform 0.3s ease;
 }
 
-.dropdown-toggle:hover {
-  background-color: rgba(15, 76, 117, 0.1); /* Highlight on hover */
+.dropdown-icon.open {
+  transform: rotate(180deg);
 }
 
+/* Ensure the dropdown is positioned correctly */
 .dropdown-menu {
-  position: absolute; /* Position relative to toggle */
-  top: 100%; /* Position it directly below the toggle */
-  left: 0; /* Align to the left of the toggle */
-  background-color: white; /* Background color for dropdown */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Add shadow for depth */
+  position: absolute; /* Position the dropdown absolutely */
+  top: 100%; /* Position it directly below the dropdown container */
+  left: 0; /* Align to the left */
+  margin-top: 5px; /* Optional: Add some space */
+  padding-left: 30px; /* Indent dropdown items */
+  background-color: #0B3D91;
   z-index: 1000; /* Ensure it appears above other elements */
-  border-radius: 5px; /* Rounded corners for the dropdown */
-  margin-top: 5px; /* Space between toggle and dropdown */
-  min-width: 200px; /* Set a minimum width for the dropdown */
-  padding: 0; /* Reset padding for the dropdown */
 }
 
 .dropdown-item {
-  padding: 10px 15px; /* Padding for dropdown items */
-  display: block; /* Display items as block elements */
-  color: black; /* Text color for items */
-  text-decoration: none; /* Remove underline from links */
-  transition: background-color 0.3s; /* Smooth background transition for hover */
+  display: block;
+  padding: 8px 0;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .dropdown-item:hover {
-  background-color: rgba(15, 76, 117, 0.1); /* Highlight on hover */
+  color: #00A3FF; /* Highlight text on hover */
+}
+
+/* Adjustments for visibility */
+.sidebar .menu-item {
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* src/components/sidebar/sidebar.css */
+
+/* Add this style to the bottom of your existing sidebar.css file */
+/* .logout-button {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-top: auto;
+  background-color: #f11b49;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  margin-top: 370px;
+  
+  
+} */
+
+.logout-button .icon {
+  margin-right: 10px;
+  background-color: red;
 }
