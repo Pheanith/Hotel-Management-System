@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
-import './AddRoom.css';
+import React, { useState, useEffect } from 'react';
+import './EditRoom.css';
 
-const AddRoom = ({ onAddRoom, onCancel }) => {
+const EditRoom = ({ roomData, onUpdateRoom, onCancel }) => {
     const [roomNumber, setRoomNumber] = useState('');
     const [roomType, setRoomType] = useState('');
     const [accommodationType, setAccommodationType] = useState('');
     const [price, setPrice] = useState('');
     const [status, setStatus] = useState('');
     const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        // Populate the form with the existing room data when the component loads
+        if (roomData) {
+            setRoomNumber(roomData.room_number);
+            setRoomType(roomData.room_type);
+            setAccommodationType(roomData.accommodation_type);
+            setPrice(roomData.price);
+            setStatus(roomData.status);
+        }
+    }, [roomData]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,7 +34,7 @@ const AddRoom = ({ onAddRoom, onCancel }) => {
             formData.append('image', image);
         }
 
-        onAddRoom(formData);
+        onUpdateRoom(formData);
         // Reset the form fields after submission
         setRoomNumber('');
         setRoomType('');
@@ -34,8 +45,8 @@ const AddRoom = ({ onAddRoom, onCancel }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="add-room-form">
-            <h2>Add Room</h2>
+        <form onSubmit={handleSubmit} className="edit-room-form">
+            <h2>Edit Room</h2>
             <input
                 type="text"
                 value={roomNumber}
@@ -83,11 +94,11 @@ const AddRoom = ({ onAddRoom, onCancel }) => {
                 className="file-input"
             />
             <div className="form-buttons">
-                <button type="submit" className="submit-button">Add Room</button>
+                <button type="submit" className="submit-button">Update Room</button>
                 <button type="button" onClick={onCancel} className="cancel-button">Cancel</button>
             </div>
         </form>
     );
 };
 
-export default AddRoom;
+export default EditRoom;

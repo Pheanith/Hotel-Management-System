@@ -1,29 +1,18 @@
 // routes/roomRoutes.js
-
 import express from 'express';
-import {
-    getAllRooms,
-    getRoomById,
-    createRoom,
-    updateRoom,
-    deleteRoom
-} from '../controllers/roomController.js';
+import { getRooms, getRoomById, addRoom, updateRoom, deleteRoom } from '../controllers/roomController.js';
+import multer from 'multer';
 
 const router = express.Router();
 
-// Get all rooms
-router.get('/', getAllRooms);
+// Configure multer for image uploads
+const upload = multer({ dest: 'uploads/' });
 
-// Get room by ID
-router.get('/:id', getRoomById);
-
-// Create a new room
-router.post('/', createRoom);
-
-// Update a room by ID
-router.put('/:id', updateRoom);
-
-// Delete a room by ID
-router.delete('/:id', deleteRoom);
+// Room routes
+router.get('/', getRooms); // Get all rooms
+router.get('/:id', getRoomById); // Get a room by ID
+router.post('/', upload.single('image'), addRoom); // Create a room
+router.put('/:id', upload.single('image'), updateRoom); // Update a room
+router.delete('/:id', deleteRoom); // Delete a room
 
 export default router;

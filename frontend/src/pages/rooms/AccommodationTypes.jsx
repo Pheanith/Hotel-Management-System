@@ -103,10 +103,11 @@ const AccommodationTypeList = () => {
                         <tr>
                             <th>Image</th>
                             <th>Name</th>
-                            <th>Description</th>
-                            <th>General Amenities</th>
+                            {/* <th>Description</th> */}
+                            <th>Amenities</th>
                             <th>Pricing Range</th>
                             <th>Number of Units</th>
+                            <th>Description</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -127,10 +128,10 @@ const AccommodationTypeList = () => {
                                         )}
                                     </td>
                                     <td>{type.type_name}</td>
-                                    <td>{type.description}</td>
                                     <td>{type.general_amenities || 'N/A'}</td>
                                     <td>{type.price_range || 'N/A'}</td>
                                     <td>{type.number_of_units || 'N/A'}</td>
+                                    <td>{type.description}</td>
                                     <td>
                                         <button onClick={() => handleEdit(type)} className="edit-button">Edit</button>
                                         <button onClick={() => handleDelete(type.id)} className="delete-button">Delete</button>

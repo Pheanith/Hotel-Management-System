@@ -1,0 +1,121 @@
+/* Container for the form, centering it both horizontally and vertically */
+.add-room-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* 80% of the viewport height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background for overlay effect */
+  position: fixed; /* Fix the container in place */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000; /* Ensure it's on top */
+}
+
+/* Styling for the form */
+.add-room-form {
+  background-color: #2c3e50; /* Dark background for the form */
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+  max-width: 380px; /* Slightly smaller width for the form */
+  height: 80%; /* Form height will be 80% of the container's height */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto; /* Allow scrolling if the content is too long */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Heading of the form */
+.add-room-form h2 {
+  text-align: center;
+  font-size: 22px; /* Smaller font size */
+  margin-bottom: 16px;
+  color: #ecf0f1;
+}
+
+/* Input fields styling */
+.form-input,
+.form-textarea,
+.file-input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0; /* Smaller margins */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #34495e;
+  color: #fff;
+  font-size: 14px; /* Smaller font size */
+}
+
+/* Styling for text area */
+.form-textarea {
+  resize: vertical;
+  height: 90px; /* Reduced height for the textarea */
+}
+
+/* Styling for the buttons */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px; /* Reduced gap */
+}
+
+.submit-button,
+.cancel-button {
+  background-color: #2980b9;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px; /* Smaller font size */
+  width: 48%;
+}
+
+.submit-button:hover {
+  background-color: #3498db;
+}
+
+.cancel-button {
+  background-color: #e74c3c;
+}
+
+.cancel-button:hover {
+  background-color: #c0392b;
+}
+
+/* File input field */
+.file-input {
+  padding: 6px;
+  border: none;
+  background-color: #34495e;
+  color: #fff;
+}
+
+/* Responsive Design - Ensures the form looks good on smaller screens */
+@media (max-width: 500px) {
+  .add-room-form {
+      padding: 15px;
+      width: 90%; /* Narrower on small screens */
+      height: auto; /* Let the height adjust based on content */
+  }
+
+  .submit-button,
+  .cancel-button {
+      font-size: 12px; /* Smaller font size for buttons */
+  }
+
+  .form-input,
+  .form-textarea,
+  .file-input {
+      font-size: 12px; /* Smaller input font size */
+  }
+
+  .add-room-form h2 {
+      font-size: 20px; /* Smaller heading font size */
+  }
+}
