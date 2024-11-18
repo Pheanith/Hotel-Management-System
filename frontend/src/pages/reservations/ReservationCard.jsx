@@ -5,6 +5,7 @@ import ReservationDelete from './ReservationDelete';
 import ReservationEdit from './ReservationEdit';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 const ReservationCard = ({ reservations }) => {
   console.log("ReservationCard:",reservations);
@@ -90,14 +91,15 @@ const ReservationCard = ({ reservations }) => {
               <td className={reservation.status === 'Paid' ? 'paid' : 'unpaid'}>
                 {reservation.status}
               </td>
-              <td className={reservation.checkin_status === 'checked-in' ? 'checked-in' : 'pending'}>
+              <td className={reservation.checkin_status === 'Check-in' ? 'checked-in' : 'pending'}>
                 {reservation.checkin_status}
               </td>
-              <td className={reservation.checkout_status === 'checked-out' ? 'checked-out' : 'not-checked-out'}>
+              <td className={reservation.checkout_status === 'Check-out' ? 'checked-out' : 'pending'}>
                 {reservation.checkout_status}
               </td>
-              <td className='reservation-detail'>
-              <Link 
+              <td className='reservationDetail'>
+                <Link 
+                  className='link'
                   to={`/reservation-detail/${reservation.reservation_id}`} 
                   state={{
                     reservation_id: reservation.reservation_id,
@@ -125,13 +127,13 @@ const ReservationCard = ({ reservations }) => {
                 </Link>
               </td>
 
-              <td>
-                <Link to={`/invoice/${reservation.reservation_id}`} state={reservation}>
+              <td className='invoice'>
+                <Link to={`/invoice/${reservation.reservation_id}`} className='link' state={reservation}>
                   Invoice
                 </Link>
               </td>
               <td>
-                <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(reservation)}>🗑️</span>
+                <span className="delete-icon" role="img" aria-label="delete" onClick={() => handleDeleteClick(reservation)}><DeleteOutlineOutlinedIcon/></span>
               </td>
             </tr>
           ))}

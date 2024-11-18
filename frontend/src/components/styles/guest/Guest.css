@@ -20,18 +20,19 @@
     height: 30px;
     width: 30px;
 }
-.guest-search-bar1 input{
+/* .guest-search-bar1 input{
     margin-top: 20px;
     border-color: #0F4C75;
     border-radius: 5px;
     height: 30px;
     width: 400px;
-}
+} */
 .guest-search-bar1 button{
+    margin-top: 20px;
     cursor: pointer;
     height: 35px;
     width: 150px;
-    margin-left: 700px;
+    margin-left: 1500px;
     color: white;
     background-color: #0F4C75;
     border-color: #0F4C75;

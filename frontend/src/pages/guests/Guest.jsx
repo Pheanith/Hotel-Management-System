@@ -21,9 +21,9 @@ const Guest = () => {
             <div className="guest-content-header">
                 <a> Guests List </a>
                 <div className="guest-search-bar">
-                    <Search/>
+                    {/* <Search/> */}
                     <div className="guest-search-bar1">
-                        <input type = "text" placeholder="Search"/>
+                        {/* <input type = "text" placeholder="Search"/> */}
                         <button onClick={handleOpenForm}> New Guest </button>
                     </div>
                 </div>

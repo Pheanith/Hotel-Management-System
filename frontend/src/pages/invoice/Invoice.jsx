@@ -6,59 +6,57 @@ import '../../components/styles/invoice/Invoice.css';
 
 const Invoice = () => {
     const location = useLocation();
-    const reservation = location.state;
-
+    const reservation = location.state || {};
     const invoiceRef = useRef();
 
     console.log("reservation: ", reservation);
 
     // Calculate number of rooms
-    const numberOfRooms = Array.isArray(reservation.room_numbers) ? reservation.room_numbers.length : (typeof reservation.room_numbers === 'string' ? reservation.room_numbers.split(',').length : 0);
+    const numberOfRooms = Array.isArray(reservation.room_numbers)
+        ? reservation.room_numbers.length
+        : (typeof reservation.room_numbers === 'string' ? reservation.room_numbers.split(',').length : 0);
 
     // Check if room_type_names is an array or a string
-    const roomTypeNames = Array.isArray(reservation.room_type_names) ? reservation.room_type_names : (typeof reservation.room_type_names === 'string' ? reservation.room_type_names.split(',') : []);
-    console.log("roomTypeNames:", roomTypeNames);
+    const roomTypeNames = Array.isArray(reservation.room_type_names)
+        ? reservation.room_type_names
+        : (typeof reservation.room_type_names === 'string' ? reservation.room_type_names.split(',') : []);
     
-    // Parse room_prices (make sure it's an array)
-    const roomPrices = Array.isArray(reservation.room_prices) ? reservation.room_prices : (typeof reservation.room_prices === 'string' ? reservation.room_prices.split(',').map(Number) : []);
+    // Parse room_prices (ensure it's an array)
+    const roomPrices = Array.isArray(reservation.room_prices)
+        ? reservation.room_prices
+        : (typeof reservation.room_prices === 'string' ? reservation.room_prices.split(',').map(Number) : []);
 
     // Calculate number of nights
     const checkinDate = new Date(reservation.checkin_date);
     const checkoutDate = new Date(reservation.checkout_date);
-    const numberOfNights = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24);
+    const numberOfNights = Math.max(1, (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)); // At least 1 night
 
-    console.log("roomTypeNames: ", roomTypeNames);	
-    // Correct room type count logic based on room numbers
+    // Group room types and quantities
     const roomTypeCount = roomTypeNames.reduce((acc, roomType, index) => {
         const unitPrice = roomPrices[index] || 0;
-        
-        //Find how many rooms correspond to the current room type
-        const roomTypeQuantity = reservation.room_numbers.reduce((count, _, i) => {
-            console.log("roomtypename[" , i, "]: ", roomTypeNames[i]);
-            console.log("roomType: ", roomType);
-            console.log("count", count);
-            console.log("roomTypeNames[i] === roomType : ",roomTypeNames[i] === roomType );
-            return roomTypeNames[i] === roomType ? count + 1 : count;
-        }, 0);
     
-        // If the room type already exists in the accumulator, add the quantity, else set it
-        if (acc[roomType]) {
-            acc[roomType].quantity = roomTypeQuantity;
+        // Trim spaces and standardize room type names
+        const sanitizedRoomType = roomType.trim();
+    
+        // If the room type already exists in the map, increment quantity and total price
+        if (acc[sanitizedRoomType]) {
+            acc[sanitizedRoomType].quantity += 1;
         } else {
-            acc[roomType] = { quantity: 1, unitPrice };
+            // Otherwise, initialize the room type with quantity and unit price
+            acc[sanitizedRoomType] = { quantity: 1, unitPrice };
         }
-        console.log(acc);
     
         return acc;
     }, {});
     
+    console.log("roomTypeCount: ", roomTypeCount);
 
-    // Calculate total amount for each room type (with correct quantity and number of nights)
+    // Calculate total amount for each room type
     const totalAmountPerRoomType = (unitPrice, numberOfNights, quantity) => {
         return (unitPrice * quantity * numberOfNights).toFixed(2);
     };
 
-    // Calculate subtotal based on room prices
+    // Calculate subtotal
     const subTotal = Object.values(roomTypeCount).reduce((sum, { unitPrice, quantity }) => {
         return sum + (unitPrice * quantity * numberOfNights);
     }, 0);
@@ -173,7 +171,7 @@ const Invoice = () => {
                     <p><strong>Discount:</strong> {reservation.discount}%</p>
                     <hr />
                     <p><strong>Total:</strong> ${totalAfterDiscount.toFixed(2)}</p>
-                    <p><strong>Paid:</strong> ${reservation.totalAfterDiscount}</p>
+                    {/* <p><strong>Paid:</strong> ${reservation.totalAfterDiscount || totalAfterDiscount.toFixed(2)}</p> */}
                 </div>
                 <div className="invoice-footer">
                     <hr />
