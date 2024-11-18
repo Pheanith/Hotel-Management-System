@@ -75,3 +75,9 @@ TODO:
 - From page 23, put the codes and explain the codes to get all guest info, ...
 - On page 26, change Status Complete to "Completed", add "Read" Functionality, add "Print Invoice": DONE
 - On 5.2. and 5.3. , check grammars: some strong points, It is easy..., 
+
+    Slide presentation feedback:
+- Objectives: to develop a system that enables administrator and staff manage and make reservation. DONE
+- Database schema: relationship between invoice and reservation detail ?? DONE
+- Activity diagram: Manage guest activity diagram , is it flowchart or activity diagram?? DONE
+ Please revise your activity diagrams for both diagrams

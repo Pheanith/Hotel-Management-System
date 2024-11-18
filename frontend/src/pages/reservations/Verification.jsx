@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import '../../components/styles/Verification.css';
 import axios from 'axios';
@@ -8,7 +8,8 @@ const Verification = () => {
     const navigate = useNavigate();
     const { state: reservation } = location;
 
-    const [verificationCode, setVerificationCode] = useState('');
+    // Initialize the verificationCode state with the reservation identity_no
+    const [verificationCode, setVerificationCode] = useState(reservation?.identity_no || '');
     const [error, setError] = useState('');
 
     const handleVerify = () => {
@@ -41,7 +42,7 @@ const Verification = () => {
             <input
                 type="text"
                 placeholder="Enter your identity number"
-                value={verificationCode}
+                value={verificationCode} // Autofilled value
                 onChange={(e) => setVerificationCode(e.target.value)}
             />
             {error && <p className="error-message">{error}</p>}

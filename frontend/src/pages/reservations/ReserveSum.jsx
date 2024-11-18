@@ -57,7 +57,10 @@ const ReserveSum = () => {
                 "guest_id": selectedGuest.guest_id,
                 "checkin_date": checkIn,
                 "checkout_date": checkOut,
+                "checkin_status": 'pending',
+                "checkout_status": 'pending',
                 "discount": discountPercentage,
+                // "identity_no": selectedGuest.identity_no,
                 "room_id": room_ids
             } ;
             const response = await axios.post('http://localhost:5000/api/reservations', reservationData, {

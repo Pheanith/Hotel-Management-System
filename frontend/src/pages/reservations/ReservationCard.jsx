@@ -103,6 +103,8 @@ const ReservationCard = ({ reservations }) => {
                     reservation_id: reservation.reservation_id,
                     firstName: reservation.firstName,
                     lastName: reservation.lastName,
+                    email: reservation.email,
+                    identity_no: reservation.identity_no,
                     phoneNumber: reservation.phoneNumber,
                     reserve_date: reservation.reserve_date,
                     checkin_date: reservation.checkin_date,

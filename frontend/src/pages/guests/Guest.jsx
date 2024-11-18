@@ -23,8 +23,8 @@ const Guest = () => {
                 <div className="guest-search-bar">
                     <Search/>
                     <div className="guest-search-bar1">
-                    <input type = "text" placeholder="Search"/>
-                    <button onClick={handleOpenForm}> New Guest </button>
+                        <input type = "text" placeholder="Search"/>
+                        <button onClick={handleOpenForm}> New Guest </button>
                     </div>
                 </div>
             </div>

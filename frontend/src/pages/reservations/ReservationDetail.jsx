@@ -11,6 +11,7 @@ const ReservationDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const reservation = location.state;
+  console.log("Location state:", reservation);
 
   const copyEmailToClipboard = (reservation) => {
     const emailContent = `
@@ -108,6 +109,7 @@ const ReservationDetail = () => {
           <p><strong>Name:</strong> {`${reservation.firstName} ${reservation.lastName}`}</p>
           <p><strong>Email:</strong> {reservation.email}</p>
           <p><strong>Phone:</strong> {reservation.phoneNumber}</p>
+
         </div>
         <div className="section">
           <h3><strong>Room Information</strong></h3>
