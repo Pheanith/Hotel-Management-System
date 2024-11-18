@@ -47,13 +47,13 @@ TODO:
 
 16/10/2024
 - show each room in category in available room
-- Make the checkin date set as today as default
+- Make the checkin date set as today as default DONE
 - Clean UI more reliable
 - Make all the icon work
 - Finish report
 
 23/10/2024
-- SOlve invoice unit price
+- SOlve invoice unit price DONE
 - Finish report
 - solve delete function
 - Clear side bar

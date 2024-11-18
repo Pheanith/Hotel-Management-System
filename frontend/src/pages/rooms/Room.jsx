@@ -5,15 +5,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-function formatDate(date) {
-    if (!date) return null;
-    const dt = new Date(date);
-    const day = String(dt.getDate()).padStart(2, '0');
-    const month = String(dt.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-    const year = dt.getFullYear();
-    return `${year}-${month}-${day}`;
-}
-
 const Room = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -23,14 +14,27 @@ const Room = () => {
     const [rooms, setRooms] = useState([]);
     const [selectedRooms, setSelectedRooms] = useState([]);
 
+    // Step 1: Set the default dates when the component mounts
+    useEffect(() => {
+        const today = new Date();
+        const nextDay = new Date(today);
+        nextDay.setDate(today.getDate() + 1); // Set the check-out date to the next day
+
+        // Set both check-in and check-out dates in formData
+        setFormData({
+            checkIn: today,
+            checkOut: nextDay,
+        });
+    }, []);
+
     // Fetch available rooms when check-in or check-out dates change
     useEffect(() => {
         const fetchAvailableRooms = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/rooms/available', {
                     params: {
-                        checkIn: formatDate(formData.checkIn),
-                        checkOut: formatDate(formData.checkOut),
+                        checkIn: formData.checkIn.toISOString().split('T')[0], // Format as 'YYYY-MM-DD'
+                        checkOut: formData.checkOut.toISOString().split('T')[0], // Format as 'YYYY-MM-DD'
                     },
                 });
                 setRooms(response.data);
