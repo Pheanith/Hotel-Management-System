@@ -1,29 +1,48 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Make sure axios is imported
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const AddAccommodationType = ({ onClose }) => {
+const AccommodationTypeForm = ({ onClose, accommodationTypeId = null }) => {
     const [formData, setFormData] = useState({
         type_name: '',
         description: '',
-        general_amenities: '',
-        price_range: '',
-        number_of_units: '',
+        // general_amenities: '',
+        // price_range: '',
+        // number_of_units: '',
         image: null,
-        target_audience: '', // Added target_audience field
+       
     });
+
+    // Fetch existing accommodation data if it's an edit form
+    useEffect(() => {
+        if (accommodationTypeId) {
+            axios.get(`http://localhost:5000/api/accommodations/${accommodationTypeId}`)
+                .then((response) => {
+                    setFormData({
+                        type_name: response.data.type_name,
+                        description: response.data.description,
+                        // general_amenities: response.data.general_amenities,
+                        // price_range: response.data.price_range,
+                        // number_of_units: response.data.number_of_units,
+                        image: null, // Don’t pre-fill the image, let user upload a new one
+                        // target_audience: response.data.target_audience,
+                    });
+                })
+                .catch((error) => console.error("Error fetching accommodation data:", error));
+        }
+    }, [accommodationTypeId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         });
     };
 
     const handleFileChange = (e) => {
         setFormData({
             ...formData,
-            image: e.target.files[0]
+            image: e.target.files[0],
         });
     };
 
@@ -35,69 +54,96 @@ const AddAccommodationType = ({ onClose }) => {
         }
 
         try {
-            // Make a POST request to create a new accommodation type
-            await axios.post('http://localhost:5000/api/accommodations', updatedFormData);
+            if (accommodationTypeId) {
+                await axios.put(`http://localhost:5000/api/accommodations/${accommodationTypeId}`, updatedFormData);
+            } else {
+                await axios.post('http://localhost:5000/api/accommodations', updatedFormData);
+            }
             onClose(); // Close the modal on success
         } catch (error) {
-            console.error('Error adding accommodation type:', error);
+            console.error('Error saving accommodation type:', error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Add Accommodation Type</h2>
-            
-            <input
-                type="text"
-                name="type_name"
-                value={formData.type_name}
-                onChange={handleChange}
-                placeholder="Type Name"
-                required
-            />
-            <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Description"
-                required
-            />
-            <input
-                type="text"
-                name="general_amenities"
-                value={formData.general_amenities}
-                onChange={handleChange}
-                placeholder="General Amenities"
-            />
-            <input
-                type="text"
-                name="price_range"
-                value={formData.price_range}
-                onChange={handleChange}
-                placeholder="Price Range"
-            />
-            <input
-                type="number"
-                name="number_of_units"
-                value={formData.number_of_units}
-                onChange={handleChange}
-                placeholder="Number of Units"
-            />
-            {/* Target Audience Field */}
-            <input
-                type="text"
-                name="target_audience"
-                value={formData.target_audience}
-                onChange={handleChange}
-                placeholder="Target Audience"
-                required
-            />
-            <div>
+        <form onSubmit={handleSubmit} className="add-accommodation-type-form">
+            <h2>{accommodationTypeId ? 'Edit' : 'Add'} Accommodation Type</h2>
+
+            <div className="form-group">
+                <input
+                    type="text"
+                    name="type_name"
+                    value={formData.type_name}
+                    onChange={handleChange}
+                    placeholder="Type Name"
+                    required
+                    className="form-input"
+                />
+            </div>
+
+            <div className="form-group">
+                <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    placeholder="Description"
+                    required
+                    className="form-textarea"
+                />
+            </div>
+
+            {/* <div className="form-group">
+                <input
+                    type="text"
+                    name="general_amenities"
+                    value={formData.general_amenities}
+                    onChange={handleChange}
+                    placeholder="General Amenities"
+                    className="form-input"
+                />
+            </div> */}
+
+            {/* <div className="form-group">
+                <input
+                    type="text"
+                    name="price_range"
+                    value={formData.price_range}
+                    onChange={handleChange}
+                    placeholder="Price Range"
+                    className="form-input"
+                />
+            </div> */}
+
+            {/* <div className="form-group">
+                <input
+                    type="number"
+                    name="number_of_units"
+                    value={formData.number_of_units}
+                    onChange={handleChange}
+                    placeholder="Number of Units"
+                    className="form-input"
+                />
+            </div> */}
+
+            {/* <div className="form-group">
+                <input
+                    type="text"
+                    name="target_audience"
+                    value={formData.target_audience}
+                    onChange={handleChange}
+                    placeholder="Target Audience"
+                    required
+                    className="form-input"
+                />
+            </div> */}
+
+            <div className="form-group">
                 <label>Upload Image</label>
                 <input
                     type="file"
                     name="image"
                     onChange={handleFileChange}
+                    className="file-input"
                 />
                 {formData.image && (
                     <div>
@@ -105,11 +151,17 @@ const AddAccommodationType = ({ onClose }) => {
                     </div>
                 )}
             </div>
-            
-            <button type="submit">Add Accommodation</button>
-            <button type="button" onClick={onClose}>Cancel</button>
+
+            <div className="form-buttons">
+                <button type="submit" className="submit-button">
+                    {accommodationTypeId ? 'Save Changes' : 'Add Accommodation'}
+                </button>
+                <button type="button" onClick={onClose} className="cancel-button">
+                    Cancel
+                </button>
+            </div>
         </form>
     );
 };
 
-export default AddAccommodationType;
+export default AccommodationTypeForm;

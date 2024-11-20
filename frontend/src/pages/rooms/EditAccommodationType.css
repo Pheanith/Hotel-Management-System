@@ -1,0 +1,90 @@
+/* EditAccommodationType.css */
+.edit-form {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-form h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.form-group input[type="file"] {
+  padding: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.save-btn:hover {
+  background-color: #0056b3;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.cancel-btn:hover {
+  background-color: #d32f2f;
+}
+
+.action-buttons {
+  display: flex; /* Use flexbox to align buttons side by side */
+  justify-content: center; /* Center buttons horizontally */
+  align-items: center; /* Center buttons vertically */
+  gap: 5px; /* Add spacing between buttons */
+}
+
+.edit-button, .delete-button {
+  width: 70px; /* Set a fixed width */
+  height: 30px; /* Set a fixed height */
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

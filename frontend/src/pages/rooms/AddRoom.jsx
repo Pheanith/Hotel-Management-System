@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './AddRoom.css';
 
 const AddRoom = ({ onAddRoom, onCancel }) => {
@@ -8,6 +9,24 @@ const AddRoom = ({ onAddRoom, onCancel }) => {
     const [price, setPrice] = useState('');
     const [status, setStatus] = useState('');
     const [image, setImage] = useState(null);
+    const [roomTypes, setRoomTypes] = useState([]);  // To store room types
+    const [accommodationTypes, setAccommodationTypes] = useState([]);  // To store accommodation types
+
+    useEffect(() => {
+        // Fetch room types and accommodation types from the backend
+        const fetchTypes = async () => {
+            try {
+                const roomTypesResponse = await axios.get('http://localhost:5000/api/room_types');
+                const accommodationTypesResponse = await axios.get('http://localhost:5000/api/accommodations');
+                setRoomTypes(roomTypesResponse.data);
+                setAccommodationTypes(accommodationTypesResponse.data);
+            } catch (error) {
+                console.error('Error fetching room and accommodation types:', error);
+            }
+        };
+
+        fetchTypes();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -44,22 +63,35 @@ const AddRoom = ({ onAddRoom, onCancel }) => {
                 required
                 className="form-input"
             />
-            <input
-                type="text"
+
+            <select
                 value={roomType}
                 onChange={(e) => setRoomType(e.target.value)}
-                placeholder="Room Type"
                 required
                 className="form-input"
-            />
-            <input
-                type="text"
+            >
+                <option value="">Select Room Type</option>
+                {roomTypes.map((type) => (
+                    <option key={type.id} value={type.id}>
+                        {type.name}  {/* Only display room type name */}
+                    </option>
+                ))}
+            </select>
+
+            <select
                 value={accommodationType}
                 onChange={(e) => setAccommodationType(e.target.value)}
-                placeholder="Accommodation Type"
                 required
                 className="form-input"
-            />
+            >
+                <option value="">Select Accommodation Type</option>
+                {accommodationTypes.map((type) => (
+                    <option key={type.id} value={type.id}>
+                        {type.name}  {/* Only display accommodation type name */}
+                    </option>
+                ))}
+            </select>
+
             <input
                 type="number"
                 value={price}
@@ -68,14 +100,19 @@ const AddRoom = ({ onAddRoom, onCancel }) => {
                 required
                 className="form-input"
             />
-            <input
-                type="text"
+
+            <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                placeholder="Status"
                 required
                 className="form-input"
-            />
+            >
+                <option value="">Select Status</option>
+                <option value="Available">Available</option>
+                <option value="Occupied">Occupied</option>
+                <option value="Maintenance">Maintenance</option>
+            </select>
+
             <input
                 type="file"
                 onChange={(e) => setImage(e.target.files[0])}

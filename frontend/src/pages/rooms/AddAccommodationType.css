@@ -1,31 +1,30 @@
 .add-accommodation-type-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 370px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #1e2a47; /* Dark blue background */
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 20px auto;
+  color: #fff; /* White text color */
 }
 
 .add-accommodation-type-form h2 {
+  text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
-  color: #333;
+  color: #fff;
 }
 
 .form-group {
   margin-bottom: 15px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #555;
-}
-
-.form-group input,
-.form-group textarea {
+.form-input,
+.form-textarea,
+.file-input {
   width: 100%;
   padding: 10px;
   border-radius: 4px;
@@ -33,38 +32,50 @@
   font-size: 14px;
 }
 
-.form-group textarea {
+.form-textarea {
   resize: vertical;
   min-height: 100px;
 }
 
-.form-actions {
+.form-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between buttons */
+  width: 100%;
+  gap: 10px; /* Adds space between buttons */
 }
 
-.form-actions button {
+.submit-button,
+.cancel-button {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.form-actions button[type="submit"] {
+.submit-button {
   background-color: #007BFF;
   color: white;
 }
 
-.form-actions button[type="button"] {
+.submit-button:hover {
+  background-color: #004085;
+}
+
+.cancel-button {
   background-color: #f1f1f1;
   color: #333;
 }
 
-.error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 4px;
+.cancel-button:hover {
+  background-color: #dc3545;
+}
+
+.file-input {
+  margin-top: 10px;
+}
+
+.selected-image {
+  margin-top: 5px;
+  color: #aaa;
 }

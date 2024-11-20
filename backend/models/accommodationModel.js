@@ -2,10 +2,10 @@ import db from '../utils/db.js';
 
 const accommodationModel = {
   // Create a new accommodation type
-  createAccommodationType: async (type_name, description, image, price_range, number_of_units, general_amenities, target_audience) => {
+  createAccommodationType: async (type_name, description, image) => {
     const [result] = await db.execute(
-      'INSERT INTO accommodation_types (type_name, description, image, price_range, number_of_units, general_amenities, target_audience) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [type_name, description, image, price_range, number_of_units, general_amenities, target_audience]
+      'INSERT INTO accommodation_types (type_name, description, image) VALUES (?, ?, ?)',
+      [type_name, description, image]
     );
     return result.insertId;
   },
@@ -23,10 +23,10 @@ const accommodationModel = {
   },
 
   // Update an accommodation type
-  updateAccommodationType: async (id, type_name, description, image, price_range, number_of_units, general_amenities, target_audience) => {
+  updateAccommodationType: async (id, type_name, description, image) => {
     return await db.execute(
-      'UPDATE accommodation_types SET type_name = ?, description = ?, image = ?, price_range = ?, number_of_units = ?, general_amenities = ?, target_audience = ? WHERE id = ?',
-      [type_name, description, image, price_range, number_of_units, general_amenities, target_audience, id]
+      'UPDATE accommodation_types SET type_name = ?, description = ?, image = ? WHERE id = ?',
+      [type_name, description, image, id]
     );
   },
 

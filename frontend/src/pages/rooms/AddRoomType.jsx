@@ -47,13 +47,13 @@ const AddRoomType = ({ onAddRoomType, onCancel }) => {
                 required
                 className="form-input"
             />
-            <textarea
+            {/* <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Description"
                 required
                 className="form-textarea"
-            />
+            /> */}
             <input
                 type="number"
                 value={capacity}
@@ -78,13 +78,20 @@ const AddRoomType = ({ onAddRoomType, onCancel }) => {
                 required
                 className="form-input"
             />
-            <input
+            {/* <input
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="Price"
                 required
                 className="form-input"
+            /> */}
+             <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description"
+                required
+                className="form-textarea"
             />
             <input
                 type="file"

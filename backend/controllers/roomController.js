@@ -1,10 +1,20 @@
-// controllers/roomController.js
 import { fetchAllRooms, fetchRoomById, createRoom, updateRoomById, deleteRoomById } from '../models/roomModel.js';
 
+// Helper function to validate room data
+const validateRoomData = (data) => {
+    const { room_number, floor, room_type_id, accommodation_type_id, price, status } = data;
+    if (!room_number || !floor || !room_type_id || !accommodation_type_id || !price || !status) {
+        return 'All fields (room_number, floor, room_type_id, accommodation_type_id, price, status) are required.';
+    }
+    if (isNaN(price)) return 'Price must be a valid number.';
+    if (!['available', 'occupied', 'maintenance'].includes(status.toLowerCase())) return 'Invalid room status.';
+    return null;
+};
+
+// Get all rooms
 export const getRooms = async (req, res) => {
     try {
         const rooms = await fetchAllRooms();
-        console.log(rooms); // Log the fetched rooms to verify the output
         res.status(200).json(rooms);
     } catch (error) {
         console.error('Failed to retrieve rooms:', error);
@@ -12,8 +22,11 @@ export const getRooms = async (req, res) => {
     }
 };
 
+// Get a room by ID
 export const getRoomById = async (req, res) => {
     const { id } = req.params;
+    if (!id) return res.status(400).json({ error: 'Room ID is required.' });
+
     try {
         const room = await fetchRoomById(id);
         if (room) {
@@ -27,9 +40,13 @@ export const getRoomById = async (req, res) => {
     }
 };
 
+// Create a new room
 export const addRoom = async (req, res) => {
     const roomData = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const validationError = validateRoomData(roomData);
+
+    if (validationError) return res.status(400).json({ error: validationError });
 
     try {
         const roomId = await createRoom(roomData, imageUrl);
@@ -40,10 +57,15 @@ export const addRoom = async (req, res) => {
     }
 };
 
+// Update a room by ID
 export const updateRoom = async (req, res) => {
     const { id } = req.params;
     const roomData = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const validationError = validateRoomData(roomData);
+
+    if (!id) return res.status(400).json({ error: 'Room ID is required.' });
+    if (validationError) return res.status(400).json({ error: validationError });
 
     try {
         const rowsAffected = await updateRoomById(id, roomData, imageUrl);
@@ -58,8 +80,10 @@ export const updateRoom = async (req, res) => {
     }
 };
 
+// Delete a room by ID
 export const deleteRoom = async (req, res) => {
     const { id } = req.params;
+    if (!id) return res.status(400).json({ error: 'Room ID is required.' });
 
     try {
         const rowsAffected = await deleteRoomById(id);

@@ -1,6 +1,6 @@
-import express from 'express';  // Import express using ES module syntax
+import express from 'express';
 import db from '../utils/db.js'; // Import the db utility, ensuring the .js extension for compatibility
-import bcrypt from 'bcrypt';     // Import bcrypt for password hashing
+import bcrypt from 'bcrypt'; // Import bcrypt for password hashing
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.get('/admins', async (req, res) => {
 
 // Create a new admin (POST request)
 router.post('/admins', async (req, res) => {
-  const { username, password, role } = req.body;  // Destructure admin data from request body
+  const { username, password, role } = req.body; // Destructure admin data from request body
 
   // Input validation
   if (!username || !password || !role) {
@@ -103,5 +103,6 @@ router.delete('/admins/:id', async (req, res) => {
     console.error('Error deleting admin:', error);
     res.status(500).send('Error deleting admin');
   }
-})
+});
+
 export default router; // Export the router for use in other files

@@ -1,49 +1,73 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import './Login.css'; // 
+import './Login.css';
+import hotelImage from '../Login&Rgister/hotel1.jpg';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null); // State to hold error message
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("username", username);
-    console.log("password", password);
-    // Simulate successful login and redirect
-    login(username, password);
-    navigate('/admin-dashboard');
+    try {
+      await login(username, password);
+      navigate('/admin-dashboard');
+    } catch (error) {
+      setError('Login failed. Please check your username and password.');
+      alert("Please login again"); // Alert message for failed login
+    }
+  };
+
+  const handleRegisterClick = () => {
+    navigate('/register');
   };
 
   return (
-    <div className="login-container">  {/* Apply login-container class */}
-      <h2>Login</h2>
-      <form className="login-form" onSubmit={handleSubmit}>  {/* Apply login-form class */}
-        <div className="form-group">  {/* Apply form-group class */}
-          <label>Username</label>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
+    <div className="login-page">
+      {/* Left side - Image */}
+      <div className="login-image">
+        <img src={hotelImage} alt="hotel1" />
+      </div>
 
-        <div className="form-group">  {/* Apply form-group class */}
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+      {/* Right side - Login Form */}
+      <div className="login-container">
+        <div className="login-card">
+          <h2>Login</h2>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="login-btn">Login</button>
+          </form>
 
-        <button className="login-btn" type="submit">Login</button>  {/* Apply login-btn class */}
-      </form>
+          {error && <p className="error-message">{error}</p>} {/* Display error message if login fails */}
+
+          <p className="register-link">
+            Don't have an account? <span onClick={handleRegisterClick}>Register</span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

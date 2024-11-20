@@ -8,7 +8,8 @@ header {
   justify-content: space-between; /* Ensure space between elements */
   align-items: center; /* Center items vertically */
   padding: 10px 20px;
-  background-color: #0F4C75;
+  /* background-color: #0F4C75; */
+  background-color: #0A192F;
   z-index: 1000; /* Ensure header stays on top */
 }
 
@@ -141,4 +142,7 @@ header {
     width: 25px; /* Smaller profile image on smallest screens */
     height: 25px;
   }
+}
+.profile-image{
+  margin-top: 12px;
 }

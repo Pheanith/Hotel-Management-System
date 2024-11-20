@@ -29,12 +29,16 @@ const RoomTypeList = () => {
         setShowEditRoomTypeModal(true); // Show the edit modal
     };
 
+    // Updated handleDelete function with confirmation
     const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:5000/api/room_types/${id}`);
-            setRoomTypes(roomTypes.filter((roomType) => roomType.id !== id));
-        } catch (error) {
-            console.error('Error deleting room type:', error);
+        const confirmDelete = window.confirm('Are you sure you want to delete this room type?'); // Show confirmation dialog
+        if (confirmDelete) {
+            try {
+                await axios.delete(`http://localhost:5000/api/room_types/${id}`);
+                setRoomTypes(roomTypes.filter((roomType) => roomType.id !== id));
+            } catch (error) {
+                console.error('Error deleting room type:', error);
+            }
         }
     };
 
@@ -106,11 +110,12 @@ const RoomTypeList = () => {
                     <tr>
                         <th>Image</th>
                         <th>Room Type</th>
-                        <th>Description</th>
+                        {/* <th>Description</th> */}
                         <th>Capacity</th> {/* New column for Capacity */}
                         <th>Bed Configuration</th> {/* New column for Bed Configuration */}
                         <th>Room Size</th> {/* New column for Room Size */}
-                        <th>Price</th> {/* New column for Price */}
+                        {/* <th>Price</th> New column for Price */}
+                        <th>Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -120,11 +125,12 @@ const RoomTypeList = () => {
                             <tr key={roomType.id}>
                                 <td><img src={`http://localhost:5000/${roomType.image_url}`} alt={roomType.type_name} className="room-type-image" /></td>
                                 <td>{roomType.type_name}</td>
-                                <td>{roomType.description}</td>
+                                {/* <td>{roomType.description}</td> */}
                                 <td>{roomType.capacity}</td> {/* Capacity */}
                                 <td>{roomType.bed_configuration}</td> {/* Bed Configuration */}
                                 <td>{roomType.room_size}</td> {/* Room Size */}
-                                <td>{roomType.price}</td> {/* Price */}
+                                <td>{roomType.description}</td>
+                                {/* <td>{roomType.price}</td> Price */}
                                 <td>
                                     <button onClick={() => handleEdit(roomType)} className="edit-button">Edit</button>
                                     <button onClick={() => handleDelete(roomType.id)} className="delete-button">Delete</button>

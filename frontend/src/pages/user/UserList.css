@@ -1,101 +1,36 @@
-.main-user-list-content {
+/* UserList.css */
+.user-list-container {
   padding: 20px;
-  background-color: #f9f9f9;
-  color: #0B3D91 !important;
 }
 
-.user-list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  color: #0056b3;
-}
-
-.search-bar {
-  margin-top: 10px !important;
-  display: flex;
-  align-items: center;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  height: 45px; /* Adjust as needed */
-  padding: 0 5px; /* Add horizontal padding */
-}
-
-.search-icon {
-  color: #0B3D91; /* Blue color */
-  margin-right: 10px; /* Space between icon and input */
-  font-size: 40px; /* Adjust size as needed */
-  margin-bottom: 20px !important;
-}
-
-.search-input {
-  
-  border: none;
-  padding: 5px 10px; /* Padding for better visibility */
-  outline: none;
-  font-size: 16px; /* Adjust font size */
-  flex-grow: 1; /* Take up remaining space */
-  margin-top: 20px !important;
-}
-
-.add-user-btn {
-  background-color: #0B3D91 !important;
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 16px; /* Adjusted font size */
-}
-
-.add-user-btn:hover {
-  background-color: rgb(36, 36, 237);
-}
-
-.user-table {
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  
-}
-.title-content{
-  color: #f9f9f9;
 }
 
-.user-table th, .user-table td {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
+table th, table td {
+  padding: 10px;
   text-align: left;
 }
 
-.user-table th {
-  background-color: #0B3D91 !important;
-  font-weight: bold;
+.add-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  margin-bottom: 20px;
 }
 
-.action-btn {
-  background-color: #0B3D91;
-  color: #f9f9f9;
-  border: none;
+.edit-btn, .delete-btn {
   padding: 5px 10px;
-  border-radius: 5px;
+  margin: 5px;
   cursor: pointer;
 }
 
-.action-btn:hover {
-  background-color: #0056b3;
-}
-
 .delete-btn {
-  background-color: #dc3545;
+  background-color: #f44336;
+  color: white;
 }
 
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-.action-button{
-  margin-left: 200px;
+.error {
+  color: red;
 }

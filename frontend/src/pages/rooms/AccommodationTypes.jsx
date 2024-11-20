@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AccommodationType.css';
 import AddAccommodationType from '../rooms/AddAccommodationType.jsx'; // Assuming this is the correct path
-import EditAccommodationType from '../rooms/EditAccommodationType.jsx'; // Assuming this is the correct path
+import EditAccommodationType from './EditAccommodationType.jsx'; // Assuming this is the correct path
 
 const AccommodationTypeList = () => {
     const [accommodationTypes, setAccommodationTypes] = useState([]);
@@ -103,10 +103,9 @@ const AccommodationTypeList = () => {
                         <tr>
                             <th>Image</th>
                             <th>Name</th>
-                            {/* <th>Description</th> */}
-                            <th>Amenities</th>
+                            {/* <th>Amenities</th>
                             <th>Pricing Range</th>
-                            <th>Number of Units</th>
+                            <th>Number of Units</th> */}
                             <th>Description</th>
                             <th>Actions</th>
                         </tr>
@@ -128,9 +127,9 @@ const AccommodationTypeList = () => {
                                         )}
                                     </td>
                                     <td>{type.type_name}</td>
-                                    <td>{type.general_amenities || 'N/A'}</td>
+                                    {/* <td>{type.general_amenities || 'N/A'}</td>
                                     <td>{type.price_range || 'N/A'}</td>
-                                    <td>{type.number_of_units || 'N/A'}</td>
+                                    <td>{type.number_of_units || 'N/A'}</td> */}
                                     <td>{type.description}</td>
                                     <td>
                                         <button onClick={() => handleEdit(type)} className="edit-button">Edit</button>

@@ -54,7 +54,7 @@ const EditRoomType = ({ roomType, onUpdateRoomType, onCancel }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="edit-room-type-form">
+        <form onSubmit={handleSubmit} className="add-room-type-form">
             <h2>Edit Room Type</h2>
             <input
                 type="text"
@@ -62,19 +62,22 @@ const EditRoomType = ({ roomType, onUpdateRoomType, onCancel }) => {
                 onChange={(e) => setTypeName(e.target.value)}
                 placeholder="Room Type Name"
                 required
+                className="form-input"
             />
-            <textarea
+            {/* <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Description"
                 required
-            />
+                className="form-textarea"
+            /> */}
             <input
                 type="number"
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}
                 placeholder="Capacity"
                 required
+                className="form-input"
             />
             <input
                 type="text"
@@ -82,6 +85,7 @@ const EditRoomType = ({ roomType, onUpdateRoomType, onCancel }) => {
                 onChange={(e) => setBedConfiguration(e.target.value)}
                 placeholder="Bed Configuration"
                 required
+                className="form-input"
             />
             <input
                 type="text"
@@ -89,18 +93,28 @@ const EditRoomType = ({ roomType, onUpdateRoomType, onCancel }) => {
                 onChange={(e) => setRoomSize(e.target.value)}
                 placeholder="Room Size (in sq. meters)"
                 required
+                className="form-input"
             />
-            <input
+            {/* <input
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="Price"
                 required
+                className="form-input"
+            /> */}
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description"
+                required
+                className="form-textarea"
             />
             <input
                 type="file"
                 onChange={(e) => setImage(e.target.files[0])}
                 accept="image/*"
+                className="file-input"
             />
             <div className="form-buttons">
                 <button type="submit" className="submit-button">Update Room Type</button>

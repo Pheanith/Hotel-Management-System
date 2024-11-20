@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './EditAccommodationType.css'; // Ensure this is styled similarly to your "AddAccommodationType" form
 
 const EditAccommodationType = ({ accommodationType, onClose }) => {
     const [formData, setFormData] = useState({
         type_name: '',
         description: '',
-        general_amenities: '',
-        price_range: '',
-        number_of_units: '',
         image: null,
     });
 
@@ -47,49 +45,39 @@ const EditAccommodationType = ({ accommodationType, onClose }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="edit-form">
             <h2>Edit Accommodation Type</h2>
-            
-            <input
-                type="text"
-                name="type_name"
-                value={formData.type_name}
-                onChange={handleChange}
-                placeholder="Type Name"
-                required
-            />
-            <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Description"
-                required
-            />
-            <input
-                type="text"
-                name="general_amenities"
-                value={formData.general_amenities}
-                onChange={handleChange}
-                placeholder="General Amenities"
-            />
-            <input
-                type="text"
-                name="price_range"
-                value={formData.price_range}
-                onChange={handleChange}
-                placeholder="Price Range"
-            />
-            <input
-                type="number"
-                name="number_of_units"
-                value={formData.number_of_units}
-                onChange={handleChange}
-                placeholder="Number of Units"
-            />
-            <div>
-                <label>Upload Image</label>
+
+            <div className="form-group">
+                <label htmlFor="type_name">Type Name</label>
+                <input
+                    type="text"
+                    id="type_name"
+                    name="type_name"
+                    value={formData.type_name}
+                    onChange={handleChange}
+                    placeholder="Enter accommodation type name"
+                    required
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    placeholder="Provide a description of the accommodation"
+                    required
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="image">Upload Image</label>
                 <input
                     type="file"
+                    id="image"
                     name="image"
                     onChange={handleFileChange}
                 />
@@ -99,9 +87,11 @@ const EditAccommodationType = ({ accommodationType, onClose }) => {
                     </div>
                 )}
             </div>
-            
-            <button type="submit">Save Changes</button>
-            <button type="button" onClick={onClose}>Cancel</button>
+
+            <div className="form-actions">
+                <button type="submit" className="btn save-btn">Save Changes</button>
+                <button type="button" onClick={onClose} className="btn cancel-btn">Cancel</button>
+            </div>
         </form>
     );
 };

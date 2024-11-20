@@ -19,14 +19,14 @@ const upload = multer({ storage });
 // Create Accommodation Type
 router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { type_name, description, price_range, number_of_units, general_amenities, target_audience } = req.body;
+    const { type_name, description } = req.body;
     const image = req.file ? req.file.path : null;
 
-    if (!type_name || !description || !price_range || !number_of_units || !general_amenities || !target_audience) {
+    if (!type_name || !description ) {
       return res.status(400).json({ error: 'All fields are required.' });
     }
 
-    const newAccommodationId = await accommodationModel.createAccommodationType(type_name, description, image, price_range, number_of_units, general_amenities, target_audience);
+    const newAccommodationId = await accommodationModel.createAccommodationType(type_name, description, image);
     res.status(201).json({ id: newAccommodationId, message: 'Accommodation type created successfully' });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while creating accommodation type.', details: error.message });
@@ -62,14 +62,14 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', upload.single('image'), async (req, res) => {
   try {
     const { id } = req.params;
-    const { type_name, description, price_range, number_of_units, general_amenities, target_audience } = req.body;
+    const { type_name, description } = req.body;
     const image = req.file ? req.file.path : null;
 
-    if (!type_name || !description || !price_range || !number_of_units || !general_amenities || !target_audience) {
+    if (!type_name || !description ) {
       return res.status(400).json({ error: 'All fields are required.' });
     }
 
-    await accommodationModel.updateAccommodationType(id, type_name, description, image, price_range, number_of_units, general_amenities, target_audience);
+    await accommodationModel.updateAccommodationType(id, type_name, description, image);
     res.status(200).json({ message: 'Accommodation type updated successfully' });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while updating accommodation type.', details: error.message });

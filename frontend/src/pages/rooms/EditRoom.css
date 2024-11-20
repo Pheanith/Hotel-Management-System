@@ -11,17 +11,19 @@
   right: 0;
   bottom: 0;
   z-index: 1000; /* Ensure it's on top */
+  overflow-y: auto; /* Allow scrolling if the content is too long */
 }
 
 /* Styling for the form */
 .edit-room-form {
-  background-color: #2c3e50; /* Dark background for the form */
+  background-color: #5ea2e6; /* Dark background for the form */
   color: #fff;
   border-radius: 8px;
   padding: 20px;
   width: 100%;
   max-width: 380px; /* Slightly smaller width for the form */
   height: 80%; /* Form height will be 80% of the container's height */
+  min-height: 400px; /* Add a minimum height */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
   overflow-y: auto; /* Allow scrolling if the content is too long */
   display: flex;
@@ -42,11 +44,11 @@
 .edit-form-textarea,
 .edit-file-input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;  /* Increased padding for better spacing */
   margin: 8px 0; /* Smaller margins */
   border-radius: 6px;
   border: 1px solid #ccc;
-  background-color: #34495e;
+  background-color: #1f89a9;
   color: #fff;
   font-size: 14px; /* Smaller font size */
 }
@@ -55,6 +57,21 @@
 .edit-form-textarea {
   resize: vertical;
   height: 90px; /* Reduced height for the textarea */
+}
+
+/* Styling for the select dropdown */
+.form-input {
+  background-color: #ffffff;  /* White background */
+  color: #000000;  /* Black text */
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: #007bff;  /* Blue border on focus */
+  outline: none;
 }
 
 /* Styling for the buttons */
@@ -78,6 +95,8 @@
 
 .save-button:hover {
   background-color: #3498db;
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  transition: transform 0.3s ease;
 }
 
 .cancel-button {
@@ -86,36 +105,44 @@
 
 .cancel-button:hover {
   background-color: #c0392b;
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  transition: transform 0.3s ease;
 }
 
 /* File input field */
 .edit-file-input {
-  padding: 6px;
-  border: none;
-  background-color: #34495e;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #1f89a9;
   color: #fff;
+  font-size: 14px;
 }
 
 /* Responsive Design - Ensures the form looks good on smaller screens */
 @media (max-width: 500px) {
   .edit-room-form {
-      padding: 15px;
-      width: 90%; /* Narrower on small screens */
-      height: auto; /* Let the height adjust based on content */
+    padding: 15px;
+    width: 90%; /* Narrower on small screens */
+    height: auto; /* Let the height adjust based on content */
   }
 
   .save-button,
   .cancel-button {
-      font-size: 12px; /* Smaller font size for buttons */
+    font-size: 12px; /* Smaller font size for buttons */
   }
 
   .edit-form-input,
   .edit-form-textarea,
   .edit-file-input {
-      font-size: 12px; /* Smaller input font size */
+    font-size: 12px; /* Smaller input font size */
   }
 
   .edit-room-form h2 {
-      font-size: 20px; /* Smaller heading font size */
+    font-size: 20px; /* Smaller heading font size */
+  }
+
+  /* Scroll the container on smaller screens if needed */
+  .edit-room-form-container {
+    overflow-y: auto;
   }
 }

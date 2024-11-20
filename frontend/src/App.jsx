@@ -8,7 +8,10 @@ import Reservation from './pages/Reservation';
 import Invoice from './pages/invoice/Invoice';
 // import Room from './pages/rooms/Room';
 import RoomList from '../src/pages/rooms/RoomList';
+// User Management
 import UserList from './pages/user/UserList';
+
+
 import Transaction from './pages/Transaction';
 import Reservationform from './pages/Reservationform';
 // import AddRoom from './pages/rooms/AddRoom';
@@ -24,8 +27,8 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import DataDisplayComponent from './components/DataDisplayComponent';
 import './App.css';
-import UserForm from './pages/user/UserForm';
-import EditForm from './pages/user/EditForm';
+// import UserForm from './pages/user/UserForm';
+// import EditForm from './pages/user/EditForm';
 import ProfilePage from '../src/pages/user/ProfilePage';
 import RoomTypeList from './pages/rooms/RoomTypeList';
 import AddRoomType from './pages/rooms/AddRoomType';
@@ -33,6 +36,8 @@ import EditRoomType from './pages/rooms/EditRoomType';
 import AccommodationTypeList from '../src/pages/rooms/AccommodationTypes'; // Import the new component
 import AddAccommodationType from '../src/pages/rooms/AddAccommodationType';
 import EditAccommodationType from '../src/pages/rooms/EditAccommodationType';
+// User Management
+
 // import EditAccommodationType from './components/EditAccommodationType';
 // import RoomFeatures from './pages/rooms/RoomFeatures';
 
@@ -74,18 +79,17 @@ function App() {
               <Route path="/add-new-guest" element={<GuestForm />} />
               <Route path="/select-guest" element={<GuestReserve />} />
               <Route path="/userlist" element={<UserList />} />
-              <Route path="/add-user" element={<UserForm />} />
-              <Route path="/edit-user/:id" element={<EditForm />} />
+              {/* <Route path="/add-user" element={<UserForm />} /> */}
+              {/* <Route path="/edit-user/:id" element={<EditForm />} /> */}
+
+
               <Route path="/view-profile" element={<ProfilePage />} />
               <Route path="/room-types" element={<RoomTypeList />} />
               <Route path="/add-room-type" element={<AddRoomType />} />
               <Route path="/edit-room-type/:id" element={<EditRoomType />} />
               <Route path="/accommodation-types" element={<AccommodationTypeList />} /> {/* New Route */}
-              {/* <Route path="/accommodation-types" element={<AccommodationTypeList />} /> */}
                 <Route path="/accommodation-types/add" element={<AddAccommodationType />} />
                 <Route path="/accommodation-types/edit/:id" element={<EditAccommodationType />} />
-              {/* <Route path="/add-accommodation-type" element={<AddAccommodationType />} /> */}
-              {/* <Route path="/room-features/:id" element={<RoomFeatures />} /> New Route */}
             </Route>
           </Route>
         </Routes>
