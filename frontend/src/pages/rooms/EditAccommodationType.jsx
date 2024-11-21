@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './EditAccommodationType.css'; // Ensure this is styled similarly to your "AddAccommodationType" form
+import './EditAccommodationType.css';
 
 const EditAccommodationType = ({ accommodationType, onClose }) => {
     const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ const EditAccommodationType = ({ accommodationType, onClose }) => {
     });
 
     useEffect(() => {
-        setFormData(accommodationType); // Reset form data when the accommodationType prop changes
+        setFormData(accommodationType); // Reset form data when accommodationType changes
     }, [accommodationType]);
 
     const handleChange = (e) => {
@@ -36,9 +36,8 @@ const EditAccommodationType = ({ accommodationType, onClose }) => {
         }
 
         try {
-            // Make a PUT request to update the accommodation type
             await axios.put(`http://localhost:5000/api/accommodations/${formData.id}`, updatedFormData);
-            onClose(); // Close the modal on success
+            onClose(); // Close modal on success
         } catch (error) {
             console.error('Error updating accommodation type:', error);
         }
@@ -47,7 +46,6 @@ const EditAccommodationType = ({ accommodationType, onClose }) => {
     return (
         <form onSubmit={handleSubmit} className="edit-form">
             <h2>Edit Accommodation Type</h2>
-
             <div className="form-group">
                 <label htmlFor="type_name">Type Name</label>
                 <input

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AccommodationType.css';
-import AddAccommodationType from '../rooms/AddAccommodationType.jsx'; // Assuming this is the correct path
-import EditAccommodationType from './EditAccommodationType.jsx'; // Assuming this is the correct path
+import AddAccommodationType from '../rooms/AddAccommodationType.jsx'; 
+import EditAccommodationType from './EditAccommodationType.jsx'; 
 
 const AccommodationTypeList = () => {
     const [accommodationTypes, setAccommodationTypes] = useState([]);
@@ -75,7 +75,6 @@ const AccommodationTypeList = () => {
                 <div className="modal">
                     <div className="modal-content">
                         <AddAccommodationType onClose={() => setShowAddAccommodationModal(false)} />
-                        {/* <button onClick={() => setShowAddAccommodationModal(false)}>Close</button> */}
                     </div>
                 </div>
             )}
@@ -88,7 +87,6 @@ const AccommodationTypeList = () => {
                             accommodationType={editingAccommodationType}
                             onClose={() => setShowEditAccommodationModal(false)}
                         />
-                        {/* <button onClick={() => setShowEditAccommodationModal(false)}>Close</button> */}
                     </div>
                 </div>
             )}
@@ -133,7 +131,7 @@ const AccommodationTypeList = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="7">No accommodation types found.</td>
+                                <td colSpan="4">No accommodation types found.</td>
                             </tr>
                         )}
                     </tbody>
