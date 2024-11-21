@@ -110,11 +110,9 @@ const RoomTypeList = () => {
                     <tr>
                         <th>Image</th>
                         <th>Room Type</th>
-                        {/* <th>Description</th> */}
                         <th>Capacity</th> {/* New column for Capacity */}
                         <th>Bed Configuration</th> {/* New column for Bed Configuration */}
                         <th>Room Size</th> {/* New column for Room Size */}
-                        {/* <th>Price</th> New column for Price */}
                         <th>Description</th>
                         <th>Actions</th>
                     </tr>

@@ -20,9 +20,6 @@ const AccommodationTypeForm = ({ onClose, accommodationTypeId = null }) => {
                     setFormData({
                         type_name: response.data.type_name,
                         description: response.data.description,
-                        // general_amenities: response.data.general_amenities,
-                        // price_range: response.data.price_range,
-                        // number_of_units: response.data.number_of_units,
                         image: null, // Don’t pre-fill the image, let user upload a new one
                         // target_audience: response.data.target_audience,
                     });
@@ -91,51 +88,6 @@ const AccommodationTypeForm = ({ onClose, accommodationTypeId = null }) => {
                     className="form-textarea"
                 />
             </div>
-
-            {/* <div className="form-group">
-                <input
-                    type="text"
-                    name="general_amenities"
-                    value={formData.general_amenities}
-                    onChange={handleChange}
-                    placeholder="General Amenities"
-                    className="form-input"
-                />
-            </div> */}
-
-            {/* <div className="form-group">
-                <input
-                    type="text"
-                    name="price_range"
-                    value={formData.price_range}
-                    onChange={handleChange}
-                    placeholder="Price Range"
-                    className="form-input"
-                />
-            </div> */}
-
-            {/* <div className="form-group">
-                <input
-                    type="number"
-                    name="number_of_units"
-                    value={formData.number_of_units}
-                    onChange={handleChange}
-                    placeholder="Number of Units"
-                    className="form-input"
-                />
-            </div> */}
-
-            {/* <div className="form-group">
-                <input
-                    type="text"
-                    name="target_audience"
-                    value={formData.target_audience}
-                    onChange={handleChange}
-                    placeholder="Target Audience"
-                    required
-                    className="form-input"
-                />
-            </div> */}
 
             <div className="form-group">
                 <label>Upload Image</label>
