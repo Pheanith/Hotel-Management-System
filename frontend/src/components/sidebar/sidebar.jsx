@@ -32,7 +32,7 @@ const Sidebar = () => {
         <Room/>
         <div className="dashboard-name">
           <Link to='/available-room'>
-            Available Rooms
+            Make Reservation
           </Link>
         </div>
       </div>

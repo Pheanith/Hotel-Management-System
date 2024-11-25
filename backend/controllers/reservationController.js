@@ -77,23 +77,17 @@ export const removeReservationById = (req, res) => {
     console.log("Deleted reservation: ", req.params.reservation_id);
 };
 
-// Get all reservations
+// Get all reservations (put in slide)
 export const fetchAllReservations = async (req, res) => {
   try {
       const searchParams = req.query; // Get query parameters from the request
-      console.log('Fetching reservations with parameters:', searchParams);
-      
       const reservations = await getAllReservations(searchParams);
-      console.log('Reservations fetched:', reservations);
-      
       // Create a map to group reservations by reservation_id
       const reservationMap = {};
-
       reservations.forEach(reservation => {
           const totalAmount = reservation.totalAmount || 0;
           const discountAmount = (totalAmount * (reservation.discount || 0)) / 100;
           const totalAfterDiscount = totalAmount - discountAmount;
-
           // Check if the reservation already exists in the map
           if (!reservationMap[reservation.reservation_id]) {
               reservationMap[reservation.reservation_id] = {
@@ -106,15 +100,12 @@ export const fetchAllReservations = async (req, res) => {
                   checkout_date: formatDate(new Date(reservation.checkout_date))
               };
           }
-
           // Add room numbers and room types
           reservationMap[reservation.reservation_id].room_numbers.push(...reservation.room_numbers.split(','));
           reservationMap[reservation.reservation_id].room_type_names.push(...reservation.room_type_names.split(','));
       });
-
       // Convert the map back to an array
       const formattedReservations = Object.values(reservationMap);
-      
       res.json(formattedReservations);
   } catch (error) {
       console.error('Error fetching reservations:', error);

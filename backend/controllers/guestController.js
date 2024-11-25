@@ -45,7 +45,6 @@ export const createGuest = async (req, res) => {
         console.error('Error adding guest:', error);
         res.status(500).json({ error: 'Server Error'});
     }
-    // console.log("new guest:",newGuest);
 };
 
 // Update a guest by ID

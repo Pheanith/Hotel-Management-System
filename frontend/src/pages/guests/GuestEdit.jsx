@@ -47,7 +47,7 @@ const GuestEdit = ({ show, guest, onClose, onUpdate }) => {
             alert('Invalid email address');
             return;
         }
-
+    
         try {
             const formattedData = {
                 ...guestData
@@ -55,10 +55,13 @@ const GuestEdit = ({ show, guest, onClose, onUpdate }) => {
             await axios.put(`http://localhost:5000/api/guests/${guest.guest_id}`, formattedData);
             onUpdate({ ...formattedData, guest_id: guest.guest_id });
             onClose(); // Close the modal after update
+            // Refresh the page
+            window.location.reload();
         } catch (error) {
             console.error('Error updating guest:', error.response ? error.response.data : error.message);
         }
     };
+    
 
     return (
         <div className='guestEdit-main'>

@@ -26,7 +26,6 @@ const Reservation = () => {
       try {
         const response = await axios.get('http://localhost:5000/api/reservations');
         console.log("response data:",response.data);
-
         const updatedReservations = response.data.map(reservation => {
           const discountAmount = (reservation.totalAmount * reservation.discount) / 100;
           const totalAfterDiscount = reservation.totalAmount - discountAmount;
@@ -38,7 +37,6 @@ const Reservation = () => {
         console.error('Error fetching reservations:', error);
       }
     };
-
     fetchReservations();
   }, []);
 
