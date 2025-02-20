@@ -49,7 +49,19 @@ const GuestForm = () => {
     
         try {
             await axios.post('http://localhost:5000/api/guests', formattedData);
-            navigate('/manage-guest');
+            if (fromPage === 'manage-guest') {
+                navigate('/manage-guest');
+            }
+            if (fromPage === 'select-guest') {
+                navigate('/select-guest', {
+                    state: {
+                        selectedRooms,
+                        selectedGuest,
+                        checkIn,
+                        checkOut,
+                    },
+                });
+            }
         } catch (error) {
             console.error('Cannot add guest:', error.response ? error.response.data : error.message);
         }

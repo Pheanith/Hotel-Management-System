@@ -12,9 +12,9 @@ try {
   await mysqldump({
     connection: {
       host: 'localhost',
-      user: 'root', // Replace with your MySQL username
-      password: '', // Replace with your MySQL password
-      database: 'hotel_management', // Replace with your database name
+      user: 'root', // Replace with MySQL username
+      password: '', // Replace with MySQL password
+      database: 'hotel_management', // Replace with database name
     },
     dumpToFile: dumpFilePath,
   });

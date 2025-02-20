@@ -80,11 +80,12 @@ form{
     border: 2px solid;
     border-radius: 5px;
     border-color: #0F4C75;
-    width: 603px;
+    width: 1223px;
+    height: 29px;
     font-family: "Inria Sans", sans-serif;
     font-weight: 400;
 }
-.row3 select {
+/* .row3 select {
     border: 2px solid;
     border-radius: 5px;
     border-color: #0F4C75;
@@ -92,7 +93,7 @@ form{
     height: 35px;
     font-family: "Inria Sans", sans-serif;
     font-weight: 400;
-}
+} */
 .row4 {
     display: flex;
     margin-top: 10px;
